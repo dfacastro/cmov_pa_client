@@ -26,7 +26,7 @@ public class Api extends Application{
 	
 	String cookie;
 	String IP = "http://95.92.17.205:3000";
-	String user;
+	User user = new User();
 	
 	
 	
@@ -57,7 +57,7 @@ public class Api extends Application{
             
             if(response.getStatusLine().getStatusCode() == 200){
             	cookie = response.getFirstHeader("Set-Cookie").getValue().toString();
-            	this.user = username;
+            	user.setUsername(username);
             	System.out.println(cookie);
             	 return 0;
             	 
@@ -97,12 +97,21 @@ public class Api extends Application{
                 
             	
     	        JSONObject messageReceived = new JSONObject(tmp.toString());
+    	        JSONArray utilizadorInfo;
             	System.out.println(messageReceived.toString());
+
             	
-            	System.out.println(messageReceived.get("utilizador_type"));
-    	        
-            	//TODO: verificar o tipo de utilizador e createguardar dados
-            	 
+            	//guardar os dados comuns
+            	user.setDoctor(messageReceived.get("utilizador_type").toString());
+            	user.setBirthDate(messageReceived.get("birthdate").toString());
+            	user.setName(messageReceived.get("name").toString());
+            	
+            	//TODO: ver se ta bem
+            	if(user.isDoctor())
+	            	user.setPhoto(messageReceived.get("photo").toString());
+            	else
+            		user.setAddress(messageReceived.get("address").toString());
+
             	
             	return true;
             }	
