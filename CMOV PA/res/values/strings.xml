@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CMOV PA</string>
+    <string name="username">Username:</string>
+    <string name="password">Password:</string>
+    <string name="connect">Connect</string>
+    <string name="regist">Registar</string>
+    <string name="nome">Nome:</string>
+    <string name="morada">Morada:</string>
+    <string name="datanasc">Data de Nascimento:</string>
+    <string name="sexo">Sexo:</string>
+</resources>

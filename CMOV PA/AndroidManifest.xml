@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="cmov.pa"
+      android:versionCode="1"
+      android:versionName="1.0">
+    <uses-sdk android:minSdkVersion="8" />
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+
+    <application android:label="@string/app_name" android:icon="@drawable/launcher_icon" android:name="Api">
+        <activity android:name=".CMOVPAActivity"
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="Inicial" android:theme="@android:style/Theme.NoTitleBar"></activity>
+        <activity android:name="Registo"></activity>
+        <activity android:name="AppointmentsTab"></activity>
+        <activity android:name="ProfileTab"></activity>
+
+    </application>
+</manifest>
