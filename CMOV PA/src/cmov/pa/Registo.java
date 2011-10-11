@@ -1,19 +1,30 @@
 package cmov.pa;
 
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Registo extends Activity {
 		
 	Api api;
+	
+	private TextView mDateDisplay;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
+    static final int DATE_DIALOG_ID = 1;
 
 	
     /** Called when the activity is first created. */
@@ -31,11 +42,7 @@ public class Registo extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        
-        EditText dateET = (EditText) findViewById( R.id.registDataNasc );
-        dateET.setText("aaaa-mm-dd");
-        
+        spinner.setAdapter(adapter);   
         
         (findViewById(R.id.registRegistButton)).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -44,6 +51,28 @@ public class Registo extends Activity {
 			}
         });
         
+        
+        Button pickDate = (Button) findViewById(R.id.registDataNascimentoButton);
+        pickDate.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                        showDialog(DATE_DIALOG_ID);
+                }
+        });
+        
+        
+        mDateDisplay = (TextView) findViewById(R.id.registBirthDateTV);
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+        updateDisplay();
+
+        
+    }
+    
+    
+    public void datePicker(){
+    	
     }
     
     
@@ -55,7 +84,7 @@ public class Registo extends Activity {
     	pass = ((EditText) findViewById(R.id.registPass)).getText().toString();
     	passconf = ((EditText) findViewById(R.id.registPassConf)).getText().toString();
     	nome = ((EditText) findViewById(R.id.registNome)).getText().toString();
-    	datanasc = ((EditText) findViewById(R.id.registDataNasc)).getText().toString();
+    	datanasc = ((TextView) findViewById(R.id.registBirthDateTV)).getText().toString();
     	morada = ((EditText) findViewById(R.id.registMorada)).getText().toString();
     	sexo = ((Spinner) findViewById(R.id.registSexo)).getSelectedItem().toString();
     	
@@ -72,39 +101,7 @@ public class Registo extends Activity {
     		toast.show();
     		return;
     	}
-    	
-    	
-    	
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        
-        if (datanasc.trim().length() != dateFormat.toPattern().length()){
-        	Toast toast = Toast.makeText(getApplicationContext(), "A data invalida", Toast.LENGTH_SHORT);
-    		toast.show();
-    		return;
-        }
-
-        dateFormat.setLenient(false);
-        
-        try {
-          //parse the date parameter
-          dateFormat.parse(datanasc.trim());
-          
-          /*
-          Date date = new Date(dateFormat.toString());
-          if(date.getYear() < 1900){
-        	  Toast toast = Toast.makeText(getApplicationContext(), "A data invalida", Toast.LENGTH_SHORT);
-      		  toast.show(); 
-          }
-          */
-          
-          
-          //TODO: meter data minima a 1900
-        }
-        catch (java.text.ParseException e) {
-        	Toast toast = Toast.makeText(getApplicationContext(), "A data invalida", Toast.LENGTH_SHORT);
-    		toast.show();
-        	return;
-		}
+ 
         
     	api.regist(user, pass, nome, datanasc, morada, sexo);
     	
@@ -116,5 +113,52 @@ public class Registo extends Activity {
         startActivity(intent);
         finish();
     }
+    
+    
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+            switch (id) {
+
+            case DATE_DIALOG_ID:
+                    return new DatePickerDialog(this,
+                            mDateSetListener,
+                            mYear, mMonth, mDay);
+            }
+            return null;
+    }
+    
+    
+    protected void onPrepareDialog(int id, Dialog dialog) {
+            switch (id) {
+
+            case DATE_DIALOG_ID:
+                    ((DatePickerDialog) dialog).updateDate(mYear, mMonth, mDay);
+                    break;
+            }
+    }    
+    
+    
+    private void updateDisplay() {
+            mDateDisplay.setText(
+                    new StringBuilder()
+                    // Month is 0 based so add 1
+                    .append(mMonth + 1).append("-")
+                    .append(mDay).append("-")
+                    .append(mYear).append(" "));
+    }
+    
+    
+    private DatePickerDialog.OnDateSetListener mDateSetListener =
+            new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                            int dayOfMonth) {
+                    mYear = year;
+                    mMonth = monthOfYear;
+                    mDay = dayOfMonth;
+                    updateDisplay();
+            }
+    };
 
 }

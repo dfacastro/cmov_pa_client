@@ -4,7 +4,7 @@
   android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
-    <ImageView android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@drawable/health_icon" android:layout_marginTop="48dp" android:layout_alignParentRight="true" android:id="@+id/profilePhoto"></ImageView>
+    <ImageView android:src="@drawable/health_icon" android:layout_marginTop="48dp" android:layout_alignParentRight="true" android:id="@+id/profilePhoto" android:layout_marginRight="10dp" android:layout_width="120dp" android:layout_height="120dp"></ImageView>
     <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:layout_alignParentLeft="true" android:id="@+id/profileUsername" android:layout_alignTop="@+id/profilePhoto"></TextView>
     <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:layout_below="@+id/profileUsername" android:layout_alignParentLeft="true" android:id="@+id/profileName" android:layout_marginTop="20dp"></TextView>
     <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:layout_alignParentLeft="true" android:layout_below="@+id/profileName" android:id="@+id/profileBirthDate" android:layout_marginTop="20dp"></TextView>

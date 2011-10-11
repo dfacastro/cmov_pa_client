@@ -48,20 +48,14 @@ public class ProfileTab extends Activity {
 				
 				
 				
-				//TODO: mostrar foto do gajo
-				System.out.println("aki");
+
+				
+				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Toast toast = Toast.makeText(getApplicationContext(), "Erro a carregar a imagem", Toast.LENGTH_SHORT);
+	     		toast.show();
 			} 
-			 
-			
-			
-			/*     
-			((ImageView)findViewById(R.id.profilePhoto)).setImageBitmap(bmp);   
-	    	Toast toast = Toast.makeText(getApplicationContext(), "Erro a carregar a imagem", Toast.LENGTH_SHORT);
-     		toast.show();
-     		*/
+
 
 			((TextView)findViewById(R.id.profileAdress)).setText("");
 		

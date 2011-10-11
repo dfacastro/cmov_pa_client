@@ -1,6 +1,7 @@
 package cmov.pa;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -40,11 +41,16 @@ public class CMOVPAActivity extends Activity {
     
     public void connectAction(){
     	
+    	
 			
 		EditText user = (EditText) findViewById(R.id.loginUser); 
 		EditText pass = (EditText) findViewById(R.id.loginPass); 
 		
+		ProgressDialog dialog = ProgressDialog.show(CMOVPAActivity.this, "", "Loading. Please wait...", true);
+		
 		int success = api.login(user.getText().toString(), pass.getText().toString());
+		
+		dialog.dismiss();
 		
 		if(success == -2){
     		Toast toast = Toast.makeText(getApplicationContext(), "Autenticacao Errada", Toast.LENGTH_SHORT);

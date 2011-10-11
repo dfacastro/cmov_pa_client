@@ -32,7 +32,8 @@ public final class R {
         public static final int profileName=0x7f050011;
         public static final int profilePhoto=0x7f05000f;
         public static final int profileUsername=0x7f050010;
-        public static final int registDataNasc=0x7f050029;
+        public static final int registBirthDateTV=0x7f050029;
+        public static final int registDataNascimentoButton=0x7f050028;
         public static final int registMorada=0x7f050023;
         public static final int registNome=0x7f050020;
         public static final int registPass=0x7f05001a;
@@ -58,17 +59,18 @@ public final class R {
         public static final int textView4=0x7f05001f;
         public static final int textView5=0x7f050022;
         public static final int textView6=0x7f050025;
-        public static final int textView7=0x7f050028;
         public static final int usernameTV=0x7f050008;
     }
     public static final class layout {
-        public static final int ic_tab_appointments=0x7f030000;
-        public static final int ic_tab_profile=0x7f030001;
-        public static final int ic_tab_schedule=0x7f030002;
-        public static final int inicial=0x7f030003;
-        public static final int login=0x7f030004;
-        public static final int profile_tab=0x7f030005;
-        public static final int registo=0x7f030006;
+        public static final int appointments_tab=0x7f030000;
+        public static final int ic_tab_appointments=0x7f030001;
+        public static final int ic_tab_profile=0x7f030002;
+        public static final int ic_tab_schedule=0x7f030003;
+        public static final int inicial=0x7f030004;
+        public static final int login=0x7f030005;
+        public static final int profile_tab=0x7f030006;
+        public static final int registo=0x7f030007;
+        public static final int schedule_tab=0x7f030008;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

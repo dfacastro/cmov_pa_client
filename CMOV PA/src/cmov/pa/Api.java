@@ -1,7 +1,10 @@
 package cmov.pa;
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -30,7 +33,7 @@ public class Api extends Application{
 	
 	
 	public int login(String username, String password){
-		/*
+		
 		if(username.length() == 0 || password.length() == 0){
 			return -1;
 		}
@@ -65,15 +68,15 @@ public class Api extends Application{
     	
         }
 		return -2;
-		*/
 		
-		return 0;
+		
+		//return 0;
 	}
 	
 	
 	
 	public boolean getProfile(){
-		/*
+		
 		final HttpClient httpClient =  new DefaultHttpClient();
 		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
 		HttpResponse response=null;
@@ -131,17 +134,18 @@ public class Api extends Application{
         
         
         return false;
-		*/
 		
+		/*
 		//dados para teste sem server
 		user.setAddress("perdi-o");
 		user.setName("FERNANDO");
 		user.setUsername("fmg");
 		user.setDoctor("Doctor");
-		user.setPhoto("http://celebquestion.com/wp-content/uploads/2011/09/Megan-Fox-Plastic-Surgery.jpg");
+		user.setPhoto("http://www.ackbar.org/images/pikachu.png");
 		user.setBirthDate("1989-09-28");
 		
 		return true;
+		*/
 	}
 	
 	
@@ -238,5 +242,17 @@ public class Api extends Application{
         }
 		return false;	
 	}
+	
+	
+	
+	 private String read(InputStream in) throws IOException {
+	        StringBuilder sb = new StringBuilder();
+	        BufferedReader r = new BufferedReader(new InputStreamReader(in), 1000);
+	        for (String line = r.readLine(); line != null; line = r.readLine()) {
+	            sb.append(line);
+	        }
+	        in.close();
+	        return sb.toString();
+	    }
 	
 }
