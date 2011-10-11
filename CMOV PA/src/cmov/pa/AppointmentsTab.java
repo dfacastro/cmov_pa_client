@@ -16,10 +16,13 @@ public class AppointmentsTab  extends Activity {
         
 		api = ((Api)getApplicationContext());
 
-
+		
         TextView textview = new TextView(this);
         textview.setText("This is the appointments tab");
         setContentView(textview);
+        
+        
+       
     }
 	
 	

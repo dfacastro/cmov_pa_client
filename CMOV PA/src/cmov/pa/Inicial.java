@@ -13,7 +13,9 @@ public class Inicial extends TabActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);		
+		super.onCreate(savedInstanceState);
+		
+		api = ((Api)getApplicationContext());
 		
 		Resources res = getResources(); // Resource object to get Drawables
 	    TabHost tabHost = getTabHost();  // The activity TabHost
@@ -23,17 +25,18 @@ public class Inicial extends TabActivity{
 	    // Create an Intent to launch an Activity for the tab (to be reused)
 	    intent = new Intent().setClass(this, ProfileTab.class);
 	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("profile").setIndicator("Profile",res.getDrawable(R.layout.profile_tab)).setContent(intent);
+	    spec = tabHost.newTabSpec("profile").setIndicator("Profile",res.getDrawable(R.layout.ic_tab_profile)).setContent(intent);
 	    tabHost.addTab(spec);
 
 	    // Do the same for the other tabs
 	    intent = new Intent().setClass(this, AppointmentsTab.class);
-	    spec = tabHost.newTabSpec("appointments").setIndicator("Appointments",res.getDrawable(R.layout.appointments_tab)).setContent(intent);
+	    spec = tabHost.newTabSpec("appointments").setIndicator("Appointments",res.getDrawable(R.layout.ic_tab_appointments)).setContent(intent);
 	    tabHost.addTab(spec);
+	   
 	    
 	    if(api.user.isDoctor()){
 		    intent = new Intent().setClass(this, AppointmentsTab.class);
-		    spec = tabHost.newTabSpec("schedule").setIndicator("Schedule",res.getDrawable(R.layout.schedule_tab)).setContent(intent);
+		    spec = tabHost.newTabSpec("schedule").setIndicator("Schedule",res.getDrawable(R.layout.ic_tab_schedule)).setContent(intent);
 		    tabHost.addTab(spec);
 	    }
 

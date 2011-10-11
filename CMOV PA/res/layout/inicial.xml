@@ -9,7 +9,8 @@
             <TabWidget android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@android:id/tabs">
             </TabWidget>
             <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent" android:id="@android:id/tabcontent">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/tab1"></LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/tab1">
+                </LinearLayout>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/tab2"></LinearLayout>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/tab3"></LinearLayout>
             </FrameLayout>

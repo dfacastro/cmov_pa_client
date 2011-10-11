@@ -1,11 +1,8 @@
 package cmov.pa;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -16,7 +13,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,7 +22,7 @@ public class Api extends Application{
 	
 	String cookie;
 	String IP = "http://95.92.17.205:3000";
-	User user = new User();
+	public static User user = new User();
 	
 	
 	
@@ -34,7 +30,7 @@ public class Api extends Application{
 	
 	
 	public int login(String username, String password){
-		
+		/*
 		if(username.length() == 0 || password.length() == 0){
 			return -1;
 		}
@@ -68,13 +64,16 @@ public class Api extends Application{
         	ex.printStackTrace();
     	
         }
-		return -2;	
+		return -2;
+		*/
+		
+		return 0;
 	}
 	
 	
 	
 	public boolean getProfile(){
-		
+		/*
 		final HttpClient httpClient =  new DefaultHttpClient();
 		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
 		HttpResponse response=null;
@@ -97,21 +96,27 @@ public class Api extends Application{
                 
             	
     	        JSONObject messageReceived = new JSONObject(tmp.toString());
-    	        JSONArray utilizadorInfo;
             	System.out.println(messageReceived.toString());
 
             	
             	//guardar os dados comuns
             	user.setDoctor(messageReceived.get("utilizador_type").toString());
+            	
             	user.setBirthDate(messageReceived.get("birthdate").toString());
             	user.setName(messageReceived.get("name").toString());
+    	        JSONObject utilizadorInfo =messageReceived.getJSONObject("utilizador");
+
+            	
+            	System.out.println(user.isDoctor());
             	
             	//TODO: ver se ta bem
-            	if(user.isDoctor())
-	            	user.setPhoto(messageReceived.get("photo").toString());
-            	else
-            		user.setAddress(messageReceived.get("address").toString());
-
+            	if(user.isDoctor()){
+            		System.out.println(utilizadorInfo.get("photo").toString());
+            		
+	            	user.setPhoto(utilizadorInfo.get("photo").toString());
+            	}else{
+            		user.setAddress(utilizadorInfo.get("address").toString());
+            	}
             	
             	return true;
             }	
@@ -126,7 +131,17 @@ public class Api extends Application{
         
         
         return false;
+		*/
 		
+		//dados para teste sem server
+		user.setAddress("perdi-o");
+		user.setName("FERNANDO");
+		user.setUsername("fmg");
+		user.setDoctor("Doctor");
+		user.setPhoto("http://celebquestion.com/wp-content/uploads/2011/09/Megan-Fox-Plastic-Surgery.jpg");
+		user.setBirthDate("1989-09-28");
+		
+		return true;
 	}
 	
 	
@@ -137,17 +152,11 @@ public class Api extends Application{
 		 
 		 HttpResponse response=null;
 		 
-		 String url = IP + "/user/create";       
-		 
-         
-         
+		 String url = IP + "/user/create";        
 		
          HttpPost httpPost = new HttpPost(url);         
          JSONObject jsonuser=new JSONObject();
-         
-        
-        
-         
+
          try {
         	jsonuser.put("username", username);
         	jsonuser.put("password", pass);
@@ -229,16 +238,5 @@ public class Api extends Application{
         }
 		return false;	
 	}
-	
-	
-	private String read(InputStream in) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader r = new BufferedReader(new InputStreamReader(in), 1000);
-        for (String line = r.readLine(); line != null; line = r.readLine()) {
-            sb.append(line);
-        }
-        in.close();
-        return sb.toString();
-    }
 	
 }

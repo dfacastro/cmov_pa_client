@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- When selected, use grey -->
-    <item android:drawable="@drawable/ic_tab_artists_grey"
-          android:state_selected="true" />
-    <!-- When not selected, use white-->
-    <item android:drawable="@drawable/ic_tab_artists_white" />
-</selector>
+<RelativeLayout android:id="@+id/RelativeLayout1"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+    <ImageView android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@drawable/health_icon" android:layout_marginTop="48dp" android:layout_alignParentRight="true" android:id="@+id/profilePhoto"></ImageView>
+    <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:layout_alignParentLeft="true" android:id="@+id/profileUsername" android:layout_alignTop="@+id/profilePhoto"></TextView>
+    <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:layout_below="@+id/profileUsername" android:layout_alignParentLeft="true" android:id="@+id/profileName" android:layout_marginTop="20dp"></TextView>
+    <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:layout_alignParentLeft="true" android:layout_below="@+id/profileName" android:id="@+id/profileBirthDate" android:layout_marginTop="20dp"></TextView>
+    <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:layout_alignParentLeft="true" android:id="@+id/profileAdress" android:layout_below="@+id/profileBirthDate" android:layout_marginTop="20dp"></TextView>
+    
+</RelativeLayout>

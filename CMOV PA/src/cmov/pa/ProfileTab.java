@@ -1,9 +1,19 @@
 package cmov.pa;
 
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,13 +23,52 @@ public class ProfileTab extends Activity {
     
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.profile_tab);
         
 		api = ((Api)getApplicationContext());
+		
+		
+		//faz set do conteudo do profile
+		((TextView)findViewById(R.id.profileName)).setText(api.user.getName());
+		((TextView)findViewById(R.id.profileUsername)).setText(api.user.getUsername());
+		((TextView)findViewById(R.id.profileBirthDate)).setText(api.user.getBirthDate());
+		
+		//medico
+		if(api.user.isDoctor()){
+	
+			
+			 URL newurl;
 
+			Bitmap mIcon_val;
+			try {
+				
+				newurl = new URL(api.user.getPhoto());
+				mIcon_val = BitmapFactory.decodeStream(newurl.openConnection() .getInputStream());
+				((ImageView)findViewById(R.id.profilePhoto)).setImageBitmap(mIcon_val);
+				
+				
+				
+				//TODO: mostrar foto do gajo
+				System.out.println("aki");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			 
+			
+			
+			/*     
+			((ImageView)findViewById(R.id.profilePhoto)).setImageBitmap(bmp);   
+	    	Toast toast = Toast.makeText(getApplicationContext(), "Erro a carregar a imagem", Toast.LENGTH_SHORT);
+     		toast.show();
+     		*/
 
-        TextView textview = new TextView(this);
-        textview.setText("This is the profile tab");
-        setContentView(textview);
+			((TextView)findViewById(R.id.profileAdress)).setText("");
+		
+		}else{//paciente
+			((TextView)findViewById(R.id.profileAdress)).setText(api.user.getAddress());
+		}
+        
     }
 	
 	
