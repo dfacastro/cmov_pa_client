@@ -28,16 +28,26 @@ public class Inicial extends TabActivity{
 	    spec = tabHost.newTabSpec("profile").setIndicator("Profile",res.getDrawable(R.layout.ic_tab_profile)).setContent(intent);
 	    tabHost.addTab(spec);
 
-	    // Do the same for the other tabs
-	    intent = new Intent().setClass(this, AppointmentsTab.class);
-	    spec = tabHost.newTabSpec("appointments").setIndicator("Appointments",res.getDrawable(R.layout.ic_tab_appointments)).setContent(intent);
-	    tabHost.addTab(spec);
+	   
 	   
 	    
 	    if(api.user.isDoctor()){
-		    intent = new Intent().setClass(this, AppointmentsTab.class);
+	    	
+		    intent = new Intent().setClass(this, MedicAppointmentsTab.class);
 		    spec = tabHost.newTabSpec("schedule").setIndicator("Schedule",res.getDrawable(R.layout.ic_tab_schedule)).setContent(intent);
 		    tabHost.addTab(spec);
+		    
+		    
+		    // Do the same for the other tabs
+		    intent = new Intent().setClass(this, MedicAppointmentsTab.class);
+		    spec = tabHost.newTabSpec("appointments").setIndicator("Appointments",res.getDrawable(R.layout.ic_tab_appointments)).setContent(intent);
+		    tabHost.addTab(spec);
+	    }else {
+	    	
+	    	intent = new Intent().setClass(this, PatientAppointmentsTab.class);
+		    spec = tabHost.newTabSpec("schedule").setIndicator("Schedule",res.getDrawable(R.layout.ic_tab_schedule)).setContent(intent);
+		    tabHost.addTab(spec);
+	    	
 	    }
 
 	    tabHost.setCurrentTab(1);

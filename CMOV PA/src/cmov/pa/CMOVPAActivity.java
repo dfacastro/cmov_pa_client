@@ -41,7 +41,6 @@ public class CMOVPAActivity extends Activity {
     
     public void connectAction(){
     	
-    	
 			
 		EditText user = (EditText) findViewById(R.id.loginUser); 
 		EditText pass = (EditText) findViewById(R.id.loginPass); 
@@ -52,7 +51,11 @@ public class CMOVPAActivity extends Activity {
 		
 		dialog.dismiss();
 		
-		if(success == -2){
+		if(success == -3){
+			Toast toast = Toast.makeText(getApplicationContext(), "Erro a conectar com o servidor", Toast.LENGTH_SHORT);
+    		toast.show();
+    		
+		}else if(success == -2){
     		Toast toast = Toast.makeText(getApplicationContext(), "Autenticacao Errada", Toast.LENGTH_SHORT);
     		toast.show();
 		}else if (success == 0) {
@@ -72,6 +75,7 @@ public class CMOVPAActivity extends Activity {
 		}else if (success == -1){
 			Toast toast = Toast.makeText(getApplicationContext(), "Insira as credenciais ou registe-se", Toast.LENGTH_SHORT);
     		toast.show();
+		
 		}
 
     	

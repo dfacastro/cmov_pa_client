@@ -17,6 +17,7 @@ public final class R {
         public static final int launcher_icon=0x7f020003;
     }
     public static final class id {
+        public static final int ExpandableListView1=0x7f05002b;
         public static final int LinearLayout1=0x7f050015;
         public static final int RelativeLayout1=0x7f050004;
         public static final int ScrollView1=0x7f050014;

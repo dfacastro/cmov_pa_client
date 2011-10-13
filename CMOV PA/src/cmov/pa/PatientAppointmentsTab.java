@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AppointmentsTab  extends Activity {
+public class PatientAppointmentsTab  extends Activity {
 	
 	Api api;
     

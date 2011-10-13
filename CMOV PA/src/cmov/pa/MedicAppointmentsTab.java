@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ScheduleTab extends Activity {
+public class MedicAppointmentsTab  extends Activity {
 	
 	Api api;
     
@@ -16,11 +16,13 @@ public class ScheduleTab extends Activity {
         
 		api = ((Api)getApplicationContext());
 
-
-		setContentView(R.layout.schedule_tab);
-        
-		api = ((Api)getApplicationContext());
 		
+        TextView textview = new TextView(this);
+        textview.setText("This is the appointments tab");
+        setContentView(textview);
+        
+        
+       
     }
 	
 	
@@ -66,4 +68,5 @@ public class ScheduleTab extends Activity {
         alertbox.show();
 
 	}
+
 }

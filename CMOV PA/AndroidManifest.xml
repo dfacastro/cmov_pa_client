@@ -18,7 +18,7 @@
         </activity>
         <activity android:name="Inicial" android:theme="@android:style/Theme.NoTitleBar"></activity>
         <activity android:name="Registo"></activity>
-        <activity android:name="AppointmentsTab"></activity>
+        <activity android:name=".MedicAppointmentsTab"></activity>
         <activity android:name="ProfileTab"></activity>
 
     </application>
