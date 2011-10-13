@@ -28,8 +28,6 @@ public class Inicial extends TabActivity{
 	    spec = tabHost.newTabSpec("profile").setIndicator("Profile",res.getDrawable(R.layout.ic_tab_profile)).setContent(intent);
 	    tabHost.addTab(spec);
 
-	   
-	   
 	    
 	    if(api.user.isDoctor()){
 	    	
