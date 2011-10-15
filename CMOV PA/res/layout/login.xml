@@ -8,12 +8,12 @@
     <TableLayout android:stretchColumns="1" android:layout_width="match_parent" android:id="@+id/tableLayout1" android:layout_height="wrap_content" android:layout_marginTop="150dp">
         <TableRow android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/tableRow2">
             <TextView android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/username" android:layout_width="wrap_content" android:id="@+id/usernameTV"></TextView>
-            <EditText android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/loginUser" android:inputType="text"></EditText>
+            <EditText android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/loginUser" android:inputType="text">
+            </EditText>
         </TableRow>
         <TableRow android:layout_height="wrap_content" android:id="@+id/tableRow1" android:layout_width="wrap_content">
             <TextView android:layout_height="wrap_content" android:text="@string/password" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/passwordTV"></TextView>
             <EditText android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/loginPass" android:inputType="textPassword">
-                <requestFocus></requestFocus>
             </EditText>
         </TableRow>
     </TableLayout>

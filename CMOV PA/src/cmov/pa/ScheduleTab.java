@@ -16,10 +16,8 @@ public class ScheduleTab extends Activity {
         
 		api = ((Api)getApplicationContext());
 
-
 		setContentView(R.layout.schedule_tab);
-        
-		api = ((Api)getApplicationContext());
+       
 		
     }
 	

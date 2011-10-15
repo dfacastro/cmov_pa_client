@@ -24,8 +24,8 @@ import android.app.Application;
 public class Api extends Application{
 	
 	String cookie;
-	//String IP = "http://95.92.17.205:3000";
-	String IP = "http://172.30.94.186:3000";
+	String IP = "http://95.92.17.205:3000";
+	//String IP = "http://172.30.94.186:3000";
 	public static User user = new User();
 	
 	

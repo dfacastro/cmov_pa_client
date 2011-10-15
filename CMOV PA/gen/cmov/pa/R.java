@@ -17,12 +17,12 @@ public final class R {
         public static final int launcher_icon=0x7f020003;
     }
     public static final class id {
-        public static final int ExpandableListView1=0x7f050000;
         public static final int LinearLayout1=0x7f050016;
         public static final int RelativeLayout1=0x7f050005;
         public static final int ScrollView1=0x7f050015;
         public static final int imageView1=0x7f05000f;
         public static final int linearLayout1=0x7f050001;
+        public static final int list=0x7f050000;
         public static final int loginConnectButton=0x7f050007;
         public static final int loginPass=0x7f05000d;
         public static final int loginRegistButton=0x7f05000e;

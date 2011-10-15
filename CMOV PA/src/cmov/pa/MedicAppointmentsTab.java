@@ -28,16 +28,16 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         
 		api = ((Api)getApplicationContext());
 		
-		/*
+		
 		mAdapter = new MyExpandableListAdapter();
 	    setListAdapter(mAdapter);
 	    registerForContextMenu(getExpandableListView());
-		*/
-        setContentView(R.layout.appointments_tab);
+		
+        //setContentView(R.layout.appointments_tab);
        
     }
 	
-	/*
+	
 	@Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         menu.setHeaderTitle("Sample menu");
@@ -67,7 +67,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         return false;
     }
 	
-	*/
+	
 	
 	@Override
 	public void onBackPressed() {
@@ -120,7 +120,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
      *
      */
 	
-	/*
+	
     public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         // Sample data set.  children[i] contains the children (String[]) for groups[i].
         private String[] groups = { "People Names", "Dog Names", "Cat Names", "Fish Names" };
@@ -193,7 +193,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 
     }
 	
-	*/
+	
 	
 	
 	
