@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ExpandableListView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="match_parent"
-  android:layout_height="match_parent" android:id="@+id/list">
+  android:layout_height="match_parent" android:id="@+id/RelativeLayout1">
+    <ExpandableListView android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@android:id/list" android:layout_above="@+id/tableLayout1" android:layout_centerHorizontal="true" android:layout_alignParentTop="true"></ExpandableListView>
+    <TableLayout android:id="@+id/tableLayout1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:stretchColumns="0,1">
+        <TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <Button android:text="@string/previous" android:layout_height="wrap_content" android:id="@+id/appointmentPreviousButton" android:layout_width="match_parent"></Button>
+            <Button android:text="@string/next" android:id="@+id/appointementNextButton" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
+        </TableRow>
+    </TableLayout>
     
-</ExpandableListView>
+</RelativeLayout>

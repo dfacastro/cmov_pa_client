@@ -31,9 +31,11 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 		
 		mAdapter = new MyExpandableListAdapter();
 	    setListAdapter(mAdapter);
-	    registerForContextMenu(getExpandableListView());
+	    setContentView(R.layout.appointments_tab);
+	    
+	    //registerForContextMenu(getExpandableListView());
 		
-        //setContentView(R.layout.appointments_tab);
+        
        
     }
 	

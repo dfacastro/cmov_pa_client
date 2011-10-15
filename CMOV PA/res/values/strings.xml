@@ -10,4 +10,6 @@
     <string name="datanasc">Data de Nascimento:</string>
     <string name="sexo">Sexo:</string>
     <string name="expandable_list_sample_action">trlalala</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 </resources>
