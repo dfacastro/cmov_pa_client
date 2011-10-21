@@ -15,10 +15,9 @@ public final class R {
         public static final int ic_help=0x7f020001;
         public static final int ic_new_appointment=0x7f020002;
         public static final int ic_new_schedule=0x7f020003;
-        public static final int ic_new_schedule2=0x7f020004;
-        public static final int ic_tab_artists_grey=0x7f020005;
-        public static final int ic_tab_artists_white=0x7f020006;
-        public static final int launcher_icon=0x7f020007;
+        public static final int ic_tab_artists_grey=0x7f020004;
+        public static final int ic_tab_artists_white=0x7f020005;
+        public static final int launcher_icon=0x7f020006;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f060017;

@@ -22,6 +22,7 @@
         <activity android:name="ProfileTab"></activity>
         <activity android:name="PatientAppointmentsTab"></activity>
         <activity android:name="ScheduleTab"></activity>
+        <activity android:name="NewSchedule"></activity>
 
     </application>
 </manifest>

@@ -3,6 +3,7 @@ package cmov.pa;
 import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -47,6 +48,27 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.doctors_menu, menu);
 	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+		    case R.id.new_schedule:
+				Intent intent = new Intent(getApplicationContext(),NewSchedule.class);
+	            startActivity(intent);
+	            finish();
+	            
+		        return true;
+		    case R.id.help:
+		        //showHelp();
+				Toast toast = Toast.makeText(getApplicationContext(), "Insira as credenciais ou registe-se", Toast.LENGTH_SHORT);
+	    		toast.show();
+	    		
+		        return true;
+		    default:
+		        return super.onOptionsItemSelected(item);
+	    }
 	}
 	
 	
