@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,14 @@ public class PatientAppointmentsTab  extends Activity {
         
        
     }
+	
+	// Options Menu
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.patients_menu, menu);
+	    return true;
+	}
 	
 	
 	

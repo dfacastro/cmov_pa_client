@@ -12,4 +12,6 @@
     <string name="expandable_list_sample_action">trlalala</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="new_appointment">New Appointment</string>
+    <string name="new_schedule">New Schedule</string>
 </resources>
