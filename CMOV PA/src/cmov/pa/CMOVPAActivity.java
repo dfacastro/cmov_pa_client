@@ -8,8 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class CMOVPAActivity extends Activity {
+public class CMOVPAActivity extends Activity implements Runnable {
 		
+	ProgressDialog dialog;
 	Api api;
 
 	
@@ -42,10 +43,24 @@ public class CMOVPAActivity extends Activity {
     public void connectAction(){
     	
 			
+		dialog = ProgressDialog.show(CMOVPAActivity.this, "", "Loading. Please wait...", true);
+		Thread thread = new Thread(this);
+        thread.start();
+
+    }
+    
+    
+    public void registAction(){
+    	
+    	Intent intent = new Intent(getApplicationContext(),Registo.class);
+        startActivity(intent);
+    }
+
+	@Override
+	public void run() {
+		
 		EditText user = (EditText) findViewById(R.id.loginUser); 
 		EditText pass = (EditText) findViewById(R.id.loginPass); 
-		
-		ProgressDialog dialog = ProgressDialog.show(CMOVPAActivity.this, "", "Loading. Please wait...", true);
 		
 		int success = api.login(user.getText().toString(), pass.getText().toString());
 		
@@ -77,21 +92,9 @@ public class CMOVPAActivity extends Activity {
     		toast.show();
 		
 		}
-
-    	
-    }
-    
-    
-    public void registAction(){
-    	
-    	Intent intent = new Intent(getApplicationContext(),Registo.class);
-        startActivity(intent);
-    }
-    
-    
-    
-    
-    
-    
-    
+		
+		
+	}
+       
 }
+

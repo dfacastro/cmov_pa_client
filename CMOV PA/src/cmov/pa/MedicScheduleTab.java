@@ -3,9 +3,11 @@ package cmov.pa;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,29 @@ public class MedicScheduleTab extends Activity {
 	    inflater.inflate(R.menu.medic_schedule_menu, menu);
 	    return true;
 	}	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+		    case R.id.new_schedule:
+				Intent intent = new Intent(getApplicationContext(),NewSchedule.class);
+	            startActivity(intent);
+	            finish();
+	            
+		        return true;
+		    /*
+		    case R.id.help:
+		        //showHelp();
+				Toast toast = Toast.makeText(getApplicationContext(), "Insira as credenciais ou registe-se", Toast.LENGTH_SHORT);
+	    		toast.show();
+	    		
+		        return true;
+		        */
+		    default:
+		        return super.onOptionsItemSelected(item);
+	    }
+	}
 	
 	
 	

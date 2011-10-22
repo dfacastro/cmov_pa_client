@@ -12,15 +12,20 @@ public final class R {
     }
     public static final class drawable {
         public static final int health_icon=0x7f020000;
-        public static final int ic_menu_appointment=0x7f020001;
-        public static final int ic_menu_recent_history=0x7f020002;
-        public static final int ic_tab_appointment_selected=0x7f020003;
-        public static final int ic_tab_appointment_unselected=0x7f020004;
-        public static final int ic_tab_profile_selected=0x7f020005;
-        public static final int ic_tab_profile_unselected=0x7f020006;
-        public static final int ic_tab_schedule_selected=0x7f020007;
-        public static final int ic_tab_schedule_unselected=0x7f020008;
-        public static final int launcher_icon=0x7f020009;
+        public static final int ic_help=0x7f020001;
+        public static final int ic_menu_appointment=0x7f020002;
+        public static final int ic_menu_recent_history=0x7f020003;
+        public static final int ic_new_appointment=0x7f020004;
+        public static final int ic_new_schedule=0x7f020005;
+        public static final int ic_tab_appointment_selected=0x7f020006;
+        public static final int ic_tab_appointment_unselected=0x7f020007;
+        public static final int ic_tab_artists_grey=0x7f020008;
+        public static final int ic_tab_artists_white=0x7f020009;
+        public static final int ic_tab_profile_selected=0x7f02000a;
+        public static final int ic_tab_profile_unselected=0x7f02000b;
+        public static final int ic_tab_schedule_selected=0x7f02000c;
+        public static final int ic_tab_schedule_unselected=0x7f02000d;
+        public static final int launcher_icon=0x7f02000e;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f06001c;
@@ -28,7 +33,8 @@ public final class R {
         public static final int ScrollView1=0x7f06001b;
         public static final int appointementNextButton=0x7f060004;
         public static final int appointmentPreviousButton=0x7f060003;
-        public static final int date=0x7f060031;
+        public static final int date=0x7f060033;
+        public static final int help=0x7f060032;
         public static final int imageView1=0x7f060010;
         public static final int linearLayout1=0x7f060005;
         public static final int listView1=0x7f060014;
@@ -36,9 +42,10 @@ public final class R {
         public static final int loginPass=0x7f06000e;
         public static final int loginRegistButton=0x7f06000f;
         public static final int loginUser=0x7f06000c;
-        public static final int new_appointment=0x7f060033;
-        public static final int new_schedule=0x7f060032;
+        public static final int new_appointment=0x7f060035;
+        public static final int new_schedule=0x7f060034;
         public static final int new_schedule_date=0x7f060013;
+        public static final int new_schedule_old=0x7f060031;
         public static final int passwordTV=0x7f06000d;
         public static final int profileAdress=0x7f060019;
         public static final int profileBirthDate=0x7f060018;
@@ -90,9 +97,11 @@ public final class R {
         public static final int schedule_tab=0x7f03000a;
     }
     public static final class menu {
-        public static final int medic_appointment_menu=0x7f050000;
-        public static final int medic_schedule_menu=0x7f050001;
-        public static final int patient_appointment_menu=0x7f050002;
+        public static final int doctors_menu=0x7f050000;
+        public static final int medic_appointment_menu=0x7f050001;
+        public static final int medic_schedule_menu=0x7f050002;
+        public static final int patient_appointment_menu=0x7f050003;
+        public static final int patients_menu=0x7f050004;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
