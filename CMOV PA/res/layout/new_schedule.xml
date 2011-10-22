@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+        <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="wrap_content" android:orientation="horizontal" android:layout_alignParentLeft="true" android:layout_alignParentRight="true" android:layout_marginBottom="30dp" android:layout_marginTop="20dp">
+        	<TextView android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignRight="@+id/linearLayout1" android:layout_marginRight="36dp" android:text="@string/start_date"></TextView>
+        	<TextView android:text="TextView" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/new_schedule_date"></TextView>
+        </LinearLayout>
+        <ListView android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/listView1" android:layout_below="@+id/linearLayout1" android:layout_alignParentLeft="true"></ListView>
+    </RelativeLayout>
