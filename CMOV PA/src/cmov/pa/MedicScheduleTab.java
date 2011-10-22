@@ -25,6 +25,17 @@ public class MedicScheduleTab extends Activity {
 		
     }
 	
+	public void onActivityResult(int requestCode, int resultCode, Intent data){
+		switch (resultCode) {
+			case RESULT_OK:
+				/**
+				 * TODO: update schedules
+				 */
+				break;			
+		}
+	}
+	
+	
 	// Options Menu
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -39,8 +50,8 @@ public class MedicScheduleTab extends Activity {
 	    switch (item.getItemId()) {
 		    case R.id.new_schedule:
 				Intent intent = new Intent(getApplicationContext(),NewSchedule.class);
-	            startActivity(intent);
-	            finish();
+	            startActivityForResult(intent, 0);
+	            //finish();
 	            
 		        return true;
 		    /*
