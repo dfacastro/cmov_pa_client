@@ -46,7 +46,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.doctors_menu, menu);
+	    inflater.inflate(R.menu.medic_appointment_menu, menu);
 	    return true;
 	}
 	
@@ -60,18 +60,20 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	            finish();
 	            
 		        return true;
+		    /*
 		    case R.id.help:
 		        //showHelp();
 				Toast toast = Toast.makeText(getApplicationContext(), "Insira as credenciais ou registe-se", Toast.LENGTH_SHORT);
 	    		toast.show();
 	    		
 		        return true;
+		        */
 		    default:
 		        return super.onOptionsItemSelected(item);
 	    }
 	}
 	
-	
+	/*
 	@Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         menu.setHeaderTitle("Sample menu");
@@ -100,7 +102,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 
         return false;
     }
-	
+	*/
 	
 	
 	@Override

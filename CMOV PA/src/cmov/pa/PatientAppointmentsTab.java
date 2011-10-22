@@ -19,9 +19,7 @@ public class PatientAppointmentsTab  extends Activity {
 		api = ((Api)getApplicationContext());
 
 		
-        TextView textview = new TextView(this);
-        textview.setText("This is the appointments tab");
-        setContentView(textview);
+       
         
         
        
@@ -31,7 +29,7 @@ public class PatientAppointmentsTab  extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.patients_menu, menu);
+	    inflater.inflate(R.menu.patient_appointment_menu, menu);
 	    return true;
 	}
 	

@@ -38,7 +38,7 @@ public class Inicial extends TabActivity{
 		    tabHost.addTab(spec);
 		    
 		    
-		    intent = new Intent().setClass(this, ScheduleTab.class);
+		    intent = new Intent().setClass(this, MedicScheduleTab.class);
 		    spec = tabHost.newTabSpec("schedule").setIndicator("Schedule",res.getDrawable(R.layout.ic_tab_schedule)).setContent(intent);
 		    tabHost.addTab(spec);
 	    }else {
