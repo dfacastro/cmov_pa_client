@@ -16,6 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -119,6 +120,7 @@ public class Api extends Application{
 	            	user.setPhoto(utilizadorInfo.get("photo").toString());
             	}else{
             		user.setAddress(utilizadorInfo.get("address").toString());
+            		user.setSex(utilizadorInfo.get("sex").toString());
             	}
             	
             	return true;
@@ -146,6 +148,70 @@ public class Api extends Application{
 		
 		return true;
 		*/
+	}
+	
+	
+	public User getPatientProfile(String id){
+		
+		final HttpClient httpClient =  new DefaultHttpClient();
+		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		HttpResponse response=null;
+		
+		
+		
+		User user = new User();
+		
+		try {
+        	
+			String url = IP + "/patient/show?patient_id=" + id;
+			
+			System.out.println(url);
+			
+            HttpGet httpget = new HttpGet(url);
+            
+            httpget.setHeader("Accept", "application/json");
+            httpget.setHeader("Cookie", cookie);
+            
+            response = httpClient.execute(httpget);
+            
+            if(response.getStatusLine().getStatusCode() == 200){
+            	
+            	
+                InputStream instream = response.getEntity().getContent();
+                String tmp = read(instream);
+                
+            	
+    	        JSONObject messageReceived = new JSONObject(tmp.toString());
+            	System.out.println(messageReceived.toString());
+            	
+            	
+    	        JSONObject utilizadorInfo =messageReceived.getJSONObject("user");
+       
+            	
+            	user.setAddress(messageReceived.get("address").toString());
+            	user.setSex(messageReceived.get("sex").toString());
+            	
+            	user.setBirthDate(utilizadorInfo.get("birthdate").toString());
+            	user.setName(utilizadorInfo.get("name").toString());
+            	user.setDoctor(utilizadorInfo.get("utilizador_type").toString());
+            	
+            	user.setUsername("");
+            	
+            	
+            	
+            	
+            	return user;
+            }	
+            
+        } catch (IOException ex) {
+        	ex.printStackTrace();    	
+        } catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+        
+        return null;
 	}
 	
 	

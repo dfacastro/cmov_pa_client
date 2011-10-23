@@ -2,6 +2,16 @@ package cmov.pa;
 
 public class User {
 	
+	public String getSex() {
+		return sex;
+	}
+
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+
 	public boolean isDoctor() {
 		return isDoctor;
 	}
@@ -66,6 +76,7 @@ public class User {
 	}
 
 
+	private String sex;
 	private String username;
 	private String name;
 	private String address;

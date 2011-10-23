@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MedicAppointmentsTab  extends ExpandableListActivity {
-	
+
 	Api api;
 	ExpandableListAdapter mAdapter;
     
@@ -41,6 +41,19 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         
        
     }
+	
+	@Override
+	public boolean onChildClick(ExpandableListView parent, View v,
+			int groupPosition, int childPosition, long id) {
+		// TODO Auto-generated method stub
+		
+		Intent intent = new Intent(getApplicationContext(),ProfileTab.class);
+		intent.putExtra("id", "15");
+        startActivity(intent);
+		
+		return true;
+	}
+	
 	
 	// Options Menu
 	@Override

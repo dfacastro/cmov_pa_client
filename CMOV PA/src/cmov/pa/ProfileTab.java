@@ -20,6 +20,7 @@ import android.widget.Toast;
 public class ProfileTab extends Activity {
 	
 	Api api;
+	boolean selfprofile = true;
     
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,43 +28,71 @@ public class ProfileTab extends Activity {
         
 		api = ((Api)getApplicationContext());
 		
-		
-		//faz set do conteudo do profile
-		((TextView)findViewById(R.id.profileName)).setText(api.user.getName());
-		((TextView)findViewById(R.id.profileUsername)).setText(api.user.getUsername());
-		((TextView)findViewById(R.id.profileBirthDate)).setText(api.user.getBirthDate());
-		
-		//medico
-		if(api.user.isDoctor()){
-	
+		Bundle extras = getIntent().getExtras(); 
+		if(extras !=null)
+		{
+			String value = extras.getString("id");
+			selfprofile = false;
+			//TODO: faz set das coisas na interface do user que fez parse
+			User user = api.getPatientProfile(value);
+			if(user != null){
+				setProfileOnInterface(user);
+			}else{//caso o pedido de mal
+				
+				Toast toast = Toast.makeText(getApplicationContext(), "Falha a Obter Profile", Toast.LENGTH_LONG);
+        		toast.show();
+				finish();
+			}
 			
-			 URL newurl;
-
-			Bitmap mIcon_val;
-			try {
-				
-				newurl = new URL(api.user.getPhoto());
-				mIcon_val = BitmapFactory.decodeStream(newurl.openConnection() .getInputStream());
-				((ImageView)findViewById(R.id.profilePhoto)).setImageBitmap(mIcon_val);
-				
-				
-				
-
-				
-				
-			} catch (IOException e) {
-				Toast toast = Toast.makeText(getApplicationContext(), "Erro a carregar a imagem", Toast.LENGTH_SHORT);
-	     		toast.show();
-			} 
-
-
-			((TextView)findViewById(R.id.profileAdress)).setText("");
-		
-		}else{//paciente
-			((TextView)findViewById(R.id.profileAdress)).setText(api.user.getAddress());
+		}else{
+			setProfileOnInterface(api.user);
 		}
+			
+
+		
+		
         
     }
+	
+	
+	public void setProfileOnInterface(User user){
+		//faz set do conteudo do profile
+				((TextView)findViewById(R.id.profileName)).setText(user.getName());
+				((TextView)findViewById(R.id.profileUsername)).setText(user.getUsername());
+				((TextView)findViewById(R.id.profileBirthDate)).setText(user.getBirthDate());
+				
+				//medico
+				if(user.isDoctor()){
+			
+					
+					 URL newurl;
+
+					Bitmap mIcon_val;
+					try {
+						
+						newurl = new URL(user.getPhoto());
+						mIcon_val = BitmapFactory.decodeStream(newurl.openConnection() .getInputStream());
+						((ImageView)findViewById(R.id.profilePhoto)).setImageBitmap(mIcon_val);
+						
+						
+						
+
+						
+						
+					} catch (IOException e) {
+						Toast toast = Toast.makeText(getApplicationContext(), "Erro a carregar a imagem", Toast.LENGTH_SHORT);
+			     		toast.show();
+					} 
+
+
+					((TextView)findViewById(R.id.profileAdress)).setText("");
+					((TextView)findViewById(R.id.profileSex)).setText("");
+				
+				}else{//paciente
+					((TextView)findViewById(R.id.profileAdress)).setText(user.getAddress());
+					((TextView)findViewById(R.id.profileSex)).setText(user.getSex());
+				}
+	}
 	
 	
 	
@@ -72,42 +101,46 @@ public class ProfileTab extends Activity {
 	@Override
 	public void onBackPressed() {
 		
-		// prepare the alert box
-        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-
-        // set the message to display
-        alertbox.setMessage("Prentede sair da aplicacao?");
-
-        // set a positive/yes button and create a listener
-        alertbox.setPositiveButton("Nao", new DialogInterface.OnClickListener() {
-
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-                //Do nothing
-            }
-        });
-
-        // set a negative/no button and create a listener
-        alertbox.setNegativeButton("Sim", new DialogInterface.OnClickListener() {
-
-            // do something when the button is clicked
-            public void onClick(DialogInterface arg0, int arg1) {
-            	
-            	if(api.logout()){
-            		finish();
-            	}else{
-            		Toast toast = Toast.makeText(getApplicationContext(), "Logout Falhou", Toast.LENGTH_SHORT);
-            		toast.show();
-            	}
-            	
-            	
-                
-            }
-        });
-
-        // display box
-        alertbox.show();
-
+		if(selfprofile){
+		
+			// prepare the alert box
+	        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+	
+	        // set the message to display
+	        alertbox.setMessage("Prentede sair da aplicacao?");
+	
+	        // set a positive/yes button and create a listener
+	        alertbox.setPositiveButton("Nao", new DialogInterface.OnClickListener() {
+	
+	            // do something when the button is clicked
+	            public void onClick(DialogInterface arg0, int arg1) {
+	                //Do nothing
+	            }
+	        });
+	
+	        // set a negative/no button and create a listener
+	        alertbox.setNegativeButton("Sim", new DialogInterface.OnClickListener() {
+	
+	            // do something when the button is clicked
+	            public void onClick(DialogInterface arg0, int arg1) {
+	            	
+	            	if(api.logout()){
+	            		finish();
+	            	}else{
+	            		Toast toast = Toast.makeText(getApplicationContext(), "Logout Falhou", Toast.LENGTH_SHORT);
+	            		toast.show();
+	            	}
+	            	
+	            	
+	                
+	            }
+	        });
+	
+	        // display box
+	        alertbox.show();
+	
+		}else
+			finish();
 	}
 
 }
