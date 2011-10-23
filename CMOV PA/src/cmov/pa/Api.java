@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -24,8 +27,8 @@ import android.app.Application;
 
 public class Api extends Application{
 	
-	String cookie;
-	String IP = "http://95.92.17.205:3000";
+	public static String cookie;
+	public static final String IP = "http://95.92.17.205:3000";
 	//String IP = "http://172.30.94.186:3000";
 	public static User user = new User();
 	
@@ -136,17 +139,6 @@ public class Api extends Application{
         
         return false;
 		
-		/*
-		//dados para teste sem server
-		user.setAddress("perdi-o");
-		user.setName("FERNANDO");
-		user.setUsername("fmg");
-		user.setDoctor("Doctor");
-		user.setPhoto("http://www.ackbar.org/images/pikachu.png");
-		user.setBirthDate("1989-09-28");
-		
-		return true;
-		*/
 	}
 	
 	
@@ -213,68 +205,69 @@ public class Api extends Application{
 	}
 	
 	
-	public int getAppointmentsForDate(String date){
-		
+	public Map<String, User> getAppointmentsForDate(String date) throws ClientProtocolException, IOException{	
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
 		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
 		HttpResponse response=null;
 		
-	
-		
-		try {
+		Map<String, User> map= new HashMap<String,User>();
+			
+		String url = IP + "/doctor/get_appointments?date=" + date;
+			
+		System.out.println(url);
+			
+        HttpGet httpget = new HttpGet(url);
+           
+       System.out.println(cookie);
+           
+       httpget.setHeader("Accept", "application/json");
+       httpget.setHeader("Cookie", cookie);
+       
+       response = httpClient.execute(httpget);
+       
+       if(response.getStatusLine().getStatusCode() == 200){
        	
-			String url = IP + "/doctor/get_appointments?date=" + date;
-			
-			System.out.println(url);
-			
-           HttpGet httpget = new HttpGet(url);
+       	
+           InputStream instream = response.getEntity().getContent();
+           String tmp = read(instream);
            
-           httpget.setHeader("Accept", "application/json");
-           httpget.setHeader("Cookie", cookie);
-           
-           response = httpClient.execute(httpget);
-           
-           System.out.println(response.getStatusLine().getStatusCode());
-           if(response.getStatusLine().getStatusCode() == 200){
-           	
-           	
-               InputStream instream = response.getEntity().getContent();
-               String tmp = read(instream);
-               
-           	
-   	        JSONObject messageReceived = new JSONObject(tmp.toString());
-           	System.out.println(messageReceived.toString());
-           	
-           	/*
-   	        JSONObject utilizadorInfo =messageReceived.getJSONObject("user");
-      
-           	
-           	user.setAddress(messageReceived.get("address").toString());
-           	user.setSex(messageReceived.get("sex").toString());
-           	
-           	user.setBirthDate(utilizadorInfo.get("birthdate").toString());
-           	user.setName(utilizadorInfo.get("name").toString());
-           	user.setDoctor(utilizadorInfo.get("utilizador_type").toString());
-           	
-           	user.setUsername("");
-           	
-           	
-           	*/
-           	
-           	return 0;
-           }	
-           
-       } catch (IOException ex) {
-       	ex.printStackTrace();    	
-       } catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+       	
+	        JSONArray messageReceived;
+			try {
+				messageReceived = new JSONArray(tmp.toString());
+				
+				System.out.println(messageReceived.toString());
+		       	
+		       	for(int i = 0; i < messageReceived.length(); i++){
+		           	JSONObject messageReceivedIndex = messageReceived.getJSONObject(i);
+		           	String patientId = messageReceivedIndex.getString("patient_id").toString();
+		           	String scheduledDate = messageReceivedIndex.getString("scheduled_date").toString();
+		           	String patientName = ((JSONObject)((JSONObject)messageReceivedIndex.get("patient")).get("user")).getString("name").toString();
+		           	String scheduledTime = messageReceivedIndex.getString("scheduled_time").toString();
+
+		           	System.out.println(patientId + " " + scheduledDate + " " + patientName);
+		           	
+		           	User u = new User();
+		           	u.setName(patientName);
+		           	u.setId(patientId);
+		           	map.put(scheduledDate + " " + scheduledTime, u);
+		       	}
+		       	
+		       	
+				
+			} catch (JSONException e) {
+				
+				e.printStackTrace();
+			}
+       	
+			return map;
+       }	
+       
+       
 		
 		System.out.println("ERRO a obter appointments");
-		return 0;
+		return map;
 	}
 	
 	

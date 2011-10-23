@@ -1,15 +1,17 @@
 package cmov.pa;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Map;
+
+import org.apache.http.client.ClientProtocolException;
 
 import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +22,6 @@ import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,10 +38,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 		
 		mAdapter = new MyExpandableListAdapter();
 	    setListAdapter(mAdapter);
-	    setContentView(R.layout.appointments_tab);
-	    
-	    //registerForContextMenu(getExpandableListView());
-		
+	    setContentView(R.layout.appointments_tab);		
         
        
     }
@@ -48,10 +46,13 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
 			int groupPosition, int childPosition, long id) {
-		// TODO Auto-generated method stub
+		
+		User o = (User)mAdapter.getChild(groupPosition, childPosition);
+		
+		System.out.println(o.getId());
 		
 		Intent intent = new Intent(getApplicationContext(),ProfileTab.class);
-		intent.putExtra("id", "15");
+		intent.putExtra("id", o.getId());
         startActivity(intent);
 		
 		return true;
@@ -88,9 +89,6 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 		        return super.onOptionsItemSelected(item);
 	    }
 	}
-	
-	
-	
 	
 	@Override
 	public void onBackPressed() {
@@ -132,9 +130,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         alertbox.show();
 
 	}
-	
-	
-	
+
 	
 	/**
      * A simple adapter which maintains an ArrayList of photo resource Ids. 
@@ -145,14 +141,9 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	
 	
     public class MyExpandableListAdapter extends BaseExpandableListAdapter {
-        // Sample data set.  children[i] contains the children (String[]) for groups[i].
-        private String[] groups = { "People Names", "Dog Names", "Cat Names", "Fish Names" };
-        private String[][] children = {
-                { "Arnold", "Barry", "Chuck", "David" },
-                { "Ace", "Bandit", "Cha-Cha", "Deuce" },
-                { "Fluffy", "Snuggles" },
-                { "Goldy", "Bubbles" }
-        };
+    	
+    	private String[] groups;
+    	private ArrayList<User> children;
 
         public MyExpandableListAdapter(){
         	Calendar c = Calendar.getInstance(); 
@@ -162,11 +153,36 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         	
         	String date = year + "-" + month + "-" + day;
         	
-        	api.getAppointmentsForDate("2011-10-8");
+        	try {
+        		//TODO: alterar para a date
+				Map <String, User> map = api.getAppointmentsForDate("2011-10-11");
+				
+				groups = new String[map.size()];
+				children = new ArrayList<User>();
+				
+				
+				int i = 0;
+				for(String key: map.keySet()){
+					
+					groups[i] = key;		
+					User u = map.get(key);		
+					children.add(u);
+					i++;
+				}
+				
+			
+        	} catch (ClientProtocolException e) {
+				Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+        		toast.show();
+			} catch (IOException e) {
+				Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+        		toast.show();
+			}
+        
         }
         
         public Object getChild(int groupPosition, int childPosition) {
-            return children[groupPosition][childPosition];
+            return children.get(groupPosition);
         }
 
         public long getChildId(int groupPosition, int childPosition) {
@@ -174,7 +190,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         }
 
         public int getChildrenCount(int groupPosition) {
-            return children[groupPosition].length;
+            return 1;
         }
 
         public TextView getGenericView() {
@@ -226,11 +242,6 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         }
 
     }
-	
-	
-	
-	
-	
 	
 
 }

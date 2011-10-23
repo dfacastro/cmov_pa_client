@@ -14,18 +14,21 @@ public final class R {
         public static final int health_icon=0x7f020000;
         public static final int ic_menu_appointment=0x7f020001;
         public static final int ic_menu_recent_history=0x7f020002;
-        public static final int ic_tab_appointment_selected=0x7f020003;
-        public static final int ic_tab_appointment_unselected=0x7f020004;
-        public static final int ic_tab_profile_selected=0x7f020005;
-        public static final int ic_tab_profile_unselected=0x7f020006;
-        public static final int ic_tab_schedule_selected=0x7f020007;
-        public static final int ic_tab_schedule_unselected=0x7f020008;
-        public static final int launcher_icon=0x7f020009;
+        public static final int ic_menu_refresh=0x7f020003;
+        public static final int ic_menu_today=0x7f020004;
+        public static final int ic_tab_appointment_selected=0x7f020005;
+        public static final int ic_tab_appointment_unselected=0x7f020006;
+        public static final int ic_tab_profile_selected=0x7f020007;
+        public static final int ic_tab_profile_unselected=0x7f020008;
+        public static final int ic_tab_schedule_selected=0x7f020009;
+        public static final int ic_tab_schedule_unselected=0x7f02000a;
+        public static final int launcher_icon=0x7f02000b;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f06001c;
         public static final int RelativeLayout1=0x7f060000;
         public static final int ScrollView1=0x7f06001b;
+        public static final int actualizar=0x7f060032;
         public static final int appointementNextButton=0x7f060004;
         public static final int appointmentPreviousButton=0x7f060003;
         public static final int date=0x7f060031;
@@ -36,8 +39,8 @@ public final class R {
         public static final int loginPass=0x7f06000e;
         public static final int loginRegistButton=0x7f06000f;
         public static final int loginUser=0x7f06000c;
-        public static final int new_appointment=0x7f060033;
-        public static final int new_schedule=0x7f060032;
+        public static final int new_appointment=0x7f060034;
+        public static final int new_schedule=0x7f060033;
         public static final int new_schedule_date=0x7f060013;
         public static final int passwordTV=0x7f06000d;
         public static final int profileAdress=0x7f060019;
