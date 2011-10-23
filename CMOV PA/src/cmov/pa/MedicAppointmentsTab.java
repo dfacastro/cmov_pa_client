@@ -1,5 +1,8 @@
 package cmov.pa;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
 import android.content.DialogInterface;
@@ -86,36 +89,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	    }
 	}
 	
-	/*
-	@Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        menu.setHeaderTitle("Sample menu");
-        menu.add(0, 0, 0, R.string.expandable_list_sample_action);
-    }
-    
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
-
-        String title = ((TextView) info.targetView).getText().toString();
-
-        int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-            int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition); 
-            int childPos = ExpandableListView.getPackedPositionChild(info.packedPosition); 
-            Toast.makeText(this, title + ": Child " + childPos + " clicked in group " + groupPos,
-                    Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-            int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition); 
-            Toast.makeText(this, title + ": Group " + groupPos + " clicked", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
-        return false;
-    }
-	*/
+	
 	
 	
 	@Override
@@ -180,6 +154,17 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
                 { "Goldy", "Bubbles" }
         };
 
+        public MyExpandableListAdapter(){
+        	Calendar c = Calendar.getInstance(); 
+        	int year = c.get(Calendar.YEAR);
+        	int month = c.get(Calendar.MONTH) + 1 ;
+        	int day = c.get(Calendar.DAY_OF_MONTH);
+        	
+        	String date = year + "-" + month + "-" + day;
+        	
+        	api.getAppointmentsForDate("2011-10-8");
+        }
+        
         public Object getChild(int groupPosition, int childPosition) {
             return children[groupPosition][childPosition];
         }

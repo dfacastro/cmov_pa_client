@@ -94,7 +94,6 @@ public class Api extends Application{
             
             if(response.getStatusLine().getStatusCode() == 200){
             	
-            	
                 InputStream instream = response.getEntity().getContent();
                 String tmp = read(instream);
                 
@@ -174,8 +173,7 @@ public class Api extends Application{
             
             response = httpClient.execute(httpget);
             
-            if(response.getStatusLine().getStatusCode() == 200){
-            	
+            if(response.getStatusLine().getStatusCode() == 200){	
             	
                 InputStream instream = response.getEntity().getContent();
                 String tmp = read(instream);
@@ -212,6 +210,71 @@ public class Api extends Application{
 		}
         
         return null;
+	}
+	
+	
+	public int getAppointmentsForDate(String date){
+		
+		
+		final HttpClient httpClient =  new DefaultHttpClient();
+		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		HttpResponse response=null;
+		
+	
+		
+		try {
+       	
+			String url = IP + "/doctor/get_appointments?date=" + date;
+			
+			System.out.println(url);
+			
+           HttpGet httpget = new HttpGet(url);
+           
+           httpget.setHeader("Accept", "application/json");
+           httpget.setHeader("Cookie", cookie);
+           
+           response = httpClient.execute(httpget);
+           
+           System.out.println(response.getStatusLine().getStatusCode());
+           if(response.getStatusLine().getStatusCode() == 200){
+           	
+           	
+               InputStream instream = response.getEntity().getContent();
+               String tmp = read(instream);
+               
+           	
+   	        JSONObject messageReceived = new JSONObject(tmp.toString());
+           	System.out.println(messageReceived.toString());
+           	
+           	/*
+   	        JSONObject utilizadorInfo =messageReceived.getJSONObject("user");
+      
+           	
+           	user.setAddress(messageReceived.get("address").toString());
+           	user.setSex(messageReceived.get("sex").toString());
+           	
+           	user.setBirthDate(utilizadorInfo.get("birthdate").toString());
+           	user.setName(utilizadorInfo.get("name").toString());
+           	user.setDoctor(utilizadorInfo.get("utilizador_type").toString());
+           	
+           	user.setUsername("");
+           	
+           	
+           	*/
+           	
+           	return 0;
+           }	
+           
+       } catch (IOException ex) {
+       	ex.printStackTrace();    	
+       } catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("ERRO a obter appointments");
+		return 0;
 	}
 	
 	
