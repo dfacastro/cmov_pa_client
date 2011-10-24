@@ -15,4 +15,9 @@
     <string name="new_appointment">New Appointment</string>
     <string name="new_schedule">New Schedule</string>
     <string name="start_date">Start Date:</string>
+    <string name="add">Add</string>
+    <string name="create">Create</string>
+    <string name="weekday">WeekDay</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
 </resources>

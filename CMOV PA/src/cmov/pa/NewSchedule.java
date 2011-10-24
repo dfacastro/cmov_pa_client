@@ -7,9 +7,11 @@ import utils.*;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,7 +27,7 @@ public class NewSchedule extends Activity {
     private int mDay;
     final Calendar c = Calendar.getInstance();
     
-    static SchedulePlan sch = new SchedulePlan();
+    private SchedulePlan sch = new SchedulePlan();
     
 	static final String[] COUNTRIES = new String[] {
 		    "Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra"};
@@ -65,6 +67,24 @@ public class NewSchedule extends Activity {
         
         //Set calendar date to tomorrow
         c.set(Calendar.DAY_OF_MONTH, mDay);
+        
+        
+        //BUTTONS
+        Button add = (Button) findViewById(R.id.new_schedule_add_button);
+        Button create = (Button) findViewById(R.id.new_schedule_create_button);
+        
+        add.setOnClickListener(
+        		new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						// TODO Auto-generated method stub
+						Intent intent = new Intent(getApplicationContext(),NewWorkDay.class);
+			            startActivityForResult(intent, 0);
+					}
+				}
+        		
+        );
     }
     
     @Override

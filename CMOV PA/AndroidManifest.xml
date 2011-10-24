@@ -23,6 +23,7 @@
         <activity android:name="PatientAppointmentsTab"></activity>
         <activity android:name=".MedicScheduleTab"></activity>
         <activity android:name="NewSchedule"></activity>
+        <activity android:name="NewWorkDay"></activity>
 
     </application>
 </manifest>
