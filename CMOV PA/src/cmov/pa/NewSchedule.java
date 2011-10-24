@@ -1,6 +1,8 @@
 package cmov.pa;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import utils.*;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -23,6 +25,8 @@ public class NewSchedule extends Activity {
     private int mDay;
     final Calendar c = Calendar.getInstance();
     
+    static SchedulePlan sch = new SchedulePlan();
+    
 	static final String[] COUNTRIES = new String[] {
 		    "Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra"};
 	
@@ -33,7 +37,11 @@ public class NewSchedule extends Activity {
         
         
         ListView list = (ListView) findViewById(R.id.listView1);
-        ArrayAdapter<String> a = new ArrayAdapter<String>(this, R.layout.schedule_item, COUNTRIES);	
+        //ArrayAdapter<String> a = new ArrayAdapter<String>(this, R.layout.schedule_item, COUNTRIES);	
+        
+        sch.workdays.add(new WorkDay(WeekDay.Monday, 200, 300));
+        //ArrayAdapter<WorkDay> a = new ArrayAdapter<WorkDay>(this, R.layout.schedule_item, sch.getArray());	
+        WorkDaysAdapter a = new WorkDaysAdapter(this, R.layout.workday_item, new ArrayList<WorkDay>(sch.workdays));
         list.setAdapter(a);
         
         start_date = (TextView) findViewById(R.id.new_schedule_date);
