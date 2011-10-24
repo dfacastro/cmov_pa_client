@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -205,13 +206,14 @@ public class Api extends Application{
 	}
 	
 	
-	public Map<String, User> getAppointmentsForDate(String date) throws ClientProtocolException, IOException{	
+	public Map<String, Map<String, User>> getAppointmentsForDate(String date) throws ClientProtocolException, IOException{	
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
 		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
 		HttpResponse response=null;
 		
-		Map<String, User> map= new HashMap<String,User>();
+		Map<String,  Map<String, User>> map= new HashMap<String, Map<String, User>>();
+		Map<String, User> submap = new TreeMap<String, User>();
 			
 		String url = IP + "/doctor/get_appointments?date=" + date;
 			
@@ -238,22 +240,25 @@ public class Api extends Application{
 				messageReceived = new JSONArray(tmp.toString());
 				
 				System.out.println(messageReceived.toString());
-		       	
+				String scheduledDate = "0";
+				
 		       	for(int i = 0; i < messageReceived.length(); i++){
 		           	JSONObject messageReceivedIndex = messageReceived.getJSONObject(i);
 		           	String patientId = messageReceivedIndex.getString("patient_id").toString();
-		           	String scheduledDate = messageReceivedIndex.getString("scheduled_date").toString();
+		           	scheduledDate = messageReceivedIndex.getString("scheduled_date").toString();
 		           	String patientName = ((JSONObject)((JSONObject)messageReceivedIndex.get("patient")).get("user")).getString("name").toString();
 		           	String scheduledTime = messageReceivedIndex.getString("scheduled_time").toString();
 
-		           	System.out.println(patientId + " " + scheduledDate + " " + patientName);
+		           	System.out.println(patientId + " " + scheduledDate + " " + scheduledTime + " " + patientName);
 		           	
 		           	User u = new User();
 		           	u.setName(patientName);
 		           	u.setId(patientId);
-		           	map.put(scheduledDate + " " + scheduledTime, u);
+		           	submap.put(scheduledTime, u);
 		       	}
 		       	
+		       	if(submap.size() > 0)
+		       		map.put(scheduledDate, submap);
 		       	
 				
 			} catch (JSONException e) {

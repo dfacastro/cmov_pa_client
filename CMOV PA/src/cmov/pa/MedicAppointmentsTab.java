@@ -35,10 +35,11 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         
 		api = ((Api)getApplicationContext());
 		
+		setContentView(R.layout.appointments_tab);
 		
 		mAdapter = new MyExpandableListAdapter();
 	    setListAdapter(mAdapter);
-	    setContentView(R.layout.appointments_tab);		
+	    	
         
        
     }
@@ -155,20 +156,27 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         	
         	try {
         		//TODO: alterar para a date
-				Map <String, User> map = api.getAppointmentsForDate("2011-10-11");
-				
-				groups = new String[map.size()];
-				children = new ArrayList<User>();
-				
-				
-				int i = 0;
-				for(String key: map.keySet()){
+				Map<String, Map <String, User>> map = api.getAppointmentsForDate("2011-10-11");
+
+				int i = 0;	
+				for(String key: map.keySet()){//este ciclo so vai correr 1 vez...
 					
-					groups[i] = key;		
-					User u = map.get(key);		
-					children.add(u);
-					i++;
-				}
+					Map<String,User> submap = (Map<String, User>) map.get(key);
+					
+					groups = new String[submap.size()];
+					children = new ArrayList<User>();
+					
+					((TextView)findViewById(R.id.appointmentDay)).setText(key);
+					
+					for(String keys: submap.keySet()){
+						groups[i] = keys;		
+						User u = submap.get(keys);		
+						children.add(u);
+						i++;
+					}
+					
+					
+				}	
 				
 			
         	} catch (ClientProtocolException e) {
