@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -67,12 +68,16 @@ public class CMOVPAActivity extends Activity implements Runnable {
 		dialog.dismiss();
 		
 		if(success == -3){
+			Looper.prepare();
 			Toast toast = Toast.makeText(getApplicationContext(), "Erro a conectar com o servidor", Toast.LENGTH_SHORT);
     		toast.show();
+    		Looper.loop();
     		
 		}else if(success == -2){
+			Looper.prepare();
     		Toast toast = Toast.makeText(getApplicationContext(), "Autenticacao Errada", Toast.LENGTH_SHORT);
     		toast.show();
+    		Looper.loop();
 		}else if (success == 0) {
 			
 			boolean retsuccess = api.getProfile();
@@ -82,14 +87,19 @@ public class CMOVPAActivity extends Activity implements Runnable {
 	            startActivity(intent);
 	            finish();
 			}else{
+				Looper.prepare();
 				Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter profile", Toast.LENGTH_SHORT);
 	    		toast.show();
+				Looper.loop();
+
 			}
 			
 			
 		}else if (success == -1){
+			Looper.prepare();
 			Toast toast = Toast.makeText(getApplicationContext(), "Insira as credenciais ou registe-se", Toast.LENGTH_SHORT);
     		toast.show();
+			Looper.loop();
 		
 		}
 		
