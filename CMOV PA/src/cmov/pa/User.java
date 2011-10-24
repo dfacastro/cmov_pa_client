@@ -2,6 +2,26 @@ package cmov.pa;
 
 public class User {
 	
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+	public String getSex() {
+		return sex;
+	}
+
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+
 	public boolean isDoctor() {
 		return isDoctor;
 	}
@@ -64,13 +84,20 @@ public class User {
 	public String getPhoto() {
 		return photo;
 	}
+	
+	
+	public String toString(){
+		return name;
+	}
 
 
+	private String sex;
 	private String username;
 	private String name;
 	private String address;
 	private String birthDate;
 	private String photo;
 	private boolean isDoctor;
+	private String id;
 	
 }
