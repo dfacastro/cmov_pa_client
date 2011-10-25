@@ -28,9 +28,6 @@ public class NewSchedule extends Activity {
     final Calendar c = Calendar.getInstance();
     
     private SchedulePlan sch = new SchedulePlan();
-    
-	static final String[] COUNTRIES = new String[] {
-		    "Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra"};
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +83,16 @@ public class NewSchedule extends Activity {
         		
         );
     }
+    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if(resultCode == RESULT_OK) {
+	    	WorkDay workday = (WorkDay) data.getSerializableExtra("workday");
+	    	
+	    	/**
+	    	 * TODO: process new workday
+	    	 */
+    	}
+    };
     
     @Override
     protected Dialog onCreateDialog(int id) {

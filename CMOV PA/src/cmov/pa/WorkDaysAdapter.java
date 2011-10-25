@@ -43,11 +43,10 @@ public class WorkDaysAdapter extends ArrayAdapter<WorkDay> {
         {
         	workdaysView = (LinearLayout) convertView;
         }
-        //Get the text boxes from the listitem.xml file
+
         TextView wdWeekDay = (TextView)workdaysView.findViewById(R.id.workday_weekday);
         TextView wdStartEnd =(TextView)workdaysView.findViewById(R.id.workday_start_end);
  
-        //Assign the appropriate data from our alert object above
         wdWeekDay.setText(workday.wday.toString());
         wdStartEnd.setText(workday.getStartString() + " - " + workday.getEndString());
  

@@ -1,6 +1,8 @@
 package utils;
 
-public class WorkDay {
+import java.io.Serializable;
+
+public class WorkDay implements Serializable {
 	public WeekDay wday;
 	public int start;
 	public int end;
@@ -9,6 +11,10 @@ public class WorkDay {
 		this.wday = wday;
 		this.start = start;
 		this.end = end;		
+	}
+	
+	public WorkDay() {
+		
 	}
 	
 	public String getStartString() {

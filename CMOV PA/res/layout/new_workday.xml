@@ -16,5 +16,6 @@
             <EditText android:layout_height="wrap_content" android:inputType="number" android:layout_width="wrap_content" android:id="@+id/editText2"></EditText>
             <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/new_workday_end_spinner"></Spinner>
         </TableRow>
+        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/add" android:id="@+id/new_workday_add_button"></Button>
     </TableLayout>
     
