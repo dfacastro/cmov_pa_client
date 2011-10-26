@@ -1,25 +1,28 @@
-<LinearLayout android:id="@+id/LinearLayout01"
-        android:layout_width="fill_parent" android:layout_height="45dip"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="45dip" >
 
-        <TextView
-            android:id="@+id/child_text"
-            android:layout_width="wrap_content"
-            android:layout_height="45dip"
-            android:layout_gravity="left|center_vertical"
-            android:gravity="center_vertical"
-            android:paddingLeft="5dip"
-            android:paddingRight="5dip"
-            android:text="Children"
-            android:textColor="#ffCCCC22"
-            android:textSize="17dip"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/child_text"
+        android:layout_width="wrap_content"
+        android:layout_height="45dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip"
+        android:text="Children"
+        android:textColor="#ffCCCC22"
+        android:textSize="17dip"
+        android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/child_image"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_gravity="right|center_vertical"
-            android:src="@drawable/health_icon" />
+    <ImageView
+        android:id="@+id/child_image"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/health_icon" />
 
-</LinearLayout>
+</RelativeLayout>

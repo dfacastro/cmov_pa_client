@@ -112,7 +112,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 			super.notifyDataSetChanged();
 		}
 
-		private String[] groups = {"grupo1"};
+		private String[] groups = {"grupo1", "grupo2"};
     	private ArrayList<User> children = new ArrayList<User>();
 
         public MyExpandableListAdapter(Context c){
@@ -123,6 +123,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         	u.setName("ola");
         	u.setPhoto("lalal");
         	
+        	children.add(u);
         	children.add(u);
         	/*
         	try {
