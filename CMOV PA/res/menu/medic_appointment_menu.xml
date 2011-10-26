@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/date" android:title="Jump to Date" android:icon="@drawable/ic_menu_today"></item>
-    <item android:id="@+id/actualizar" android:title="Actualizar" android:icon="@drawable/ic_menu_refresh"></item>
+    <item android:id="@+id/doctor_jump_to_date" android:title="Jump to Date" android:icon="@drawable/ic_menu_today"></item>
+    <item android:id="@+id/doctor_appointments_refresh" android:title="Actualizar" android:icon="@drawable/ic_menu_refresh"></item>
 
     
 

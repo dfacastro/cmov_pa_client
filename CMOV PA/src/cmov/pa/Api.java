@@ -78,8 +78,6 @@ public class Api extends Application{
         }
     	return -3;
 
-		
-		//return 0;
 	}
 	
 	
@@ -210,7 +208,7 @@ public class Api extends Application{
 	}
 	
 	
-	public Map<String, Map<String, User>> getAppointmentsForDate(String date) throws ClientProtocolException, IOException{	
+	public Map<String, Map<String, User>> getDoctorAppointmentsForDate(String date) throws ClientProtocolException, IOException{	
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
 		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
@@ -225,7 +223,7 @@ public class Api extends Application{
 			
         HttpGet httpget = new HttpGet(url);
            
-       System.out.println(cookie);
+       //System.out.println(cookie);
            
        httpget.setHeader("Accept", "application/json");
        httpget.setHeader("Cookie", cookie);
@@ -273,8 +271,6 @@ public class Api extends Application{
 			return map;
        }	
        
-       
-		
 		System.out.println("ERRO a obter appointments");
 		return map;
 	}
