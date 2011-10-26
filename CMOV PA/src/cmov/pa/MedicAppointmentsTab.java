@@ -72,20 +72,14 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
 	    switch (item.getItemId()) {
-		    case R.id.new_schedule:
-				Intent intent = new Intent(getApplicationContext(),NewSchedule.class);
-	            startActivity(intent);
-	            finish();
-	            
+		    case R.id.doctor_appointments_refresh:				
+		    	updateAppointments();       
 		        return true;
-		    /*
-		    case R.id.help:
-		        //showHelp();
-				Toast toast = Toast.makeText(getApplicationContext(), "Insira as credenciais ou registe-se", Toast.LENGTH_SHORT);
-	    		toast.show();
-	    		
+		    
+		    case R.id.doctor_jump_to_date:
+		        jumpToDate();
 		        return true;
-		        */
+		        
 		    default:
 		        return super.onOptionsItemSelected(item);
 	    }
@@ -133,18 +127,78 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	}
 
 	
-	/**
-     * A simple adapter which maintains an ArrayList of photo resource Ids. 
-     * Each photo is displayed as an image. This adapter supports clearing the
-     * list of photos and adding a new photo.
-     *
-     */
+	
+	
+	public void updateAppointments(){
+		
+		Calendar c = Calendar.getInstance(); 
+    	int year = c.get(Calendar.YEAR);
+    	int month = c.get(Calendar.MONTH) + 1 ;
+    	int day = c.get(Calendar.DAY_OF_MONTH);
+    	
+    	String date = year + "-" + month + "-" + day;
+		
+    	try {
+			Map<String, Map <String, User>> map = api.getDoctorAppointmentsForDate(date);
+			
+			((TextView)findViewById(R.id.appointmentDay)).setText(date);
+			
+			((MyExpandableListAdapter) mAdapter).reset();
+			((MyExpandableListAdapter) mAdapter).notifyDataSetChanged();
+			
+			if(map.size() == 0){
+				Toast toast = Toast.makeText(getApplicationContext(), "Nao tem appointments para hoje", Toast.LENGTH_LONG);
+        		toast.show();
+        		return;
+			}
+
+			
+			
+			((MyExpandableListAdapter) mAdapter).populateAdapter(map);
+		
+		
+    	} catch (ClientProtocolException e) {
+			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+    		toast.show();
+		} catch (IOException e) {
+			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+    		toast.show();
+		}
+	}
+	
+	
+	public void jumpToDate(){
+		
+		final CharSequence[] items = {"Red", "Green", "Blue"};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Pick a color");
+		builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int item) {
+		        Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+		    }
+		});
+		builder.show();
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
     public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     	
-    	private String[] groups;
-    	private ArrayList<User> children;
+    	@Override
+		public void notifyDataSetChanged() {
+			// TODO Auto-generated method stub
+			super.notifyDataSetChanged();
+		}
+
+		private String[] groups = new String[0];
+    	private ArrayList<User> children = new ArrayList<User>();
 
         public MyExpandableListAdapter(){
         	Calendar c = Calendar.getInstance(); 
@@ -156,29 +210,18 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         	
         	try {
         		//TODO: alterar para a date
-				Map<String, Map <String, User>> map = api.getAppointmentsForDate("2011-10-11");
+				Map<String, Map <String, User>> map = api.getDoctorAppointmentsForDate("2011-10-11");
 
-				int i = 0;	
-				for(String key: map.keySet()){//este ciclo so vai correr 1 vez...
-					
-					Map<String,User> submap = (Map<String, User>) map.get(key);
-					
-					groups = new String[submap.size()];
-					children = new ArrayList<User>();
-					
-					((TextView)findViewById(R.id.appointmentDay)).setText(key);
-					
-					for(String keys: submap.keySet()){
-						groups[i] = keys;		
-						User u = submap.get(keys);		
-						children.add(u);
-						i++;
-					}
-					
-					
-				}	
+				((TextView)findViewById(R.id.appointmentDay)).setText("2011-10-11");
 				
-			
+				if(map.size() == 0){
+					Toast toast = Toast.makeText(getApplicationContext(), "Nao tem appointments para hoje", Toast.LENGTH_LONG);
+	        		toast.show();
+	        		return;
+				}
+				
+				populateAdapter(map);
+
         	} catch (ClientProtocolException e) {
 				Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
         		toast.show();
@@ -247,6 +290,33 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 
         public boolean hasStableIds() {
             return true;
+        }
+        
+        public void reset(){
+        	groups = new String[0];
+        	children = new ArrayList<User>();
+        }
+        
+        public void populateAdapter(Map<String, Map <String, User>> map){
+        	
+        	int i = 0;	
+			for(String key: map.keySet()){//este ciclo so vai correr 1 vez...
+				
+				Map<String,User> submap = (Map<String, User>) map.get(key);
+				
+				groups = new String[submap.size()];
+				children = new ArrayList<User>();
+
+				
+				for(String keys: submap.keySet()){
+					groups[i] = keys;		
+					User u = submap.get(keys);		
+					children.add(u);
+					i++;
+				}
+				
+				
+			}	
         }
 
     }

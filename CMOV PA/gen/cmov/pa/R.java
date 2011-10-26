@@ -28,11 +28,11 @@ public final class R {
         public static final int LinearLayout1=0x7f060028;
         public static final int RelativeLayout1=0x7f060000;
         public static final int ScrollView1=0x7f060027;
-        public static final int actualizar=0x7f06003d;
         public static final int appointementNextButton=0x7f060005;
         public static final int appointmentDay=0x7f060002;
         public static final int appointmentPreviousButton=0x7f060004;
-        public static final int date=0x7f06003c;
+        public static final int doctor_appointments_refresh=0x7f06003d;
+        public static final int doctor_jump_to_date=0x7f06003c;
         public static final int imageView1=0x7f060011;
         public static final int linearLayout1=0x7f060006;
         public static final int listView1=0x7f060015;
