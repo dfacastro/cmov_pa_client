@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 public class MedicAppointmentsTab  extends ExpandableListActivity {
 
+	//TODO: por progress dialogs quando esta a actualizar...
+	
 	Api api;
 	ExpandableListAdapter mAdapter;
     
@@ -35,7 +37,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         
 		api = ((Api)getApplicationContext());
 		
-		setContentView(R.layout.appointments_tab);
+		setContentView(R.layout.medic_appointments_tab);
 		
 		mAdapter = new MyExpandableListAdapter();
 	    setListAdapter(mAdapter);
@@ -169,21 +171,22 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	
 	public void jumpToDate(){
 		
-		final CharSequence[] items = {"Red", "Green", "Blue"};
+		final String[] items = {"Red", "Green", "Blue","elementos", "para", "encher" , "chouricos"};
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Pick a color");
-		builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+		dialog.setTitle("Pick a Date");
+		dialog.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int item) {
-		        Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+		        String selectedItem = items[item];
+		    	
+		    	Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
+		        dialog.dismiss();
+		        
+		      //TODO: fazer as cenas
 		    }
 		});
-		builder.show();
+		dialog.show();
 	}
-	
-	
-	
-	
 	
 	
 	

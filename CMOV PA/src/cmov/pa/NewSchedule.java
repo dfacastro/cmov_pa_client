@@ -91,6 +91,7 @@ public class NewSchedule extends Activity {
 							return;
 						}
 						
+						System.out.println(api.cookie);
 						api.createSchedule(sch);
 						
 					}
