@@ -34,14 +34,7 @@ public class NewSchedule extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_schedule);
         
-        
-        ListView list = (ListView) findViewById(R.id.listView1);
-        //ArrayAdapter<String> a = new ArrayAdapter<String>(this, R.layout.schedule_item, COUNTRIES);	
-        
-        sch.workdays.add(new WorkDay(WeekDay.Monday, 200, 300));
-        //ArrayAdapter<WorkDay> a = new ArrayAdapter<WorkDay>(this, R.layout.schedule_item, sch.getArray());	
-        WorkDaysAdapter a = new WorkDaysAdapter(this, R.layout.workday_item, new ArrayList<WorkDay>(sch.workdays));
-        list.setAdapter(a);
+        updateWorkDays();
         
         start_date = (TextView) findViewById(R.id.new_schedule_date);
         
@@ -75,22 +68,40 @@ public class NewSchedule extends Activity {
 					
 					@Override
 					public void onClick(View arg0) {
-						// TODO Auto-generated method stub
 						Intent intent = new Intent(getApplicationContext(),NewWorkDay.class);
 			            startActivityForResult(intent, 0);
 					}
 				}
         		
         );
+        
+        create.setOnClickListener(
+        		new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						/**
+						 * TODO: http request para criar schedule
+						 */
+						
+					}
+				}
+        );
     }
     
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    private void updateWorkDays() {
+        ListView list = (ListView) findViewById(R.id.listView1);        
+        WorkDaysAdapter a = new WorkDaysAdapter(this, R.layout.workday_item, new ArrayList<WorkDay>(sch.workdays));
+        list.setAdapter(a);
+		
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if(resultCode == RESULT_OK) {
 	    	WorkDay workday = (WorkDay) data.getSerializableExtra("workday");
+	    	sch.workdays.add(workday);
 	    	
-	    	/**
-	    	 * TODO: process new workday
-	    	 */
+	    	updateWorkDays();
     	}
     };
     

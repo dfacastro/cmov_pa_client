@@ -6,14 +6,14 @@
         </TableRow>
         <TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content" android:layout_height="wrap_content">
             <TextView android:layout_height="wrap_content" android:id="@+id/textView2" android:text="@string/start" android:layout_width="wrap_content"></TextView>
-            <EditText android:layout_height="wrap_content" android:inputType="number" android:layout_width="wrap_content" android:id="@+id/editText1">
+            <EditText android:layout_height="wrap_content" android:inputType="number" android:layout_width="wrap_content" android:id="@+id/new_workday_start_edit">
                 <requestFocus></requestFocus>
             </EditText>
             <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/new_workday_start_spinner"></Spinner>
         </TableRow>
         <TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content" android:layout_height="wrap_content">
             <TextView android:layout_height="wrap_content" android:id="@+id/textView3" android:text="@string/end" android:layout_width="wrap_content"></TextView>
-            <EditText android:layout_height="wrap_content" android:inputType="number" android:layout_width="wrap_content" android:id="@+id/editText2"></EditText>
+            <EditText android:layout_height="wrap_content" android:inputType="number" android:layout_width="wrap_content" android:id="@+id/new_workday_end_edit"></EditText>
             <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/new_workday_end_spinner"></Spinner>
         </TableRow>
         <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/add" android:id="@+id/new_workday_add_button"></Button>

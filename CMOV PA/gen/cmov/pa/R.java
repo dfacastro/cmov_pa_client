@@ -33,8 +33,6 @@ public final class R {
         public static final int appointmentDay=0x7f060002;
         public static final int appointmentPreviousButton=0x7f060004;
         public static final int date=0x7f06003c;
-        public static final int editText1=0x7f06001a;
-        public static final int editText2=0x7f06001e;
         public static final int imageView1=0x7f060011;
         public static final int linearLayout1=0x7f060006;
         public static final int listView1=0x7f060015;
@@ -48,7 +46,9 @@ public final class R {
         public static final int new_schedule_create_button=0x7f060017;
         public static final int new_schedule_date=0x7f060014;
         public static final int new_workday_add_button=0x7f060020;
+        public static final int new_workday_end_edit=0x7f06001e;
         public static final int new_workday_end_spinner=0x7f06001f;
+        public static final int new_workday_start_edit=0x7f06001a;
         public static final int new_workday_start_spinner=0x7f06001b;
         public static final int new_workday_weekday_spinner=0x7f060018;
         public static final int passwordTV=0x7f06000e;
