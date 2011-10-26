@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 public class NewSchedule extends Activity {
 	
-	
+	Api api;
 	private TextView start_date;
 	static final int DATE_DIALOG_ID = 1;
     private int mYear;
@@ -33,6 +33,8 @@ public class NewSchedule extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_schedule);
+        
+        api = ((Api)getApplicationContext());
         
         updateWorkDays();
         
@@ -83,6 +85,13 @@ public class NewSchedule extends Activity {
 						/**
 						 * TODO: http request para criar schedule
 						 */
+						
+						if(sch.workdays.isEmpty()) {
+							Toast.makeText(getApplicationContext(), "Please add Work Days before you create this schedule.", Toast.LENGTH_SHORT).show();
+							return;
+						}
+						
+						api.createSchedule(sch);
 						
 					}
 				}

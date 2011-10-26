@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Vector;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -23,6 +24,9 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import utils.SchedulePlan;
+import utils.WeekDay;
 
 import android.app.Application;
 
@@ -368,6 +372,63 @@ public class Api extends Application{
     	
         }
 		return false;	
+	}
+	
+	public Vector<String> createSchedule(SchedulePlan sch) {
+		
+		final HttpClient httpClient =  new DefaultHttpClient();
+		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		
+		HttpResponse response=null;
+        try {
+        	
+            String url = IP + "/schedule_plan/create";  
+            
+            JSONObject ob = new JSONObject();
+            JSONArray days = new JSONArray();
+            
+            for(int i = 0; i < sch.workdays.size(); i++) {
+            	JSONObject day = new JSONObject();
+            	day.put("weekday", sch.workdays.get(i).wday.ordinal());
+            	day.put("start", sch.workdays.get(i).start);
+            	day.put("end", sch.workdays.get(i).end);
+            }
+            
+            ob.put("doctor_id", user.getId());
+            ob.put("days", days);
+             
+            HttpPost httppost = new HttpPost(url);
+            
+            
+            httppost.setHeader("Cookie", cookie);
+            httppost.setHeader("Accept", "application/json");
+            
+            String POSTText = ob.toString();
+            System.out.println("post:" + POSTText);
+            System.out.println("id: " + user.getId());
+            StringEntity entity; 
+        	 
+			entity = new StringEntity(POSTText, "UTF-8");
+			BasicHeader basicHeader = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");
+			httppost.getParams().setBooleanParameter("http.protocol.expect-continue", false);
+	        entity.setContentType(basicHeader);
+	        httppost.setEntity(entity);
+
+            
+            response = httpClient.execute(httppost);
+            
+            System.out.println(read(response.getEntity().getContent()));
+         
+            
+        } catch (IOException ex) {
+        	ex.printStackTrace();
+    	
+        } catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//return false;	
+		return null;
 	}
 	
 	
