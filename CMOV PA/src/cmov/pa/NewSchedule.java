@@ -99,7 +99,7 @@ public class NewSchedule extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if(resultCode == RESULT_OK) {
 	    	WorkDay workday = (WorkDay) data.getSerializableExtra("workday");
-	    	sch.workdays.add(workday);
+	    	sch.add(workday);
 	    	
 	    	updateWorkDays();
     	}

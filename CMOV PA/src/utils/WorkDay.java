@@ -2,7 +2,7 @@ package utils;
 
 import java.io.Serializable;
 
-public class WorkDay implements Serializable {
+public class WorkDay implements Serializable, Comparable<WorkDay> {
 	public WeekDay wday;
 	public int start;
 	public int end;
@@ -36,4 +36,50 @@ public class WorkDay implements Serializable {
 			ret+= mins;
 		return ret;
 	}
+	
+	public boolean overlaps(WorkDay wd) {
+		
+		if(wd.wday != this.wday)
+			return false;
+		
+		if((wd.start >= start && wd.start <= end) || (wd.end >= start && wd.end <= end) )
+			return true;
+		
+		return false;
+	}
+	
+	public void merge(WorkDay wd) {
+		if(wd.start < this.start)
+			this.start = wd.start;
+		if(wd.end > this.end)
+			this.end = wd.end;
+		
+	}
+
+	@Override
+	public int compareTo(WorkDay wd) {
+		
+		if(wday.compareTo(wd.wday) < 0 )
+			return -1;
+		else if (wday.compareTo(wd.wday) > 0 )
+			return 1;
+		
+		if(start < wd.start)
+			return -1;
+		if(start > wd.start)
+			return 1;
+		else
+			return 0;
+		
+		
+		
+	}
+	
+	public boolean equals(WorkDay wd) {
+		if(wd.wday.equals(wday) && wd.start == start && wd.end == end)
+			return true;
+		return false;
+		
+	}
+	
 }

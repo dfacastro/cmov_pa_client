@@ -90,9 +90,6 @@ public class NewWorkDay extends Activity{
 					@Override
 					public void onClick(View arg0) {
 
-						/**
-						 * TODO: validations
-						 */
 
 						/**
 						 * validacao dos campos
@@ -118,8 +115,16 @@ public class NewWorkDay extends Activity{
 							return;
 						}
 						
-						workday.start = start_hours * 60 + start_mins;
-						workday.end = end_hours * 60 + end_mins;
+						int starttime = start_hours * 60 + start_mins;
+						int endtime = end_hours * 60 + end_mins;
+						
+						if( endtime <= starttime ) {
+							Toast.makeText(getApplicationContext(), "End time must be higher than end time.", Toast.LENGTH_SHORT).show();
+							return;
+						}
+						
+						workday.start = starttime;
+						workday.end = endtime;
 
 						Intent intent = new Intent();
 						intent.putExtra("workday", workday);
