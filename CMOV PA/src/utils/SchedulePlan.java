@@ -5,6 +5,10 @@ import java.util.Vector;
 
 public class SchedulePlan {
 	public Vector<WorkDay> workdays = new Vector<WorkDay>();
+	public String start_date = "";
+	public boolean active = true;
+	public int id = 0;
+	
 	
 	
 	public WorkDay[] getArray() {

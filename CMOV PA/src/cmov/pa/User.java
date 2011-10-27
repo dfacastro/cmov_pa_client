@@ -1,5 +1,9 @@
 package cmov.pa;
 
+import java.util.Vector;
+
+import utils.SchedulePlan;
+
 public class User {
 	
 	public String getId() {
@@ -99,5 +103,6 @@ public class User {
 	private String photo;
 	private boolean isDoctor;
 	private String id;
+	public Vector<SchedulePlan> schs = new Vector<SchedulePlan>();
 	
 }

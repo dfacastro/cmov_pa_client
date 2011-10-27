@@ -4,7 +4,22 @@
   android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
-    <TextView android:id="@+id/textView1" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:text="TextView"></TextView>
-    <TextView android:id="@+id/textView2" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:layout_width="wrap_content" android:text="TextView"></TextView>
+    <TextView android:text="No Schedules found - go to 'Menu > New Schedule' to add a new one." android:id="@+id/schedule_error" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    <LinearLayout android:layout_height="wrap_content" android:id="@+id/schedule_active_layout" android:layout_width="match_parent" android:orientation="vertical" android:layout_margin="15dp">
+        <RelativeLayout android:id="@+id/relativeLayout1" android:layout_height="wrap_content" android:layout_width="match_parent">
+            <TextView android:layout_height="wrap_content" android:text="@string/active_plan" android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"></TextView>
+            <Button android:text="Show" android:layout_width="wrap_content" android:id="@+id/button1" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:layout_height="50px"></Button>
+        </RelativeLayout>
+        <TextView android:layout_height="wrap_content" android:text="Number of working days" android:id="@+id/textView3" android:layout_marginLeft="15dp" android:layout_width="wrap_content"></TextView>
+    </LinearLayout>
+    <LinearLayout android:layout_height="wrap_content" android:id="@+id/schedule_future_layout" android:layout_width="match_parent" android:orientation="vertical" android:layout_margin="15dp">
+        <RelativeLayout android:id="@+id/relativeLayout2" android:layout_height="wrap_content" android:layout_width="match_parent">
+            <TextView android:layout_height="wrap_content" android:text="@string/future_plan" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"></TextView>
+            <Button android:text="Show" android:layout_width="wrap_content" android:id="@+id/button2" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:layout_height="50px"></Button>
+        </RelativeLayout>
+        <TextView android:text="Start date" android:id="@+id/textView5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp"></TextView>
+        <TextView android:text="Number of working days" android:id="@+id/textView4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15dp"></TextView>
+    </LinearLayout>
+    
     
 </LinearLayout>

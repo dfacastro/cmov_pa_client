@@ -31,8 +31,10 @@ public final class R {
         public static final int appointementNextButton=0x7f060005;
         public static final int appointmentDay=0x7f060002;
         public static final int appointmentPreviousButton=0x7f060004;
-        public static final int doctor_appointments_refresh=0x7f06003d;
-        public static final int doctor_jump_to_date=0x7f06003c;
+        public static final int button1=0x7f06003c;
+        public static final int button2=0x7f06003f;
+        public static final int doctor_appointments_refresh=0x7f060043;
+        public static final int doctor_jump_to_date=0x7f060042;
         public static final int imageView1=0x7f060011;
         public static final int linearLayout1=0x7f060006;
         public static final int listView1=0x7f060015;
@@ -40,8 +42,8 @@ public final class R {
         public static final int loginPass=0x7f06000f;
         public static final int loginRegistButton=0x7f060010;
         public static final int loginUser=0x7f06000d;
-        public static final int new_appointment=0x7f06003f;
-        public static final int new_schedule=0x7f06003e;
+        public static final int new_appointment=0x7f060045;
+        public static final int new_schedule=0x7f060044;
         public static final int new_schedule_add_button=0x7f060016;
         public static final int new_schedule_create_button=0x7f060017;
         public static final int new_schedule_date=0x7f060014;
@@ -69,6 +71,10 @@ public final class R {
         public static final int registUser=0x7f06002a;
         public static final int registarTV=0x7f060029;
         public static final int relativeLayout1=0x7f060012;
+        public static final int relativeLayout2=0x7f06003e;
+        public static final int schedule_active_layout=0x7f06003b;
+        public static final int schedule_error=0x7f06003a;
+        public static final int schedule_future_layout=0x7f06003d;
         public static final int tab1=0x7f060007;
         public static final int tab2=0x7f060008;
         public static final int tab3=0x7f060009;
@@ -87,8 +93,8 @@ public final class R {
         public static final int textView5=0x7f060031;
         public static final int textView6=0x7f060034;
         public static final int usernameTV=0x7f06000c;
-        public static final int workday_start_end=0x7f06003b;
-        public static final int workday_weekday=0x7f06003a;
+        public static final int workday_start_end=0x7f060041;
+        public static final int workday_weekday=0x7f060040;
     }
     public static final class layout {
         public static final int appointments_tab=0x7f030000;
@@ -111,6 +117,7 @@ public final class R {
         public static final int patient_appointment_menu=0x7f050002;
     }
     public static final class string {
+        public static final int active_plan=0x7f040014;
         public static final int add=0x7f04000f;
         public static final int app_name=0x7f040000;
         public static final int connect=0x7f040003;
@@ -118,6 +125,7 @@ public final class R {
         public static final int datanasc=0x7f040007;
         public static final int end=0x7f040013;
         public static final int expandable_list_sample_action=0x7f040009;
+        public static final int future_plan=0x7f040015;
         public static final int morada=0x7f040006;
         public static final int new_appointment=0x7f04000c;
         public static final int new_schedule=0x7f04000d;

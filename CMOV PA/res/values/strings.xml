@@ -20,4 +20,6 @@
     <string name="weekday">WeekDay</string>
     <string name="start">Start</string>
     <string name="end">End</string>
+    <string name="active_plan">Active Plan</string>
+    <string name="future_plan">Future Plan</string>
 </resources>

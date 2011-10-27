@@ -8,12 +8,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MedicScheduleTab extends Activity {
 	
 	Api api;
+	TextView error;
+	LinearLayout active_layout;
+	LinearLayout future_layout;
     
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +26,19 @@ public class MedicScheduleTab extends Activity {
 		api = ((Api)getApplicationContext());
 
 		setContentView(R.layout.schedule_tab);
+		
+		error = (TextView) findViewById(R.id.schedule_error);
+		active_layout = (LinearLayout) findViewById(R.id.schedule_active_layout);
+		future_layout = (LinearLayout) findViewById(R.id.schedule_future_layout);
+		
+		
+		
+		updateSchedules();
+		
+		//TextView t = (TextView) findViewById(R.id.textView1);
+		//t.setVisibility(View.INVISIBLE);
+		
+		
        
 		
     }
@@ -31,11 +49,42 @@ public class MedicScheduleTab extends Activity {
 				/**
 				 * TODO: update schedules
 				 */
+				
+				updateSchedules();
 				break;			
 		}
 	}
 	
 	
+	private void updateSchedules() {
+		api.updateSchedulePlans();
+		
+		switch(api.user.schs.size()) {
+		
+			case 0:
+				error.setVisibility(View.VISIBLE);
+				active_layout.setVisibility(View.INVISIBLE);
+				future_layout.setVisibility(View.INVISIBLE);
+				break;
+				
+			case 1:
+				error.setVisibility(View.INVISIBLE);
+				active_layout.setVisibility(View.VISIBLE);
+				future_layout.setVisibility(View.INVISIBLE);
+				
+				
+				break;
+				
+			case 2:
+				error.setVisibility(View.INVISIBLE);
+				active_layout.setVisibility(View.VISIBLE);
+				future_layout.setVisibility(View.VISIBLE);
+		
+		
+		}			
+		
+	}
+
 	// Options Menu
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

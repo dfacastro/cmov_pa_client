@@ -91,7 +91,16 @@ public class NewSchedule extends Activity {
 							return;
 						}
 						
-						api.createSchedule(sch);
+						String errors = api.createSchedule(sch);
+						
+						if(!errors.equals("")) {
+							Toast.makeText(getApplicationContext(), errors, Toast.LENGTH_SHORT).show();
+							return;
+						}
+						
+						setResult(RESULT_OK);
+						finish();
+							
 						
 					}
 				}

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -27,6 +28,7 @@ import org.json.JSONObject;
 
 import utils.SchedulePlan;
 import utils.WeekDay;
+import utils.WorkDay;
 
 import android.app.Application;
 
@@ -370,7 +372,7 @@ public class Api extends Application{
 		return false;	
 	}
 	
-	public Vector<String> createSchedule(SchedulePlan sch) {
+	public String createSchedule(SchedulePlan sch) {
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
 		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
@@ -413,18 +415,96 @@ public class Api extends Application{
             
             response = httpClient.execute(httppost);
             
-            System.out.println(read(response.getEntity().getContent()));
+            JSONArray json_errors = new JSONArray(read(response.getEntity().getContent()));
+            String errors = "";
+            
+            for(int i = 0; i < json_errors.length(); i++)
+            	errors += json_errors.getString(i) + "\n"; 
+            
+            return errors;
+            
          
             
         } catch (IOException ex) {
         	ex.printStackTrace();
+        	return "IO Exception occurred.";
     	
         } catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "JSON Exception occurred.";
 		}
-		//return false;	
-		return null;
+	}
+	
+	public boolean updateSchedulePlans() {
+		final HttpClient httpClient =  new DefaultHttpClient();
+		HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		HttpResponse response=null;
+		try {
+
+			String url = IP + "/schedule_plan/index";       
+
+			HttpGet httpget = new HttpGet(url);
+
+			httpget.setHeader("Accept", "application/json");
+			httpget.setHeader("Cookie", cookie);
+
+			response = httpClient.execute(httpget);
+
+			if(response.getStatusLine().getStatusCode() == 200){
+
+				InputStream instream = response.getEntity().getContent();
+				String tmp = read(instream);
+
+
+				JSONArray json = new JSONArray(tmp.toString());
+
+				for(int i = 0; i < json.length(); i++) {
+					JSONObject json_sch = json.getJSONObject(i);
+					
+					SchedulePlan sch = new SchedulePlan();
+					sch.start_date = json_sch.getString("start_date");
+					sch.active = json_sch.getBoolean("active");
+					sch.id = json_sch.getInt("id");
+					
+					/**
+					 * TODO: workdays
+					 */
+					
+					JSONArray workdays = json_sch.getJSONArray("workdays");
+					
+					for(int j = 0; j < workdays.length(); j++) {
+						WorkDay wd = new WorkDay();
+						JSONObject json_wd = workdays.getJSONObject(j);
+						
+						wd.start = json_wd.getInt("start");
+						wd.end = json_wd.getInt("end");
+						wd.wday = WeekDay.values()[json_wd.getInt("weekday")];
+						
+						sch.add(wd);
+					}
+					
+					user.schs.add(sch);
+					
+					
+					
+				}
+
+				
+				return true;
+			}	
+
+		} catch (IOException ex) {
+			ex.printStackTrace();    	
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+
+		return false;
+
 	}
 	
 	
