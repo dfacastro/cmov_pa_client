@@ -7,8 +7,10 @@ import utils.*;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,7 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class NewSchedule extends Activity {
+public class NewSchedule extends Activity implements Runnable {
 	
 	Api api;
 	private TextView start_date;
@@ -28,6 +30,7 @@ public class NewSchedule extends Activity {
     final Calendar c = Calendar.getInstance();
     
     private SchedulePlan sch = new SchedulePlan();
+    private ProgressDialog dialog;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,25 +85,16 @@ public class NewSchedule extends Activity {
 					
 					@Override
 					public void onClick(View arg0) {
-						/**
-						 * TODO: http request para criar schedule
-						 */
 						
 						if(sch.workdays.isEmpty()) {
 							Toast.makeText(getApplicationContext(), "Please add Work Days before you create this schedule.", Toast.LENGTH_SHORT).show();
 							return;
 						}
 						
-						String errors = api.createSchedule(sch);
 						
-						if(!errors.equals("")) {
-							Toast.makeText(getApplicationContext(), errors, Toast.LENGTH_SHORT).show();
-							return;
-						}
-						
-						setResult(RESULT_OK);
-						finish();
-							
+						dialog = ProgressDialog.show(NewSchedule.this, "", "Loading. Please wait...", true);
+						Thread thread = new Thread(NewSchedule.this);
+				        thread.start();
 						
 					}
 				}
@@ -176,7 +170,25 @@ public class NewSchedule extends Activity {
                 ((DatePickerDialog) dialog).updateDate(mYear, mMonth, mDay);
                 break;
         }
-    }    
+    }
+
+	@Override
+	public void run() {
+		
+		String errors = api.createSchedule(sch);
+		
+		dialog.dismiss();
+		
+		if(!errors.equals("")) {
+			Looper.prepare();
+			Toast.makeText(getApplicationContext(), errors, Toast.LENGTH_SHORT).show();
+			Looper.loop();
+			return;
+		}
+		
+		setResult(RESULT_OK);
+		finish();
+	}    
     
     
 }
