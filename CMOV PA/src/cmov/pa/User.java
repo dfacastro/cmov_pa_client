@@ -93,6 +93,20 @@ public class User {
 	public String toString(){
 		return name;
 	}
+	
+	public SchedulePlan getActiveSchedulePlan() {
+		for(int i = 0; i < schs.size(); i++)
+			if(schs.get(i).active)
+				return schs.get(i);
+		return null;
+	}
+	
+	public SchedulePlan getFutureSchedulePlan() {
+		for(int i = 0; i < schs.size(); i++)
+			if(! schs.get(i).active)
+				return schs.get(i);
+		return null;
+	}
 
 
 	private String sex;

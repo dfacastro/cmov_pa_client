@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,21 +70,84 @@ public class MedicScheduleTab extends Activity {
 				
 			case 1:
 				error.setVisibility(View.INVISIBLE);
-				active_layout.setVisibility(View.VISIBLE);
-				future_layout.setVisibility(View.INVISIBLE);
+				updateActiveSchedule(View.VISIBLE);
+				updateFutureSchedule(View.INVISIBLE);
 				
 				
 				break;
 				
 			case 2:
 				error.setVisibility(View.INVISIBLE);
-				active_layout.setVisibility(View.VISIBLE);
-				future_layout.setVisibility(View.VISIBLE);
+				updateActiveSchedule(View.VISIBLE);
+				updateFutureSchedule(View.VISIBLE);
 		
 		
 		}			
 		
 	}
+	
+	private void updateActiveSchedule(int visibility) {
+		active_layout.setVisibility(visibility);
+		
+		if(visibility == View.VISIBLE) {
+			TextView working_days = (TextView) findViewById(R.id.schedule_active_working_days);
+			working_days.setText("Working days: " + Integer.toString(api.user.getActiveSchedulePlan().workdays.size()));
+			
+			Button show_active = (Button) findViewById(R.id.schedule_active_button);
+			show_active.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					
+					/**
+					 * TODO: lançar nova activity com schedule
+					 * repetir no updateFuture
+					 */
+					
+					Intent intent = new Intent(getApplicationContext(),MedicSchedule.class);
+					intent.putExtra("schedule", api.user.getActiveSchedulePlan());
+		            startActivity(intent);
+					
+				}
+			});
+			
+		}		
+		
+	}
+	
+	private void updateFutureSchedule(int visibility) {
+		future_layout.setVisibility(visibility);
+		
+		if(visibility == View.VISIBLE) {
+			TextView working_days = (TextView) findViewById(R.id.schedule_future_working_days);
+			working_days.setText("Working days: " + Integer.toString(api.user.getFutureSchedulePlan().workdays.size()));
+			
+			TextView start_date = (TextView) findViewById(R.id.schedule_future_start_date);
+			start_date.setText("Start Date: " + api.user.getFutureSchedulePlan().start_date);
+			
+			Button show_future = (Button) findViewById(R.id.schedule_future_button);
+			show_future.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					
+					/**
+					 * TODO: lançar nova activity com schedule
+					 * repetir no updateFuture
+					 */
+					
+					Intent intent = new Intent(getApplicationContext(),MedicSchedule.class);
+					intent.putExtra("schedule", api.user.getFutureSchedulePlan());
+		            startActivity(intent);
+					
+				}
+			});
+		}
+				
+		
+	}
+	
+	//
 
 	// Options Menu
 	@Override

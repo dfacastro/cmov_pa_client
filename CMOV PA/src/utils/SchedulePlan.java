@@ -1,9 +1,10 @@
 package utils;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Vector;
 
-public class SchedulePlan {
+public class SchedulePlan implements Serializable {
 	public Vector<WorkDay> workdays = new Vector<WorkDay>();
 	public String start_date = "";
 	public boolean active = true;
