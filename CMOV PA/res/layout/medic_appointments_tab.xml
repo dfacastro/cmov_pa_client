@@ -16,7 +16,13 @@
     <TableLayout android:id="@+id/tableLayout1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:stretchColumns="0,1">
         <TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
             <Button android:text="@string/previous" android:layout_height="wrap_content" android:id="@+id/appointmentPreviousButton" android:layout_width="match_parent"></Button>
-            <Button android:text="@string/next" android:id="@+id/appointementNextButton" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
+
+            <Button
+                android:id="@+id/appointmentNextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/next" >
+</Button>
         </TableRow>
     </TableLayout>
 

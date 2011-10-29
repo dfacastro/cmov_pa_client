@@ -6,11 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Vector;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -120,7 +119,6 @@ public class Api extends Application{
             	
             	System.out.println(user.isDoctor());
             	
-            	//TODO: ver se ta bem
             	if(user.isDoctor()){
             		System.out.println(utilizadorInfo.get("photo").toString());
             		
@@ -278,6 +276,131 @@ public class Api extends Application{
 	}
 	
 	
+	
+	
+	public Map<String, Map<String, User>> getDoctorAppointmentsNextBusyDay(String currentdate) throws ClientProtocolException, IOException{	
+		
+		final HttpClient httpClient =  new DefaultHttpClient();
+		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		HttpResponse response=null;
+		
+		Map<String,  Map<String, User>> map= new HashMap<String, Map<String, User>>();
+		Map<String, User> submap = new TreeMap<String, User>();
+			
+		String url = IP + "/doctor/next_busy_day?date=" + currentdate;
+			
+		System.out.println(url);
+			
+        HttpGet httpget = new HttpGet(url);
+           
+       //System.out.println(cookie);
+           
+       httpget.setHeader("Accept", "application/json");
+       httpget.setHeader("Cookie", cookie);
+       
+       response = httpClient.execute(httpget);
+       
+       System.out.println(response.getStatusLine().getStatusCode());
+       if(response.getStatusLine().getStatusCode() == 200){
+       	
+       	
+           InputStream instream = response.getEntity().getContent();
+           String tmp = read(instream);
+           
+       	
+	        JSONArray messageReceived;
+			try {
+				messageReceived = new JSONArray(tmp.toString());
+				
+				System.out.println(messageReceived.toString());
+				String scheduledDate = "0";
+				
+		       	for(int i = 0; i < messageReceived.length(); i++){
+		           	JSONObject messageReceivedIndex = messageReceived.getJSONObject(i);
+		           	String patientId = messageReceivedIndex.getString("patient_id").toString();
+		           	scheduledDate = messageReceivedIndex.getString("scheduled_date").toString();
+		           	String patientName = ((JSONObject)((JSONObject)messageReceivedIndex.get("patient")).get("user")).getString("name").toString();
+		           	String scheduledTime = messageReceivedIndex.getString("scheduled_time").toString();
+
+		           	System.out.println(patientId + " " + scheduledDate + " " + scheduledTime + " " + patientName);
+		           	
+		           	User u = new User();
+		           	u.setName(patientName);
+		           	u.setId(patientId);
+		           	submap.put(scheduledTime, u);
+		       	}
+		       	
+		       	if(submap.size() > 0)
+		       		map.put(scheduledDate, submap);
+		       	
+				
+			} catch (JSONException e) {
+				
+				e.printStackTrace();
+			}
+       	
+			return map;
+       }	
+       
+		System.out.println("ERRO a obter appointments");
+		return map;
+	}
+
+	
+	public ArrayList<String> getDoctorBusyDays() throws IOException{
+		
+		final HttpClient httpClient =  new DefaultHttpClient();
+		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		HttpResponse response=null;
+		
+		ArrayList<String> busyDays = new ArrayList<String>();
+			
+		String url = IP + "/doctor/busy_days";
+			
+		System.out.println(url);
+			
+       HttpGet httpget = new HttpGet(url);
+          
+      //System.out.println(cookie);
+          
+      httpget.setHeader("Accept", "application/json");
+      httpget.setHeader("Cookie", cookie);
+      
+      response = httpClient.execute(httpget);
+      
+      if(response.getStatusLine().getStatusCode() == 200){
+      	
+      	
+          InputStream instream = response.getEntity().getContent();
+          String tmp = read(instream);
+          
+      	
+	        JSONArray messageReceived;
+			try {
+				messageReceived = new JSONArray(tmp.toString());
+				
+				System.out.println(messageReceived.toString());
+				
+				
+		       	for(int i = 0; i < messageReceived.length(); i++){
+		       		busyDays.add(messageReceived.get(i).toString());
+		       	}
+		       	
+				
+			} catch (JSONException e) {
+				
+				e.printStackTrace();
+			}
+      	
+			return busyDays;
+      }	
+      
+		System.out.println("ERRO a obter busydays");
+		return busyDays;
+		
+		
+	}
+	
 	public int regist(String username, String pass, String nome, String datanasc, String morada, String sexo){
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
@@ -430,7 +553,6 @@ public class Api extends Application{
         	return "IO Exception occurred.";
     	
         } catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "JSON Exception occurred.";
 		}

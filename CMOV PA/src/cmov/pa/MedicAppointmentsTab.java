@@ -31,6 +31,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	
 	Api api;
 	ExpandableListAdapter mAdapter;
+	String currentDate;
     
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,22 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 		
 		mAdapter = new MyExpandableListAdapter();
 	    setListAdapter(mAdapter);
+	    
+	    (findViewById(R.id.appointmentNextButton)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				nextBusyDay();
+			}
+        });
+	    
+	    
+	    
+	    (findViewById(R.id.appointmentPreviousButton)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//previousBusyDay();
+			}
+        });
 	    	
         
        
@@ -142,6 +159,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 		
     	try {
 			Map<String, Map <String, User>> map = api.getDoctorAppointmentsForDate(date);
+			currentDate = date;
 			
 			((TextView)findViewById(R.id.appointmentDay)).setText(date);
 			
@@ -154,8 +172,30 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         		return;
 			}
 
+			((MyExpandableListAdapter) mAdapter).populateAdapter(map);
+		
+		
+    	} catch (ClientProtocolException e) {
+			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+    		toast.show();
+		} catch (IOException e) {
+			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+    		toast.show();
+		}
+	}
+	
+	
+	
+	public void nextBusyDay(){
+		
+    	try {
+			Map<String, Map <String, User>> map = api.getDoctorAppointmentsNextBusyDay(currentDate);
+			//currentDate = date;
 			
+			//((TextView)findViewById(R.id.appointmentDay)).setText(date);
 			
+			((MyExpandableListAdapter) mAdapter).reset();
+			((MyExpandableListAdapter) mAdapter).notifyDataSetChanged();
 			((MyExpandableListAdapter) mAdapter).populateAdapter(map);
 		
 		
@@ -171,21 +211,59 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	
 	public void jumpToDate(){
 		
-		final String[] items = {"Red", "Green", "Blue","elementos", "para", "encher" , "chouricos"};
-
-		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-		dialog.setTitle("Pick a Date");
-		dialog.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-		    public void onClick(DialogInterface dialog, int item) {
-		        String selectedItem = items[item];
-		    	
-		    	Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
-		        dialog.dismiss();
-		        
-		      //TODO: fazer as cenas
-		    }
-		});
-		dialog.show();
+		try {
+			ArrayList<String> tmp = api.getDoctorBusyDays();
+			System.out.println(tmp.toString());
+			
+			
+			//as conversoes a seguir sao necessarias senao o java da erro
+			//a funcao toArray() nao funciona bem, da erro de cast... tem de se fazer a la pata
+			String s[] = new String[tmp.size()];
+			for(int i = 0; i < tmp.size(); i++){
+				s[i] = tmp.get(i);
+			}
+			
+			final String[] items = s;
+			
+			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+			dialog.setTitle("Pick a Date");
+			dialog.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int item) {
+			    	
+			        String selectedItem = items[item];
+			    	
+			    	Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_SHORT).show();
+			        
+			    	try {
+			    		
+			    		Map<String, Map <String, User>> map = api.getDoctorAppointmentsForDate(selectedItem);
+						currentDate = selectedItem;
+						
+						((TextView)findViewById(R.id.appointmentDay)).setText(selectedItem);
+						
+						((MyExpandableListAdapter) mAdapter).reset();
+						((MyExpandableListAdapter) mAdapter).notifyDataSetChanged();
+						((MyExpandableListAdapter) mAdapter).populateAdapter(map);					
+					} catch (ClientProtocolException e) {
+						Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter busydays", Toast.LENGTH_SHORT);
+			    		toast.show();
+					} catch (IOException e) {
+						Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter busydays", Toast.LENGTH_SHORT);
+			    		toast.show();
+					}
+			    	
+			    	dialog.dismiss();
+			        
+			    }
+			});
+			dialog.show();
+			
+		} catch (IOException e1) {
+			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter busydays", Toast.LENGTH_SHORT);
+    		toast.show();
+		}
+		
+		
 	}
 	
 	
@@ -196,7 +274,6 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
     	
     	@Override
 		public void notifyDataSetChanged() {
-			// TODO Auto-generated method stub
 			super.notifyDataSetChanged();
 		}
 
@@ -212,10 +289,10 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         	String date = year + "-" + month + "-" + day;
         	
         	try {
-        		//TODO: alterar para a date
-				Map<String, Map <String, User>> map = api.getDoctorAppointmentsForDate("2011-10-11");
+				Map<String, Map <String, User>> map = api.getDoctorAppointmentsForDate(date);
+				currentDate = date;
 
-				((TextView)findViewById(R.id.appointmentDay)).setText("2011-10-11");
+				((TextView)findViewById(R.id.appointmentDay)).setText(date);
 				
 				if(map.size() == 0){
 					Toast toast = Toast.makeText(getApplicationContext(), "Nao tem appointments para hoje", Toast.LENGTH_LONG);

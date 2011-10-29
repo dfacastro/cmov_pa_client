@@ -28,8 +28,8 @@ public final class R {
         public static final int LinearLayout1=0x7f06002a;
         public static final int RelativeLayout1=0x7f060000;
         public static final int ScrollView1=0x7f060029;
-        public static final int appointementNextButton=0x7f060013;
         public static final int appointmentDay=0x7f060011;
+        public static final int appointmentNextButton=0x7f060013;
         public static final int appointmentPreviousButton=0x7f060012;
         public static final int child_image=0x7f060002;
         public static final int child_text=0x7f060001;
