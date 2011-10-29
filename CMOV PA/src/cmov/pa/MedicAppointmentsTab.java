@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.http.client.ClientProtocolException;
 
@@ -55,13 +56,14 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	    (findViewById(R.id.appointmentPreviousButton)).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//previousBusyDay();
+				previousBusyDay();
 			}
         });
 	    	
         
        
     }
+	
 	
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
@@ -87,6 +89,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	    return true;
 	}
 	
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
@@ -103,6 +106,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 		        return super.onOptionsItemSelected(item);
 	    }
 	}
+	
 	
 	@Override
 	public void onBackPressed() {
@@ -146,8 +150,6 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	}
 
 	
-	
-	
 	public void updateAppointments(){
 		
 		Calendar c = Calendar.getInstance(); 
@@ -185,14 +187,55 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 	}
 	
 	
-	
 	public void nextBusyDay(){
 		
     	try {
 			Map<String, Map <String, User>> map = api.getDoctorAppointmentsNextBusyDay(currentDate);
-			//currentDate = date;
 			
-			//((TextView)findViewById(R.id.appointmentDay)).setText(date);
+			if(map.size() == 0){
+				Toast toast = Toast.makeText(getApplicationContext(), "N‹o tem mais consultas marcadas", Toast.LENGTH_SHORT);
+	    		toast.show();
+				return;
+			}
+				
+			
+			for(String key: map.keySet()){//este ciclo so vai correr 1 vez...
+				currentDate = key;
+			}
+			
+			((TextView)findViewById(R.id.appointmentDay)).setText(currentDate);
+			
+			((MyExpandableListAdapter) mAdapter).reset();
+			((MyExpandableListAdapter) mAdapter).notifyDataSetChanged();
+			((MyExpandableListAdapter) mAdapter).populateAdapter(map);
+		
+		
+    	} catch (ClientProtocolException e) {
+			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+    		toast.show();
+		} catch (IOException e) {
+			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+    		toast.show();
+		}
+	}
+	
+	
+	public void previousBusyDay(){
+		
+    	try {
+			Map<String, Map <String, User>> map = api.getDoctorAppointmentsPreviousBusyDay(currentDate);
+			
+			if(map.size() == 0){
+				Toast toast = Toast.makeText(getApplicationContext(), "N‹o tem mais consultas marcadas", Toast.LENGTH_SHORT);
+	    		toast.show();
+				return;
+			}
+			
+			for(String key: map.keySet()){//este ciclo so vai correr 1 vez...
+				currentDate = key;
+			}
+			
+			((TextView)findViewById(R.id.appointmentDay)).setText(currentDate);
 			
 			((MyExpandableListAdapter) mAdapter).reset();
 			((MyExpandableListAdapter) mAdapter).notifyDataSetChanged();

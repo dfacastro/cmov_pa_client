@@ -38,11 +38,6 @@ public class Api extends Application{
 	//String IP = "http://172.30.94.186:3000";
 	public static User user = new User();
 	
-	
-	
-	
-	
-	
 	public int login(String username, String password){
 		
 		if(username.length() == 0 || password.length() == 0){
@@ -80,7 +75,6 @@ public class Api extends Application{
     	return -3;
 
 	}
-	
 	
 	
 	public boolean getProfile(){
@@ -276,8 +270,6 @@ public class Api extends Application{
 	}
 	
 	
-	
-	
 	public Map<String, Map<String, User>> getDoctorAppointmentsNextBusyDay(String currentdate) throws ClientProtocolException, IOException{	
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
@@ -300,7 +292,77 @@ public class Api extends Application{
        
        response = httpClient.execute(httpget);
        
-       System.out.println(response.getStatusLine().getStatusCode());
+       //System.out.println(response.getStatusLine().getStatusCode());
+       if(response.getStatusLine().getStatusCode() == 200){
+       	
+       	
+           InputStream instream = response.getEntity().getContent();
+           String tmp = read(instream);
+           
+       	
+	        JSONArray messageReceived;
+			try {
+				messageReceived = new JSONArray(tmp.toString());
+				
+				System.out.println(messageReceived.toString());
+				String scheduledDate = "0";
+				
+		       	for(int i = 0; i < messageReceived.length(); i++){
+		           	JSONObject messageReceivedIndex = messageReceived.getJSONObject(i);
+		           	String patientId = messageReceivedIndex.getString("patient_id").toString();
+		           	scheduledDate = messageReceivedIndex.getString("scheduled_date").toString();
+		           	String patientName = ((JSONObject)((JSONObject)messageReceivedIndex.get("patient")).get("user")).getString("name").toString();
+		           	String scheduledTime = messageReceivedIndex.getString("scheduled_time").toString();
+
+		           	System.out.println(patientId + " " + scheduledDate + " " + scheduledTime + " " + patientName);
+		           	
+		           	User u = new User();
+		           	u.setName(patientName);
+		           	u.setId(patientId);
+		           	submap.put(scheduledTime, u);
+		       	}
+		       	
+		       	if(submap.size() > 0)
+		       		map.put(scheduledDate, submap);
+		       	
+				
+			} catch (JSONException e) {
+				
+				e.printStackTrace();
+			}
+       	
+			return map;
+       }	
+       
+		System.out.println("ERRO a obter appointments");
+		return map;
+	}
+	
+	
+	
+public Map<String, Map<String, User>> getDoctorAppointmentsPreviousBusyDay(String currentdate) throws ClientProtocolException, IOException{	
+		
+		final HttpClient httpClient =  new DefaultHttpClient();
+		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		HttpResponse response=null;
+		
+		Map<String,  Map<String, User>> map= new HashMap<String, Map<String, User>>();
+		Map<String, User> submap = new TreeMap<String, User>();
+			
+		String url = IP + "/doctor/previous_busy_day?date=" + currentdate;
+			
+		System.out.println(url);
+			
+        HttpGet httpget = new HttpGet(url);
+           
+       //System.out.println(cookie);
+           
+       httpget.setHeader("Accept", "application/json");
+       httpget.setHeader("Cookie", cookie);
+       
+       response = httpClient.execute(httpget);
+       
+       //System.out.println(response.getStatusLine().getStatusCode());
        if(response.getStatusLine().getStatusCode() == 200){
        	
        	
@@ -401,6 +463,7 @@ public class Api extends Application{
 		
 	}
 	
+	
 	public int regist(String username, String pass, String nome, String datanasc, String morada, String sexo){
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
@@ -456,7 +519,6 @@ public class Api extends Application{
 		 
 		return -1;
 	}
-	
 	
 	
 	public boolean logout(){
@@ -546,8 +608,6 @@ public class Api extends Application{
             
             return errors;
             
-         
-            
         } catch (IOException ex) {
         	ex.printStackTrace();
         	return "IO Exception occurred.";
@@ -608,10 +668,7 @@ public class Api extends Application{
 					
 					user.schs.add(sch);
 					
-					
-					
 				}
-
 				
 				return true;
 			}	
@@ -624,11 +681,8 @@ public class Api extends Application{
 			e.printStackTrace();
 		}
 
-
 		return false;
-
 	}
-	
 	
 	
 	 private String read(InputStream in) throws IOException {
