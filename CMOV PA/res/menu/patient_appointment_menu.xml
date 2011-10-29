@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/new_appointment"
+    <item android:id="@+id/patient_new_appointment"
           android:title="@string/new_appointment" android:icon="@drawable/ic_menu_appointment"/>
     <item android:id="@+id/patient_appointments_refresh" android:icon="@drawable/ic_menu_refresh" android:title="Actualizar"></item>
 </menu>

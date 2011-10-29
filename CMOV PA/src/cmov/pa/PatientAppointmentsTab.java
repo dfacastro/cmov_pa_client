@@ -14,11 +14,13 @@ import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -55,6 +57,24 @@ public class PatientAppointmentsTab  extends ExpandableListActivity {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.patient_appointment_menu, menu);
 	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+		    case R.id.patient_appointments_refresh:
+		    	//TODO: fazer...
+		        return true;
+		    
+		    case R.id.patient_new_appointment:
+		    	Intent intent = new Intent(getApplicationContext(),CreateAppointment.class);
+		        startActivity(intent);
+		        return true;
+		        
+		    default:
+		        return super.onOptionsItemSelected(item);
+	    }
 	}
 	
 	

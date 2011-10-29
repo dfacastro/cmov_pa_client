@@ -25,6 +25,7 @@
         <activity android:name="NewSchedule"></activity>
         <activity android:name="NewWorkDay"></activity>
         <activity android:name="MedicSchedule"></activity>
+        <activity android:name="CreateAppointment"></activity>
 
     </application>
 </manifest>
