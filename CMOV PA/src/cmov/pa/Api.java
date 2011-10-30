@@ -25,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cmov.pa.database.DatabaseAdapter;
+
 import utils.SchedulePlan;
 import utils.WeekDay;
 import utils.WorkDay;
@@ -37,6 +39,9 @@ public class Api extends Application{
 	public static final String IP = "http://95.92.200.69:3000";
 	//String IP = "http://172.30.94.186:3000";
 	public static User user = new User();
+	
+	public static DatabaseAdapter dbAdapter;
+	
 	
 	public int login(String username, String password){
 		

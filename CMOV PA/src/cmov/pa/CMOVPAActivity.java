@@ -1,5 +1,6 @@
 package cmov.pa;
 
+import cmov.pa.database.DatabaseAdapter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -37,7 +38,7 @@ public class CMOVPAActivity extends Activity implements Runnable {
 				registAction();
 			}
         });
-        
+                
         
     }
     
@@ -80,9 +81,15 @@ public class CMOVPAActivity extends Activity implements Runnable {
     		Looper.loop();
 		}else if (success == 0) {
 			
+			//inicia a bd
+	        api.dbAdapter = new DatabaseAdapter(this);
+	        api.dbAdapter.open();
+	        api.dbAdapter.close();
+			
 			boolean retsuccess = api.getProfile();
 			
 			if(retsuccess){
+				
 				Intent intent = new Intent(getApplicationContext(),Inicial.class);
 	            startActivity(intent);
 	            finish();
