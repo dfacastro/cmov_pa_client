@@ -4,7 +4,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_below="@+id/tableLayout1" android:layout_marginTop="40dp" android:text="@string/connect" android:id="@+id/loginConnectButton" android:layout_centerHorizontal="true"></Button>
+
+    <Button
+        android:id="@+id/loginConnectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="@string/login" >
+</Button>
     <TableLayout android:stretchColumns="1" android:layout_width="match_parent" android:id="@+id/tableLayout1" android:layout_height="wrap_content" android:layout_marginTop="150dp">
         <TableRow android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/tableRow2">
             <TextView android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:text="@string/username" android:layout_width="wrap_content" android:id="@+id/usernameTV"></TextView>

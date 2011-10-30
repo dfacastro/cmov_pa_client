@@ -87,10 +87,10 @@ public class PatientAppointmentsTab  extends ExpandableListActivity {
         AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
 
         // set the message to display
-        alertbox.setMessage("Prentede sair da aplicacao?");
+        alertbox.setMessage("Do you want to quit the application?");
 
         // set a positive/yes button and create a listener
-        alertbox.setPositiveButton("Nao", new DialogInterface.OnClickListener() {
+        alertbox.setPositiveButton("No", new DialogInterface.OnClickListener() {
 
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
@@ -99,7 +99,7 @@ public class PatientAppointmentsTab  extends ExpandableListActivity {
         });
 
         // set a negative/no button and create a listener
-        alertbox.setNegativeButton("Sim", new DialogInterface.OnClickListener() {
+        alertbox.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
 
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
@@ -107,7 +107,7 @@ public class PatientAppointmentsTab  extends ExpandableListActivity {
             	if(api.logout()){
             		finish();
             	}else{
-            		Toast toast = Toast.makeText(getApplicationContext(), "Logout Falhou", Toast.LENGTH_SHORT);
+            		Toast toast = Toast.makeText(getApplicationContext(), "Logout failled", Toast.LENGTH_SHORT);
             		toast.show();
             	}
             	

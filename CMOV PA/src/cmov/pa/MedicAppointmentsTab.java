@@ -115,10 +115,10 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
 
         // set the message to display
-        alertbox.setMessage("Prentede sair da aplicacao?");
+        alertbox.setMessage("Do you want to quit the application?");
 
         // set a positive/yes button and create a listener
-        alertbox.setPositiveButton("Nao", new DialogInterface.OnClickListener() {
+        alertbox.setPositiveButton("No", new DialogInterface.OnClickListener() {
 
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
@@ -127,7 +127,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
         });
 
         // set a negative/no button and create a listener
-        alertbox.setNegativeButton("Sim", new DialogInterface.OnClickListener() {
+        alertbox.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
 
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
@@ -135,7 +135,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
             	if(api.logout()){
             		finish();
             	}else{
-            		Toast toast = Toast.makeText(getApplicationContext(), "Logout Falhou", Toast.LENGTH_SHORT);
+            		Toast toast = Toast.makeText(getApplicationContext(), "Logout failled", Toast.LENGTH_SHORT);
             		toast.show();
             	}
             	
@@ -169,7 +169,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 			((MyExpandableListAdapter) mAdapter).notifyDataSetChanged();
 			
 			if(map.size() == 0){
-				Toast toast = Toast.makeText(getApplicationContext(), "Nao tem appointments para hoje", Toast.LENGTH_LONG);
+				Toast toast = Toast.makeText(getApplicationContext(), "You don't have any appointments for today", Toast.LENGTH_LONG);
         		toast.show();
         		return;
 			}
@@ -178,10 +178,10 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 		
 		
     	} catch (ClientProtocolException e) {
-			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), "Error obtaining appointments", Toast.LENGTH_SHORT);
     		toast.show();
 		} catch (IOException e) {
-			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), "Error parsing the appointments", Toast.LENGTH_SHORT);
     		toast.show();
 		}
 	}
@@ -193,7 +193,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 			Map<String, Map <String, User>> map = api.getDoctorAppointmentsNextBusyDay(currentDate);
 			
 			if(map.size() == 0){
-				Toast toast = Toast.makeText(getApplicationContext(), "N‹o tem mais consultas marcadas", Toast.LENGTH_SHORT);
+				Toast toast = Toast.makeText(getApplicationContext(), "You don't have more appointments", Toast.LENGTH_SHORT);
 	    		toast.show();
 				return;
 			}
@@ -211,10 +211,10 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 		
 		
     	} catch (ClientProtocolException e) {
-			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), "Error obtaining appointments", Toast.LENGTH_SHORT);
     		toast.show();
 		} catch (IOException e) {
-			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), "Error parsing the appointments", Toast.LENGTH_SHORT);
     		toast.show();
 		}
 	}
@@ -226,7 +226,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 			Map<String, Map <String, User>> map = api.getDoctorAppointmentsPreviousBusyDay(currentDate);
 			
 			if(map.size() == 0){
-				Toast toast = Toast.makeText(getApplicationContext(), "N‹o tem mais consultas marcadas", Toast.LENGTH_SHORT);
+				Toast toast = Toast.makeText(getApplicationContext(), "You don't have more appointments", Toast.LENGTH_SHORT);
 	    		toast.show();
 				return;
 			}
@@ -243,10 +243,10 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 		
 		
     	} catch (ClientProtocolException e) {
-			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), "Error obtaining appointments", Toast.LENGTH_SHORT);
     		toast.show();
 		} catch (IOException e) {
-			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), "Error parsing the appointments", Toast.LENGTH_SHORT);
     		toast.show();
 		}
 	}
@@ -288,10 +288,10 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 						((MyExpandableListAdapter) mAdapter).notifyDataSetChanged();
 						((MyExpandableListAdapter) mAdapter).populateAdapter(map);					
 					} catch (ClientProtocolException e) {
-						Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter busydays", Toast.LENGTH_SHORT);
+						Toast toast = Toast.makeText(getApplicationContext(), "Error obtaining busy days", Toast.LENGTH_SHORT);
 			    		toast.show();
 					} catch (IOException e) {
-						Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter busydays", Toast.LENGTH_SHORT);
+						Toast toast = Toast.makeText(getApplicationContext(), "Erro parsing busy days", Toast.LENGTH_SHORT);
 			    		toast.show();
 					}
 			    	
@@ -302,7 +302,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 			dialog.show();
 			
 		} catch (IOException e1) {
-			Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter busydays", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), "Error parsing busy days", Toast.LENGTH_SHORT);
     		toast.show();
 		}
 		
@@ -338,7 +338,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 				((TextView)findViewById(R.id.appointmentDay)).setText(date);
 				
 				if(map.size() == 0){
-					Toast toast = Toast.makeText(getApplicationContext(), "Nao tem appointments para hoje", Toast.LENGTH_LONG);
+					Toast toast = Toast.makeText(getApplicationContext(), "You don't have any appointments for today", Toast.LENGTH_LONG);
 	        		toast.show();
 	        		return;
 				}
@@ -346,12 +346,12 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 				populateAdapter(map);
 
         	} catch (ClientProtocolException e) {
-				Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+    			Toast toast = Toast.makeText(getApplicationContext(), "Error obtaining appointments", Toast.LENGTH_SHORT);
         		toast.show();
-			} catch (IOException e) {
-				Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+    		} catch (IOException e) {
+    			Toast toast = Toast.makeText(getApplicationContext(), "Error parsing the appointments", Toast.LENGTH_SHORT);
         		toast.show();
-			}
+    		}
         
         }
         
@@ -377,7 +377,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
             // Center the text vertically
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
             // Set the text starting position
-            textView.setPadding(36, 0, 0, 0);
+            textView.setPadding(50, 0, 0, 0);
             return textView;
         }
 

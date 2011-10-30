@@ -91,13 +91,13 @@ public class Registo extends Activity {
     	//data tem de ser com dd-mm-aaaa
     	
     	if(user.length() == 0 || pass.length() == 0 || passconf.length() == 0 || nome.length() == 0 || datanasc.length() == 0 || morada.length() == 0){
-    		Toast toast = Toast.makeText(getApplicationContext(), "Preencha todos os dados", Toast.LENGTH_SHORT);
+    		Toast toast = Toast.makeText(getApplicationContext(), "Fill all the form camps", Toast.LENGTH_SHORT);
     		toast.show();
     		return;
     	}
 
     	if(!pass.equals(passconf)){
-    		Toast toast = Toast.makeText(getApplicationContext(), "As passwords tem de ser iguais", Toast.LENGTH_SHORT);
+    		Toast toast = Toast.makeText(getApplicationContext(), "The passwords must be the same", Toast.LENGTH_SHORT);
     		toast.show();
     		return;
     	}
@@ -106,7 +106,7 @@ public class Registo extends Activity {
     	api.regist(user, pass, nome, datanasc, morada, sexo);
     	
 
-    	Toast toast = Toast.makeText(getApplicationContext(), "Registado com sucesso", Toast.LENGTH_LONG);
+    	Toast toast = Toast.makeText(getApplicationContext(), "Registed with success", Toast.LENGTH_LONG);
 		toast.show();
     	
     	Intent intent = new Intent(getApplicationContext(),CMOVPAActivity.class);

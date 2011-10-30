@@ -40,7 +40,7 @@ public final class R {
         public static final int imageView1=0x7f060009;
         public static final int linearLayout1=0x7f06000a;
         public static final int listView1=0x7f06001c;
-        public static final int loginConnectButton=0x7f06000f;
+        public static final int loginConnectButton=0x7f06000e;
         public static final int loginPass=0x7f060015;
         public static final int loginRegistButton=0x7f060016;
         public static final int loginUser=0x7f060012;
@@ -92,7 +92,7 @@ public final class R {
         public static final int tab1=0x7f06000b;
         public static final int tab2=0x7f06000c;
         public static final int tab3=0x7f06000d;
-        public static final int tableLayout1=0x7f06000e;
+        public static final int tableLayout1=0x7f06000f;
         public static final int tableRow1=0x7f060013;
         public static final int tableRow2=0x7f060010;
         public static final int tableRow3=0x7f060022;
@@ -138,11 +138,11 @@ public final class R {
         public static final int active_plan=0x7f040013;
         public static final int add=0x7f04000e;
         public static final int app_name=0x7f040000;
-        public static final int connect=0x7f040003;
         public static final int create=0x7f04000f;
         public static final int datanasc=0x7f040007;
         public static final int end=0x7f040012;
         public static final int future_plan=0x7f040014;
+        public static final int login=0x7f040003;
         public static final int morada=0x7f040006;
         public static final int new_appointment=0x7f04000b;
         public static final int new_schedule=0x7f04000c;

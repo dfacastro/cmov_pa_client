@@ -69,13 +69,13 @@ public class CMOVPAActivity extends Activity implements Runnable {
 		
 		if(success == -3){
 			Looper.prepare();
-			Toast toast = Toast.makeText(getApplicationContext(), "Erro a conectar com o servidor", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), "Error connecting to the server", Toast.LENGTH_SHORT);
     		toast.show();
     		Looper.loop();
     		
 		}else if(success == -2){
 			Looper.prepare();
-    		Toast toast = Toast.makeText(getApplicationContext(), "Autenticacao Errada", Toast.LENGTH_SHORT);
+    		Toast toast = Toast.makeText(getApplicationContext(), "Authentication failed", Toast.LENGTH_SHORT);
     		toast.show();
     		Looper.loop();
 		}else if (success == 0) {
@@ -88,7 +88,7 @@ public class CMOVPAActivity extends Activity implements Runnable {
 	            finish();
 			}else{
 				Looper.prepare();
-				Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter profile", Toast.LENGTH_SHORT);
+				Toast toast = Toast.makeText(getApplicationContext(), "Error in downloading profile", Toast.LENGTH_SHORT);
 	    		toast.show();
 				Looper.loop();
 
@@ -97,7 +97,7 @@ public class CMOVPAActivity extends Activity implements Runnable {
 			
 		}else if (success == -1){
 			Looper.prepare();
-			Toast toast = Toast.makeText(getApplicationContext(), "Insira as credenciais ou registe-se", Toast.LENGTH_SHORT);
+			Toast toast = Toast.makeText(getApplicationContext(), "Insert your credentials or register", Toast.LENGTH_SHORT);
     		toast.show();
 			Looper.loop();
 		

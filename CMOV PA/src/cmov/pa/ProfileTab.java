@@ -39,7 +39,7 @@ public class ProfileTab extends Activity {
 				setProfileOnInterface(user);
 			}else{//caso o pedido de mal
 				
-				Toast toast = Toast.makeText(getApplicationContext(), "Falha a Obter Profile", Toast.LENGTH_LONG);
+				Toast toast = Toast.makeText(getApplicationContext(), "Error obtaining profile", Toast.LENGTH_LONG);
         		toast.show();
 				finish();
 			}
@@ -80,7 +80,7 @@ public class ProfileTab extends Activity {
 						
 						
 					} catch (IOException e) {
-						Toast toast = Toast.makeText(getApplicationContext(), "Erro a carregar a imagem", Toast.LENGTH_SHORT);
+						Toast toast = Toast.makeText(getApplicationContext(), "Error downloading image", Toast.LENGTH_SHORT);
 			     		toast.show();
 					} 
 
@@ -107,10 +107,10 @@ public class ProfileTab extends Activity {
 	        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
 	
 	        // set the message to display
-	        alertbox.setMessage("Prentede sair da aplicacao?");
+	        alertbox.setMessage("Do you want to quit the application?");
 	
 	        // set a positive/yes button and create a listener
-	        alertbox.setPositiveButton("Nao", new DialogInterface.OnClickListener() {
+	        alertbox.setPositiveButton("No", new DialogInterface.OnClickListener() {
 	
 	            // do something when the button is clicked
 	            public void onClick(DialogInterface arg0, int arg1) {
@@ -119,7 +119,7 @@ public class ProfileTab extends Activity {
 	        });
 	
 	        // set a negative/no button and create a listener
-	        alertbox.setNegativeButton("Sim", new DialogInterface.OnClickListener() {
+	        alertbox.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
 	
 	            // do something when the button is clicked
 	            public void onClick(DialogInterface arg0, int arg1) {
@@ -127,7 +127,7 @@ public class ProfileTab extends Activity {
 	            	if(api.logout()){
 	            		finish();
 	            	}else{
-	            		Toast toast = Toast.makeText(getApplicationContext(), "Logout Falhou", Toast.LENGTH_SHORT);
+	            		Toast toast = Toast.makeText(getApplicationContext(), "Logout failled", Toast.LENGTH_SHORT);
 	            		toast.show();
 	            	}
 	            	
