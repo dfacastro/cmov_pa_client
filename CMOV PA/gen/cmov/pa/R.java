@@ -23,6 +23,7 @@ public final class R {
         public static final int ic_tab_schedule_selected=0x7f020009;
         public static final int ic_tab_schedule_unselected=0x7f02000a;
         public static final int launcher_icon=0x7f02000b;
+        public static final int tray_handle_normal=0x7f02000c;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f06002e;

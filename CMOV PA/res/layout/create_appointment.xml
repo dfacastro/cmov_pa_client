@@ -12,12 +12,21 @@
         android:content="@+id/content"
         android:handle="@+id/handle" >
 
+        <!--  
         <Button
             android:id="@+id/handle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pick_doctor" />
 
+		-->
+		
+		<ImageView 
+		    android:id="@id/handle" 
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content" 
+		    android:src="@drawable/tray_handle_normal"/>
+		
         <LinearLayout
             android:id="@+id/content"
             android:layout_width="match_parent"

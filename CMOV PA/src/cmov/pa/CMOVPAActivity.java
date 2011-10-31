@@ -64,36 +64,49 @@ public class CMOVPAActivity extends Activity implements Runnable {
 		EditText user = (EditText) findViewById(R.id.loginUser); 
 		EditText pass = (EditText) findViewById(R.id.loginPass); 
 		
-		int success = api.login(user.getText().toString(), pass.getText().toString());
-		
-		dialog.dismiss();
+		int success = api.login(user.getText().toString(), pass.getText().toString());	
 		
 		if(success == -3){
+			
+			dialog.dismiss();
+			
 			Looper.prepare();
 			Toast toast = Toast.makeText(getApplicationContext(), "Error connecting to the server", Toast.LENGTH_SHORT);
     		toast.show();
     		Looper.loop();
     		
 		}else if(success == -2){
+			
+			dialog.dismiss();
+			
 			Looper.prepare();
     		Toast toast = Toast.makeText(getApplicationContext(), "Authentication failed", Toast.LENGTH_SHORT);
     		toast.show();
     		Looper.loop();
 		}else if (success == 0) {
 			
+			/*
 			//inicia a bd
 	        api.dbAdapter = new DatabaseAdapter(this);
 	        api.dbAdapter.open();
 	        api.dbAdapter.close();
+			*/
+			
+			api.updateDB();
 			
 			boolean retsuccess = api.getProfile();
 			
 			if(retsuccess){
 				
+				dialog.dismiss();
+				
 				Intent intent = new Intent(getApplicationContext(),Inicial.class);
 	            startActivity(intent);
 	            finish();
 			}else{
+				
+				dialog.dismiss();
+				
 				Looper.prepare();
 				Toast toast = Toast.makeText(getApplicationContext(), "Error in downloading profile", Toast.LENGTH_SHORT);
 	    		toast.show();
@@ -103,6 +116,9 @@ public class CMOVPAActivity extends Activity implements Runnable {
 			
 			
 		}else if (success == -1){
+			
+			dialog.dismiss();
+			
 			Looper.prepare();
 			Toast toast = Toast.makeText(getApplicationContext(), "Insert your credentials or register", Toast.LENGTH_SHORT);
     		toast.show();

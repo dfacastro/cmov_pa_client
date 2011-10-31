@@ -149,9 +149,7 @@ public class Api extends Application{
 		final HttpClient httpClient =  new DefaultHttpClient();
 		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
 		HttpResponse response=null;
-		
-		
-		
+
 		User user = new User();
 		
 		try {
@@ -188,10 +186,7 @@ public class Api extends Application{
             	user.setDoctor(utilizadorInfo.get("utilizador_type").toString());
             	
             	user.setUsername("");
-            	
-            	
-            	
-            	
+
             	return user;
             }	
             
@@ -204,6 +199,198 @@ public class Api extends Application{
 		}
         
         return null;
+	}
+	
+	
+	
+	public boolean updateDB(){
+		
+		final HttpClient httpClient =  new DefaultHttpClient();
+		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		HttpResponse response=null;	
+		
+		try {
+        	
+			String url = IP + "/version/update_db";
+			
+			System.out.println(url);
+			
+            HttpGet httpget = new HttpGet(url);
+            
+            httpget.setHeader("Accept", "application/json");
+            httpget.setHeader("Cookie", cookie);
+            
+            response = httpClient.execute(httpget);
+            
+            if(response.getStatusLine().getStatusCode() == 200){	
+            	
+                InputStream instream = response.getEntity().getContent();
+                String tmp = read(instream);
+                
+            	
+    	        JSONArray messageReceived = new JSONArray(tmp.toString());
+            	System.out.println(messageReceived.toString());
+            	
+            	int versao = messageReceived.getInt(0);
+            	System.out.println("versao-> " + versao);
+            	
+            	
+            	JSONObject specialtyObject = new JSONObject();
+            	
+            	JSONArray doctorsArray = new JSONArray();
+            	JSONObject doctorObject = new JSONObject();
+            
+            	JSONArray scheduleArray = new JSONArray();
+            	JSONObject scheduleObject = new JSONObject();
+            	
+            	JSONArray workdayArray = new JSONArray();
+            	JSONObject workdayObject = new JSONObject();
+            	
+            	String specialty_name, 
+            		   doctor_name, doctor_birthdate, doctor_photo, doctor_sex,
+            		   schedule_start_date;
+            	
+            	int specialty_id,
+            		doctor_id,
+            		schedule_id,
+            		workday_id, workday_end, workday_start, workday_weekday;
+            	
+            	boolean schedule_active;
+            	
+            	for(int i = 1; i< messageReceived.length(); i++){
+            		specialtyObject = messageReceived.getJSONObject(i);
+      
+            		specialty_id = specialtyObject.getInt("id");
+            		specialty_name = specialtyObject.getString("name");
+            		
+            		System.out.println("Especialidade: " + specialty_id + " " + specialty_name);
+            		
+            		//TODO: adicionar especialidade
+            		
+            		
+            		doctorsArray = specialtyObject.getJSONArray("doctors");
+            		for(int k = 0; k < doctorsArray.length(); k++){
+            			
+            			doctorObject = doctorsArray.getJSONObject(k);
+            			
+            			doctor_id = doctorObject.getInt("id");
+            			doctor_photo = doctorObject.getString("photo");
+            			doctor_name = doctorObject.getJSONObject("user").getString("name");
+            			doctor_birthdate = doctorObject.getJSONObject("user").getString("birthdate");
+            			doctor_sex = doctorObject.getString("sex");
+            			
+            			System.out.println("Medico: " + doctor_id + " " + doctor_name + " " + doctor_birthdate + " " + doctor_sex + " " + doctor_photo);
+            			//TODO: adicionar medico
+            			
+            			scheduleArray = doctorObject.getJSONArray("schedule_plans");
+            			for(int y = 0; y < scheduleArray.length(); y++){
+            				
+            				scheduleObject = scheduleArray.getJSONObject(y);
+            				
+            				schedule_id = scheduleObject.getInt("id");
+            				schedule_start_date = scheduleObject.getString("start_date");
+            				schedule_active = scheduleObject.getBoolean("active");
+            				
+            				System.out.println("Schedule: " +schedule_id + " " + schedule_active + " " + schedule_start_date);
+            				
+            				//TODO: adicionar schedule
+            				
+            				workdayArray = scheduleObject.getJSONArray("workdays");
+            				for(int z = 0; z < workdayArray.length(); z++){
+            					
+            					workdayObject = workdayArray.getJSONObject(z);
+            					
+            					workday_id = workdayObject.getInt("id");
+            					workday_end = workdayObject.getInt("end");
+            					workday_start = workdayObject.getInt("start");
+            					workday_weekday = workdayObject.getInt("weekday");
+            					
+            					System.out.println("Workday: " + workday_id + " " + workday_start + " " + workday_end + " " + workday_weekday);
+            					
+            					//TODO: adicionar workday
+            					
+            				}	
+            			}            			
+            		}	
+            	}
+            	return true;
+            }	
+            
+        } catch (IOException ex) {
+        	ex.printStackTrace();    	
+        } catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+        
+        return false;
+	}
+	
+	
+	public boolean getPatientAppointments(){
+		
+		final HttpClient httpClient =  new DefaultHttpClient();
+		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		HttpResponse response=null;	
+		
+		try {
+       	
+			String url = IP + "/appointment/index";
+			
+			System.out.println(url);
+			
+           HttpGet httpget = new HttpGet(url);
+           
+           httpget.setHeader("Accept", "application/json");
+           httpget.setHeader("Cookie", cookie);
+           
+           response = httpClient.execute(httpget);
+           
+           if(response.getStatusLine().getStatusCode() == 200){	
+           	
+               	InputStream instream = response.getEntity().getContent();
+               	String tmp = read(instream);
+		
+               	JSONArray messageReceived = new JSONArray(tmp.toString());
+           		System.out.println(messageReceived.toString());
+           		
+           		
+           		String schedule_date, schedule_hour;
+           		int doctor_id, patient_id, appointment_id;
+           		
+           		JSONObject appointmentObject = new JSONObject();
+           		for(int i = 0; i < messageReceived.length(); i++){
+           			
+           			appointmentObject = messageReceived.getJSONObject(i);
+           			
+           			//TODO: falta a data e a hora
+           			
+           			doctor_id = appointmentObject.getInt("doctor_id");
+           			appointment_id = appointmentObject.getInt("id");
+           			patient_id = appointmentObject.getInt("patient_id");
+           			
+           			System.out.println(appointment_id + " " +doctor_id + " " + patient_id);
+           			//TODO: inserir na tabela
+           		}
+           		
+           		
+               
+               
+            	return true;
+           }	
+           
+       } catch (IOException ex) {
+       	ex.printStackTrace();    	
+       } catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+       
+       return false;
+           
+           
 	}
 	
 	
@@ -345,7 +532,7 @@ public class Api extends Application{
 	
 	
 	
-public Map<String, Map<String, User>> getDoctorAppointmentsPreviousBusyDay(String currentdate) throws ClientProtocolException, IOException{	
+	public Map<String, Map<String, User>> getDoctorAppointmentsPreviousBusyDay(String currentdate) throws ClientProtocolException, IOException{	
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
 		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
