@@ -85,15 +85,14 @@ public class CMOVPAActivity extends Activity implements Runnable {
     		Looper.loop();
 		}else if (success == 0) {
 			
-			/*
+			
 			//inicia a bd
 	        api.dbAdapter = new DatabaseAdapter(this);
 	        api.dbAdapter.open();
-	        api.dbAdapter.close();
-			*/
-			
-			api.updateDB();
-			
+	        
+	        api.updateDB();
+	        
+
 			boolean retsuccess = api.getProfile();
 			
 			if(retsuccess){

@@ -264,9 +264,8 @@ public class Api extends Application{
             		specialty_name = specialtyObject.getString("name");
             		
             		System.out.println("Especialidade: " + specialty_id + " " + specialty_name);
-            		
-            		//TODO: adicionar especialidade
-            		
+            		//adicona a BD
+            		dbAdapter.createSpecialty(specialty_id, specialty_name);
             		
             		doctorsArray = specialtyObject.getJSONArray("doctors");
             		for(int k = 0; k < doctorsArray.length(); k++){
@@ -280,7 +279,8 @@ public class Api extends Application{
             			doctor_sex = doctorObject.getString("sex");
             			
             			System.out.println("Medico: " + doctor_id + " " + doctor_name + " " + doctor_birthdate + " " + doctor_sex + " " + doctor_photo);
-            			//TODO: adicionar medico
+                		//adicona a BD
+            			dbAdapter.createDoctor(doctor_id, specialty_id, doctor_name, doctor_birthdate, doctor_sex, doctor_photo);
             			
             			scheduleArray = doctorObject.getJSONArray("schedule_plans");
             			for(int y = 0; y < scheduleArray.length(); y++){
@@ -293,7 +293,8 @@ public class Api extends Application{
             				
             				System.out.println("Schedule: " +schedule_id + " " + schedule_active + " " + schedule_start_date);
             				
-            				//TODO: adicionar schedule
+                    		//adicona a BD            				
+            				dbAdapter.createSchedulePlan(schedule_id, schedule_active, doctor_id, schedule_start_date);
             				
             				workdayArray = scheduleObject.getJSONArray("workdays");
             				for(int z = 0; z < workdayArray.length(); z++){
@@ -307,8 +308,8 @@ public class Api extends Application{
             					
             					System.out.println("Workday: " + workday_id + " " + workday_start + " " + workday_end + " " + workday_weekday);
             					
-            					//TODO: adicionar workday
-            					
+                        		//adicona a BD
+            					dbAdapter.createWorkDay(workday_id, workday_weekday, workday_start, workday_end, schedule_id);            					
             				}	
             			}            			
             		}	
