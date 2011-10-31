@@ -90,7 +90,11 @@ public class CMOVPAActivity extends Activity implements Runnable {
 	        api.dbAdapter = new DatabaseAdapter(this);
 	        api.dbAdapter.open();
 	        
+	        
+	        //TODO: verificar versoes e se forem diferentes actualizar....
 	        api.updateDB();
+	        
+	        api.dbAdapter.close();
 	        
 
 			boolean retsuccess = api.getProfile();
