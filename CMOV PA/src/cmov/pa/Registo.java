@@ -103,11 +103,17 @@ public class Registo extends Activity {
     	}
  
         
-    	api.regist(user, pass, nome, datanasc, morada, sexo);
+    	String errors = api.regist(user, pass, nome, datanasc, morada, sexo);
     	
 
-    	Toast toast = Toast.makeText(getApplicationContext(), "Registed with success", Toast.LENGTH_LONG);
-		toast.show();
+    	if (errors.equals("")) {
+    		Toast toast = Toast.makeText(getApplicationContext(), "Registed with success", Toast.LENGTH_LONG);
+    		toast.show();
+    	} else {
+    		Toast toast = Toast.makeText(getApplicationContext(), errors, Toast.LENGTH_LONG);
+    		toast.show();
+    		return;
+    	}
     	
     	Intent intent = new Intent(getApplicationContext(),CMOVPAActivity.class);
         startActivity(intent);

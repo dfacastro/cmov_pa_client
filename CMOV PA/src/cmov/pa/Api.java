@@ -732,7 +732,7 @@ public class Api extends Application{
 	}
 	
 	
-	public int regist(String username, String pass, String nome, String datanasc, String morada, String sexo){
+	public String regist(String username, String pass, String nome, String datanasc, String morada, String sexo){
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
 		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
@@ -763,29 +763,31 @@ public class Api extends Application{
 	        httpPost.setEntity(entity);
 	        response = httpClient.execute(httpPost);
          
-	        
-	        if(response.getStatusLine().getStatusCode() == 200){
-            	
-	        	 System.out.println("aki");
-            	
-            	 return 0;
-            	 
-            }else
-            	System.out.println("peido");
-            	return -1;
+	           
+            JSONArray json_errors = new JSONArray(read(response.getEntity().getContent()));
+            String errors = "";
+            
+            for(int i = 0; i < json_errors.length(); i++)
+            	errors += json_errors.getString(i) + "\n"; 
+            
+            return errors;
 	        
          
          } catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
+			return "Unsupported Encoding Exception";
          } catch (ClientProtocolException e) {
 			e.printStackTrace();
+			return "Client Protocol Exception";
          } catch (IOException e) {
 			e.printStackTrace();
+			return "IO Exception";
          } catch (JSONException e) {
 			e.printStackTrace();
+			return "JSON  Exception";
 		}
 		 
-		return -1;
+		//return -1;
 	}
 	
 	
