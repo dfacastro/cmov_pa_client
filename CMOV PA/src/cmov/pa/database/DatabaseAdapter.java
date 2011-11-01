@@ -108,6 +108,8 @@ public class DatabaseAdapter {
 		
 		Map<String, ArrayList<User>> map = new TreeMap<String, ArrayList<User>>();
 		
+		open();
+		
 		String selectSpecialties = "Select * from specialties ";  
 	
 	 	Cursor specialtiesCursor = database.rawQuery(selectSpecialties, null);
@@ -137,7 +139,6 @@ public class DatabaseAdapter {
 		 		
 		 		System.out.println(doctor_id + " " + doctor_name + " "+ doctor_photo);
 		 		
-		 		//TODO:construir mapa
 		 		User u = new User();
 		 		u.setId(doctor_id);
 		 		u.setName(doctor_name);
@@ -154,7 +155,7 @@ public class DatabaseAdapter {
 	 	}while (specialtiesCursor.moveToNext());
 	 	specialtiesCursor.close();
 	 	
-	 	
+	 	close();
 	 	
 	 	return map;
 	}

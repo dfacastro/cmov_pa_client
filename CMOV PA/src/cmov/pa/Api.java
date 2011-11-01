@@ -40,11 +40,9 @@ public class Api extends Application{
 	public static User user = new User();	
 	public static DatabaseAdapter dbAdapter;
 	
-	/*
-	public Api(){
-		dbAdapter = new DatabaseAdapter(getApplicationContext());
+	public Map<String, ArrayList<User>> getDoctorsAndSpecialties(){
+		return dbAdapter.getDoctorsAndSpecialties();
 	}
-	*/
 	
 	public Map<String, User> getPatientAppointments(){	
 		return dbAdapter.getPatientAppointments(user.getId());

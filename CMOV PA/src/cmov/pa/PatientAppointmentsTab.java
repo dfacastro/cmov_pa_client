@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,11 +50,56 @@ public class PatientAppointmentsTab  extends ExpandableListActivity {
 		
 		mAdapter = new MyExpandableListAdapter(this);
 	    setListAdapter(mAdapter);
-       
-        
-        
-       
+ 
     }
+	
+	
+	
+	@Override
+	public boolean onChildClick(ExpandableListView parent, View v,
+			int groupPosition, int childPosition, long id) {
+		
+		User o = (User)mAdapter.getChild(groupPosition, childPosition);
+		
+		System.out.println(o.getName());
+	
+		
+		// prepare the alert box
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+
+        // set the message to display
+        alertbox.setMessage("Do you want to cancel the appointment with Dr. " + o.getName()+"?");
+
+        // set a positive/yes button and create a listener
+        alertbox.setPositiveButton("No", new DialogInterface.OnClickListener() {
+
+            // do something when the button is clicked
+            public void onClick(DialogInterface arg0, int arg1) {
+                //Do nothing
+            }
+        });
+
+        // set a negative/no button and create a listener
+        alertbox.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+
+            // do something when the button is clicked
+            public void onClick(DialogInterface arg0, int arg1) {
+            	
+            	//TODO: fazer....
+        		Toast toast = Toast.makeText(getApplicationContext(), "Do to done in a near future", Toast.LENGTH_SHORT);
+        		toast.show();
+            	
+            	
+            	
+                
+            }
+        });
+
+        // display box
+        alertbox.show();
+		
+		return true;
+	}
 	
 	// Options Menu
 	@Override
