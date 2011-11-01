@@ -234,22 +234,39 @@ public class Api extends Application{
    	        	System.out.println(messageReceived.toString());
            	
    	        	
-   	        	int doctors_version = messageReceived.getInt("version");	
-   	        	System.out.println("Versao do server: " + doctors_version);
+   	        	int serverDoctors_version = messageReceived.getInt("version");	
+   	        	System.out.println("Versao medicos do server: " + serverDoctors_version);
    	        	
-   	        	
-   	        	//TODO: o profile tem de mandar o ID ou entao o ID tem de vir com a versao
-   	        	//fazer drop de  tudo se a versao mudar
    	        	dbAdapter.open();
    	        	
-   	        	System.out.println("Vai fazer update dos medicos");
-   	        	updateDBDoctors();
+   	        	int localDoctors_version = dbAdapter.getDoctorsVersion();
+   	        	System.out.println("Versao medicos local: " + localDoctors_version);
    	        	
+   	        	if(serverDoctors_version > localDoctors_version){
+   	        		
+   	        		dbAdapter.dropMedics();
+   	        		
+   	        		System.out.println("Vai fazer update dos medicos");
+	   	        	
+	   	        	updateDBDoctors();
+   	        	}
    	        	
    	        	if(!user.isDoctor()){
-   	        	//fazer delete dos appointments do user caso a versao mudar
-   	        		System.out.println("Vai fazer update das consultas");
-   	        		updateDBPatientAppointments();
+   	        		
+   	        		int serverAppointments_version = messageReceived.getInt("patient");
+   	        		int localAppointments_version = dbAdapter.getPatientVersion(user.getId());
+   	        		
+   	        		System.out.println("Versao appointments do server: " + serverAppointments_version);
+   	        		System.out.println("Versao appointments local: " + localAppointments_version);
+   	        		
+   	        		if(serverAppointments_version > localAppointments_version){
+
+   	        			dbAdapter.dropAppointmentsPatient(user.getId());
+   	        			
+	   	        		System.out.println("Vai fazer update das consultas");
+	   	        		
+	   	        		updateDBPatientAppointments();
+   	        		}
    	        	}
    	        	
    	        	
@@ -301,7 +318,8 @@ public class Api extends Application{
             	
             	int version = messageReceived.getInt(0);
             	System.out.println("versao-> " + version);
-            	//TODO: inserir versao
+            	//adicionada a versao
+            	dbAdapter.setDoctorsVersion(version);
             	
             	JSONObject specialtyObject = new JSONObject();
             	
@@ -430,7 +448,8 @@ public class Api extends Application{
            		
            		int version = messageReceived.getInt(0);
            		System.out.println("versao-> " + version);
-           		//TODO: inserir versao
+           		//adicionada a versao
+           		dbAdapter.setPatientVersion(user.getId(), version);
            		
            		JSONObject appointmentObject = new JSONObject();
            		for(int i = 1; i < messageReceived.length(); i++){

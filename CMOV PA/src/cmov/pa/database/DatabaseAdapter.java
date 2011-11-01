@@ -102,6 +102,25 @@ public class DatabaseAdapter {
 	}
 	
 	
+	public long setDoctorsVersion(int version){
+		
+		ContentValues initialvalues = new ContentValues();
+		initialvalues.put("version", version);
+
+		return database.insert("metadatadoctors", null, initialvalues);	
+	}
+	
+
+	public long setPatientVersion(int patient_id, int version){
+		
+		ContentValues initialvalues = new ContentValues();
+		initialvalues.put("patient_id", patient_id);
+		initialvalues.put("version", version);
+
+		return database.insert("metadatapatient", null, initialvalues);	
+	}
+	
+	
 	
 	//uma especialidade tem de ter medicos associados
 	public Map<String, ArrayList<User>> getDoctorsAndSpecialties(){
@@ -169,32 +188,41 @@ public class DatabaseAdapter {
 	 	
 	 	versionCursor.moveToFirst();
 	 	
-	 	if(versionCursor.getCount() == 0)
+	 	if(versionCursor.getCount() == 0){
+	 		versionCursor.close();
 	 		return -1;
+	 	}
 	 	
-	 	return versionCursor.getInt(0);
+	 	
+	 	int version = versionCursor.getInt(0);
+	 	versionCursor.close();
+	 	return version;
 	}
 	
 	
 	
 	public int getPatientVersion(int patient_id){
 		
-		String selectVersion = "Select * from metadatapatient where patient_id=";  
+		String selectVersion = "Select * from metadatapatient where patient_id=" + patient_id;  
 		
 	 	Cursor versionCursor = database.rawQuery(selectVersion, null);
 	 	
 	 	versionCursor.moveToFirst();
 	 	
-	 	if(versionCursor.getCount() == 0)
+	 	if(versionCursor.getCount() == 0){
+	 		versionCursor.close();
 	 		return -1;
+	 	}
 	 	
-	 	return versionCursor.getInt(0);
+	 	int version = versionCursor.getInt(1);
+	 	versionCursor.close();
+	 	
+	 	return version;
 	}
 
 	
 	
-	//appointments (id INTEGER PRIMARY KEY, patient_id INTEGER, doctor_id INTEGER, scheduled_day TEXT, scheduled_time TEXT)";
-	//doctors (name TEXT, birthdate TEXT, id INTEGER PRIMARY KEY, sex TEXT, photo TEXT, specialty_id INTEGER)";
+	
 	public Map<String, User> getPatientAppointments(int patient_id){
 		
 		System.out.println("Vai buscar os appointments do user" + patient_id);
@@ -255,6 +283,40 @@ public class DatabaseAdapter {
 	 	close();
 	 	
 		return map;
+	}
+	
+	
+	public void dropMedics(){
+		
+		//elimina
+		
+		database.execSQL(" DROP TABLE IF EXISTS metadatadoctors ");
+		
+		database.execSQL(" DROP TABLE IF EXISTS specialties ");
+		database.execSQL(" DROP TABLE IF EXISTS workdays ");
+		database.execSQL(" DROP TABLE IF EXISTS schedule_plans "); 
+		database.execSQL(" DROP TABLE IF EXISTS doctors ");
+		
+		
+		//cria
+		
+		database.execSQL("CREATE TABLE specialties (id INTEGER PRIMARY KEY, name TEXT) ");
+		database.execSQL(" CREATE TABLE workdays (id INTEGER PRIMARY KEY, weekday INTEGER, start INTEGER, end INTEGER, schedule_plan_id INTEGER) ");
+		database.execSQL(" CREATE TABLE schedule_plans (id INTEGER PRIMARY KEY, active BOOLEAN, start_date TEXT, doctor_id INTEGER) ");
+		database.execSQL(" CREATE TABLE doctors (name TEXT, birthdate TEXT, id INTEGER PRIMARY KEY, sex TEXT, photo TEXT, specialty_id INTEGER) ");
+		database.execSQL("CREATE TABLE metadatadoctors (version INTEGER PRIMARY KEY)");
+		
+	}
+	
+	
+	public void dropAppointmentsPatient(int patient_id){
+		
+		String query1 = "delete from appointments where patient_id=" + patient_id;
+		String query2 = "delete from metadatapatient where patient_id=" + patient_id;
+		
+		database.execSQL(query1);
+		database.execSQL(query2);
+		
 	}
 	
 }

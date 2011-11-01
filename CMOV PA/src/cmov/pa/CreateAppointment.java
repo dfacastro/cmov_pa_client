@@ -38,6 +38,8 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 	private RelativeLayout relativeLayout;
 	private SlidingDrawer slidingDrawer;
 	ExpandableListAdapter mAdapter;
+	
+	User selectedUser = new User();
 
     
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,9 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 		
 		mAdapter = new MyExpandableListAdapter(this);
 	    setListAdapter(mAdapter);
-
+	    
+	    Toast toast = Toast.makeText(getApplicationContext(), "Start by Picking a Doctor", Toast.LENGTH_LONG);
+ 		toast.show();
 	}
 	
 	
@@ -83,16 +87,16 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 	public boolean onChildClick(ExpandableListView parent, View v,
 			int groupPosition, int childPosition, long id) {
 		
-		User o = (User)mAdapter.getChild(groupPosition, childPosition);
+		selectedUser = (User)mAdapter.getChild(groupPosition, childPosition);
 		
-		System.out.println(o.getName());
+		System.out.println(selectedUser.getName());
 	
 		URL newurl;
 
 		Bitmap mIcon_val;
 		try {
 			
-			newurl = new URL(o.getPhoto());
+			newurl = new URL(selectedUser.getPhoto());
 			mIcon_val = BitmapFactory.decodeStream(newurl.openConnection() .getInputStream());
 			((ImageView)findViewById(R.id.createAppointmentImage)).setImageBitmap(mIcon_val);
 		} catch (IOException e) {
@@ -100,6 +104,8 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
      		toast.show();
 		}
 		
+		
+		//TODO: preencher o resto dos Dados
 		slidingDrawer.close();
 		
 		

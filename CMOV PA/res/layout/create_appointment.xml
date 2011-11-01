@@ -52,7 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="Nome do medico" />
+            android:text="Medic&apos;s Name"
+            android:textSize="20dp" android:layout_marginTop="25dp"/>
 
         <ImageView
             android:id="@+id/createAppointmentImage"
@@ -61,7 +62,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="16dp"
-            android:src="@drawable/health_icon" />
+            android:src="@drawable/health_icon" android:layout_marginTop="30dp"/>
     </RelativeLayout>
 
     <TextView

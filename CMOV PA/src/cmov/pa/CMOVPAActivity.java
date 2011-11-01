@@ -91,15 +91,14 @@ public class CMOVPAActivity extends Activity implements Runnable {
 					
 					api.dbAdapter = new DatabaseAdapter(this);
 				
-					boolean bdsuccess = true;
-					//boolean bdsuccess = api.updateDBIFNecessary();
+					boolean bdsuccess = api.updateDBIFNecessary();
 					if(bdsuccess){
 					
-					dialog.dismiss();
-					
-					Intent intent = new Intent(getApplicationContext(),Inicial.class);
-		            startActivity(intent);
-		            finish();
+						dialog.dismiss();
+						
+						Intent intent = new Intent(getApplicationContext(),Inicial.class);
+			            startActivity(intent);
+			            finish();
 				}else{
 					
 					dialog.dismiss();
