@@ -1,6 +1,7 @@
 package cmov.pa;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
@@ -15,6 +16,8 @@ import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -193,11 +197,20 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             TextView tv = (TextView) convertView.findViewById(R.id.child_text);
             tv.setText("   " + user.getName());
 
-            /*
-            // Depending upon the child type, set the imageTextView01
-            tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0); 
-            tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.health_icon, 0, 0, 0);
-           */
+            URL newurl;
+
+			Bitmap mIcon_val;
+			try {
+				
+				newurl = new URL(user.getPhoto());
+				mIcon_val = BitmapFactory.decodeStream(newurl.openConnection() .getInputStream());
+				((ImageView)convertView.findViewById(R.id.child_image)).setImageBitmap(mIcon_val);
+			} catch (IOException e) {
+				Toast toast = Toast.makeText(getApplicationContext(), "Error downloading image", Toast.LENGTH_SHORT);
+	     		toast.show();
+			}
+
+           
             return convertView;
         }
 

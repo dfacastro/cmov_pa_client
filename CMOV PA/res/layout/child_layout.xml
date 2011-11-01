@@ -13,7 +13,6 @@
         android:paddingLeft="5dip"
         android:paddingRight="5dip"
         android:text="Children"
-        android:textColor="#ffCCCC22"
         android:textSize="17dip"
         android:textStyle="bold" />
 

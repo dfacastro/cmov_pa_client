@@ -202,16 +202,11 @@ public class DatabaseAdapter {
 		
 		open();
 		
-		String selectAppointments = "Select app.id, app.scheduled_day, app.scheduled_time, doc.name, doc.photo, app.doctor_id " +
-				"from appointments app join doctors doc " +
-				"where app.patient_id = doc.id and app.patient_id =" + patient_id;  
+		String selectAppointments = "Select * from appointments where patient_id = " + patient_id;
+			  
 		
 	 	Cursor appointmentCursor = database.rawQuery(selectAppointments, null);
-		
-	 	System.out.println(appointmentCursor.toString());
-	 	
-	 	//TODO: ta a merdar....
-	 	
+
 	 	if(appointmentCursor.getCount() == 0){
 	 		appointmentCursor.close();
 	 		return map;
@@ -220,13 +215,25 @@ public class DatabaseAdapter {
 	 	appointmentCursor.moveToFirst();
 	 	do {
 	 		
-	 		int appointment_id = appointmentCursor.getInt(0);
-	 		String scheduled_day = appointmentCursor.getString(1);
-	 		String scheduled_time = appointmentCursor.getString(2);
-	 		String doctor_name = appointmentCursor.getString(3);
-	 		String doctor_photo = appointmentCursor.getString(4);
-	 		int doctor_id = appointmentCursor.getInt(5);
 	 		
+	 		int appointment_id = appointmentCursor.getInt(0);
+	 		String scheduled_day = appointmentCursor.getString(3);
+	 		String scheduled_time = appointmentCursor.getString(4);
+	 		int doctor_id = appointmentCursor.getInt(2);
+	 		String doctor_name, doctor_photo;
+	 		
+	 		String selectDoctors = "Select name , photo from doctors where id = " + doctor_id;
+		 	Cursor doctorsCursor = database.rawQuery(selectDoctors, null);
+		 	
+		 	doctorsCursor.moveToFirst();
+		 	do {
+		 		
+		 		doctor_name = doctorsCursor.getString(0);
+		 		doctor_photo = doctorsCursor.getString(1);
+
+		 	}while (doctorsCursor.moveToNext());
+		 	doctorsCursor.close();
+		 	
 	 		User u = new User();
 	 		
 	 		u.setAssociatedAppointmentId(appointment_id);
