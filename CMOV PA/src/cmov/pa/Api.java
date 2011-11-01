@@ -317,7 +317,6 @@ public class Api extends Application{
             	System.out.println(messageReceived.toString());
             	
             	int version = messageReceived.getInt(0);
-            	System.out.println("versao-> " + version);
             	//adicionada a versao
             	dbAdapter.setDoctorsVersion(version);
             	
@@ -447,7 +446,6 @@ public class Api extends Application{
            		int doctor_id, patient_id, appointment_id;
            		
            		int version = messageReceived.getInt(0);
-           		System.out.println("versao-> " + version);
            		//adicionada a versao
            		dbAdapter.setPatientVersion(user.getId(), version);
            		

@@ -238,6 +238,7 @@ public class DatabaseAdapter {
 
 	 	if(appointmentCursor.getCount() == 0){
 	 		appointmentCursor.close();
+	 		close();
 	 		return map;
 	 	}
 	 	
