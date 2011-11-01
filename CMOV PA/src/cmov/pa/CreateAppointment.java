@@ -87,6 +87,21 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 		
 		System.out.println(o.getName());
 	
+		URL newurl;
+
+		Bitmap mIcon_val;
+		try {
+			
+			newurl = new URL(o.getPhoto());
+			mIcon_val = BitmapFactory.decodeStream(newurl.openConnection() .getInputStream());
+			((ImageView)findViewById(R.id.createAppointmentImage)).setImageBitmap(mIcon_val);
+		} catch (IOException e) {
+			Toast toast = Toast.makeText(getApplicationContext(), "Error downloading image", Toast.LENGTH_SHORT);
+     		toast.show();
+		}
+		
+		slidingDrawer.close();
+		
 		
 		return true;
 	}

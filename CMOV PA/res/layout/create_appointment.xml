@@ -55,7 +55,7 @@
             android:text="Nome do medico" />
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/createAppointmentImage"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignParentRight="true"
