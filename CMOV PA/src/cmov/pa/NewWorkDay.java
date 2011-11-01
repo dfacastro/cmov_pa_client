@@ -45,7 +45,6 @@ public class NewWorkDay extends Activity{
 					@Override
 					public void onItemSelected(AdapterView<?> arg0, View arg1,
 							int arg2, long arg3) {
-						// TODO Auto-generated method stub
 						start_mins = Integer.parseInt((String) arg0.getItemAtPosition(arg2));
 						
 						
@@ -53,7 +52,6 @@ public class NewWorkDay extends Activity{
 
 					@Override
 					public void onNothingSelected(AdapterView<?> arg0) {
-						// TODO Auto-generated method stub
 						
 					}
         			
@@ -66,7 +64,6 @@ public class NewWorkDay extends Activity{
 					@Override
 					public void onItemSelected(AdapterView<?> arg0, View arg1,
 							int arg2, long arg3) {
-						// TODO Auto-generated method stub
 						end_mins = Integer.parseInt((String) arg0.getItemAtPosition(arg2));
 						
 						
@@ -74,7 +71,6 @@ public class NewWorkDay extends Activity{
 
 					@Override
 					public void onNothingSelected(AdapterView<?> arg0) {
-						// TODO Auto-generated method stub
 						
 					}
         			

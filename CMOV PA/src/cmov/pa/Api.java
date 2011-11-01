@@ -37,11 +37,18 @@ public class Api extends Application{
 	
 	public static String cookie;
 	public static final String IP = "http://95.92.200.69:3000";
-	//String IP = "http://172.30.94.186:3000";
-	public static User user = new User();
-	
+	public static User user = new User();	
 	public static DatabaseAdapter dbAdapter;
 	
+	/*
+	public Api(){
+		dbAdapter = new DatabaseAdapter(getApplicationContext());
+	}
+	*/
+	
+	public Map<String, User> getPatientAppointments(){	
+		return dbAdapter.getPatientAppointments(user.getId());
+	}
 	
 	public int login(String username, String password){
 		
@@ -113,8 +120,10 @@ public class Api extends Application{
             	
             	user.setBirthDate(messageReceived.get("birthdate").toString());
             	user.setName(messageReceived.get("name").toString());
+            	
     	        JSONObject utilizadorInfo =messageReceived.getJSONObject("utilizador");
-
+    	        
+    	        user.setId(utilizadorInfo.getInt("id"));
             	
             	System.out.println(user.isDoctor());
             	
@@ -202,8 +211,69 @@ public class Api extends Application{
 	}
 	
 	
+	public boolean updateDBIFNecessary(){
+		final HttpClient httpClient =  new DefaultHttpClient();
+		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		HttpResponse response=null;
+       try {
+       	
+           String url = IP + "/version/show";       
+
+           HttpGet httpget = new HttpGet(url);
+           
+           httpget.setHeader("Accept", "application/json");
+           httpget.setHeader("Cookie", cookie);
+           
+           response = httpClient.execute(httpget);
+           
+           if(response.getStatusLine().getStatusCode() == 200){
+           	
+               InputStream instream = response.getEntity().getContent();
+               String tmp = read(instream);
+               
+           	
+   	        	JSONObject messageReceived = new JSONObject(tmp.toString());
+   	        	System.out.println(messageReceived.toString());
+           	
+   	        	
+   	        	int doctors_version = messageReceived.getInt("version");	
+   	        	System.out.println("Versao do server: " + doctors_version);
+   	        	
+   	        	
+   	        	//TODO: o profile tem de mandar o ID ou entao o ID tem de vir com a versao
+   	        	//fazer drop de  tudo se a versao mudar
+   	        	dbAdapter.open();
+   	        	
+   	        	System.out.println("Vai fazer update dos medicos");
+   	        	updateDBDoctors();
+   	        	
+   	        	
+   	        	if(!user.isDoctor()){
+   	        	//fazer delete dos appointments do user caso a versao mudar
+   	        		System.out.println("Vai fazer update das consultas");
+   	        		updateDBPatientAppointments();
+   	        	}
+   	        	
+   	        	
+   	        	dbAdapter.close();
+   	        	
+   	        	return true;
+           }	
+           
+       } catch (IOException ex) {
+       	ex.printStackTrace();    	
+       } catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+       
+       
+       return false;
+	}
 	
-	public boolean updateDB(){
+	
+ 	public boolean updateDBDoctors(){
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
 		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
@@ -231,9 +301,9 @@ public class Api extends Application{
     	        JSONArray messageReceived = new JSONArray(tmp.toString());
             	System.out.println(messageReceived.toString());
             	
-            	int versao = messageReceived.getInt(0);
-            	System.out.println("versao-> " + versao);
-            	
+            	int version = messageReceived.getInt(0);
+            	System.out.println("versao-> " + version);
+            	//TODO: inserir versao
             	
             	JSONObject specialtyObject = new JSONObject();
             	
@@ -329,7 +399,7 @@ public class Api extends Application{
 	}
 	
 	
-	public boolean getPatientAppointments(){
+	public boolean updateDBPatientAppointments(){
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
 		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
@@ -357,22 +427,27 @@ public class Api extends Application{
            		System.out.println(messageReceived.toString());
            		
            		
-           		String schedule_date, schedule_hour;
+           		String schedule_date, schedule_time;
            		int doctor_id, patient_id, appointment_id;
            		
+           		int version = messageReceived.getInt(0);
+           		System.out.println("versao-> " + version);
+           		//TODO: inserir versao
+           		
            		JSONObject appointmentObject = new JSONObject();
-           		for(int i = 0; i < messageReceived.length(); i++){
+           		for(int i = 1; i < messageReceived.length(); i++){
            			
            			appointmentObject = messageReceived.getJSONObject(i);
-           			
-           			//TODO: falta a data e a hora
-           			
+           			           			
            			doctor_id = appointmentObject.getInt("doctor_id");
            			appointment_id = appointmentObject.getInt("id");
            			patient_id = appointmentObject.getInt("patient_id");
+           			schedule_date = appointmentObject.getString("scheduled_date");
+           			schedule_time = appointmentObject.getString("scheduled_time");
            			
-           			System.out.println(appointment_id + " " +doctor_id + " " + patient_id);
-           			//TODO: inserir na tabela
+           			System.out.println(appointment_id + " " +doctor_id + " " + patient_id + " " + schedule_date + " "+ schedule_time);
+           			
+           			dbAdapter.createPatientAppointment(appointment_id, patient_id, doctor_id, schedule_date, schedule_time);
            		}
            		
            		
@@ -433,7 +508,7 @@ public class Api extends Application{
 				
 		       	for(int i = 0; i < messageReceived.length(); i++){
 		           	JSONObject messageReceivedIndex = messageReceived.getJSONObject(i);
-		           	String patientId = messageReceivedIndex.getString("patient_id").toString();
+		           	int patientId = messageReceivedIndex.getInt("patient_id");
 		           	scheduledDate = messageReceivedIndex.getString("scheduled_date").toString();
 		           	String patientName = ((JSONObject)((JSONObject)messageReceivedIndex.get("patient")).get("user")).getString("name").toString();
 		           	String scheduledTime = messageReceivedIndex.getString("scheduled_time").toString();
@@ -502,7 +577,7 @@ public class Api extends Application{
 				
 		       	for(int i = 0; i < messageReceived.length(); i++){
 		           	JSONObject messageReceivedIndex = messageReceived.getJSONObject(i);
-		           	String patientId = messageReceivedIndex.getString("patient_id").toString();
+		           	int patientId = messageReceivedIndex.getInt("patient_id");
 		           	scheduledDate = messageReceivedIndex.getString("scheduled_date").toString();
 		           	String patientName = ((JSONObject)((JSONObject)messageReceivedIndex.get("patient")).get("user")).getString("name").toString();
 		           	String scheduledTime = messageReceivedIndex.getString("scheduled_time").toString();
@@ -572,7 +647,7 @@ public class Api extends Application{
 				
 		       	for(int i = 0; i < messageReceived.length(); i++){
 		           	JSONObject messageReceivedIndex = messageReceived.getJSONObject(i);
-		           	String patientId = messageReceivedIndex.getString("patient_id").toString();
+		           	int patientId = messageReceivedIndex.getInt("patient_id");
 		           	scheduledDate = messageReceivedIndex.getString("scheduled_date").toString();
 		           	String patientName = ((JSONObject)((JSONObject)messageReceivedIndex.get("patient")).get("user")).getString("name").toString();
 		           	String scheduledTime = messageReceivedIndex.getString("scheduled_time").toString();
@@ -750,6 +825,7 @@ public class Api extends Application{
 		return false;	
 	}
 	
+	
 	public String createSchedule(SchedulePlan sch) {
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
@@ -810,6 +886,7 @@ public class Api extends Application{
 			return "JSON Exception occurred.";
 		}
 	}
+	
 	
 	public boolean updateSchedulePlans() {
 		final HttpClient httpClient =  new DefaultHttpClient();

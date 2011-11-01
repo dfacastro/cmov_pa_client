@@ -6,12 +6,12 @@ import utils.SchedulePlan;
 
 public class User {
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -107,6 +107,16 @@ public class User {
 				return schs.get(i);
 		return null;
 	}
+	
+	
+	public int getAssociatedAppointmentId() {
+		return associatedAppointmentId;
+	}
+
+
+	public void setAssociatedAppointmentId(int associatedAppointmentId) {
+		this.associatedAppointmentId = associatedAppointmentId;
+	}
 
 
 	private String sex;
@@ -116,7 +126,9 @@ public class User {
 	private String birthDate;
 	private String photo;
 	private boolean isDoctor;
-	private String id;
+	private int id;
 	public Vector<SchedulePlan> schs = new Vector<SchedulePlan>();
+	private int associatedAppointmentId;
+	
 	
 }

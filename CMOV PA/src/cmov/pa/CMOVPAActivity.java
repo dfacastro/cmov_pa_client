@@ -59,7 +59,7 @@ public class CMOVPAActivity extends Activity implements Runnable {
     }
 
 	@Override
-	public void run() {
+	public void run() {	
 		
 		EditText user = (EditText) findViewById(R.id.loginUser); 
 		EditText pass = (EditText) findViewById(R.id.loginPass); 
@@ -85,27 +85,32 @@ public class CMOVPAActivity extends Activity implements Runnable {
     		Looper.loop();
 		}else if (success == 0) {
 			
-			
-			//inicia a bd
-	        api.dbAdapter = new DatabaseAdapter(this);
-	        api.dbAdapter.open();
-	        
-	        
-	        //TODO: verificar versoes e se forem diferentes actualizar....
-	        api.updateDB();
-	        
-	        api.dbAdapter.close();
-	        
-
 			boolean retsuccess = api.getProfile();
 			
 			if(retsuccess){
+					
+					api.dbAdapter = new DatabaseAdapter(this);
 				
-				dialog.dismiss();
-				
-				Intent intent = new Intent(getApplicationContext(),Inicial.class);
-	            startActivity(intent);
-	            finish();
+					boolean bdsuccess = true;
+					//boolean bdsuccess = api.updateDBIFNecessary();
+					if(bdsuccess){
+					
+					dialog.dismiss();
+					
+					Intent intent = new Intent(getApplicationContext(),Inicial.class);
+		            startActivity(intent);
+		            finish();
+				}else{
+					
+					dialog.dismiss();
+					
+					Looper.prepare();
+					Toast toast = Toast.makeText(getApplicationContext(), "Error updating database", Toast.LENGTH_SHORT);
+		    		toast.show();
+					Looper.loop();
+
+				}
+					
 			}else{
 				
 				dialog.dismiss();

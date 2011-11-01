@@ -11,12 +11,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 1;
 
 	// Database creation sql statement
-	private static final String DATABASE_CREATE_APPOINTMENTS = " CREATE TABLE appointments (id INTEGER PRIMARY KEY, user_id INTEGER, doctor_id INTEGER, scheduled_date TEXT)";
+	private static final String DATABASE_CREATE_APPOINTMENTS = " CREATE TABLE appointments (id INTEGER PRIMARY KEY, patient_id INTEGER, doctor_id INTEGER, scheduled_day TEXT, scheduled_time TEXT)";
 	private static final String DATABASE_CREATE_SPECIALTIES = " CREATE TABLE specialties (id INTEGER PRIMARY KEY, name TEXT) ";
 	private static final String DATABASE_CREATE_WORKDAYS = " CREATE TABLE workdays (id INTEGER PRIMARY KEY, weekday INTEGER, start INTEGER, end INTEGER, schedule_plan_id INTEGER) ";
 	private static final String DATABASE_CREATE_SCHEDULE_PLANS = " CREATE TABLE schedule_plans (id INTEGER PRIMARY KEY, active BOOLEAN, start_date TEXT, doctor_id INTEGER) ";
 	private static final String DATABASE_CREATE_DOCTORS = " CREATE TABLE doctors (name TEXT, birthdate TEXT, id INTEGER PRIMARY KEY, sex TEXT, photo TEXT, specialty_id INTEGER) ";
-	private static final String DATABASE_CREATE_METADATA_PATIENT = "CREATE TABLE metadatapatient (user_id INTEGER PRIMARY KEY, version INTEGER)";
+	private static final String DATABASE_CREATE_METADATA_PATIENT = "CREATE TABLE metadatapatient (patient_id INTEGER PRIMARY KEY, version INTEGER)";
 	private static final String DATABASE_CREATE_METADATA_DOCTORS = "CREATE TABLE metadatadoctors (version INTEGER PRIMARY KEY)";
 	
 	public DatabaseHelper(Context context) {

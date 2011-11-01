@@ -12,7 +12,6 @@ public class Inicial extends TabActivity{
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
 		api = ((Api)getApplicationContext());

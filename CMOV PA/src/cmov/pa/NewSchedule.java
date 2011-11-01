@@ -48,7 +48,6 @@ public class NewSchedule extends Activity implements Runnable {
 					
 					@Override
 					public void onClick(View arg0) {
-						// TODO Auto-generated method stub
 						showDialog(DATE_DIALOG_ID);
 					}
 				}

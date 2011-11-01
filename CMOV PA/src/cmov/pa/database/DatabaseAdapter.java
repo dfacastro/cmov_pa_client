@@ -1,5 +1,11 @@
 package cmov.pa.database;
 
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
+
+import cmov.pa.User;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,8 +16,8 @@ import android.database.sqlite.SQLiteDatabase;
 public class DatabaseAdapter {
 	
 	private Context context;
-	private SQLiteDatabase database;
-	private DatabaseHelper dbHelper;
+	private static SQLiteDatabase database;
+	private static DatabaseHelper dbHelper;
 	
 	
 	
@@ -57,6 +63,7 @@ public class DatabaseAdapter {
 		return database.insert("specialties", null, initialvalues);	
 	}
 	
+	
 	public long createSchedulePlan(int id, boolean active, int doctor_id, String start_date){
 		
 		ContentValues initialvalues = new ContentValues();
@@ -69,8 +76,6 @@ public class DatabaseAdapter {
 	}
 	
 	
-	
-	//workdays (id INTEGER PRIMARY KEY, weekday INTEGER, start INTEGER, end INTEGER, schedule_plan_id INTEGER) ";
 	public long createWorkDay(int id, int weekday, int start, int end, int schedule_id){
 		
 		ContentValues initialvalues = new ContentValues();
@@ -83,9 +88,160 @@ public class DatabaseAdapter {
 		return database.insert("workdays", null, initialvalues);		
 	}
 	
+
+	public long createPatientAppointment(int id, int patient_id, int doctor_id, String schedule_day, String schedule_time){
+		
+		ContentValues initialvalues = new ContentValues();
+		initialvalues.put("id", id);
+		initialvalues.put("patient_id", patient_id);
+		initialvalues.put("doctor_id", doctor_id);
+		initialvalues.put("scheduled_day", schedule_day);
+		initialvalues.put("scheduled_time", schedule_time);
+
+		return database.insert("appointments", null, initialvalues);	
+	}
 	
 	
+	
+	//uma especialidade tem de ter medicos associados
+	public Map<String, ArrayList<User>> getDoctorsAndSpecialties(){
+		
+		Map<String, ArrayList<User>> map = new TreeMap<String, ArrayList<User>>();
+		
+		String selectSpecialties = "Select * from specialties ";  
+	
+	 	Cursor specialtiesCursor = database.rawQuery(selectSpecialties, null);
+	 	
+	 	System.out.println("A construir mapa com os medicos e especialidades");
+	 	
+	 	specialtiesCursor.moveToFirst();
+	 	do {
+	 		
+	 		int specialty_id = specialtiesCursor.getInt(0);
+	 		String specialty_name = specialtiesCursor.getString(1);
+	 		
+	 		System.out.println("Especialidade: "+ specialty_name + " " +specialty_id);
+	 		
+	 		String selectDoctors = "Select name, id , photo from doctors where specialty_id = " + specialty_id;
+	 		Cursor doctorsCursor = database.rawQuery(selectDoctors, null);
+	 		
+	 		
+	 		ArrayList<User> arr = new ArrayList<User>();
+	 		
+	 		doctorsCursor.moveToFirst();
+		 	do {
+		 		
+		 		String doctor_name = doctorsCursor.getString(0);
+		 		int doctor_id = doctorsCursor.getInt(1);
+		 		String doctor_photo = doctorsCursor.getString(2);
+		 		
+		 		System.out.println(doctor_id + " " + doctor_name + " "+ doctor_photo);
+		 		
+		 		//TODO:construir mapa
+		 		User u = new User();
+		 		u.setId(doctor_id);
+		 		u.setName(doctor_name);
+		 		u.setPhoto(doctor_photo);
+		 		
+		 		arr.add(u);
+		 		
+		 	}while (doctorsCursor.moveToNext());
+		 	doctorsCursor.close();
+		 	
+	 		
+	 		map.put(specialty_name, arr);
+	 		
+	 	}while (specialtiesCursor.moveToNext());
+	 	specialtiesCursor.close();
+	 	
+	 	
+	 	
+	 	return map;
+	}
+	
+	
+	public int getDoctorsVersion(){
+		
+		String selectVersion = "Select * from metadatadoctors ";  
+		
+	 	Cursor versionCursor = database.rawQuery(selectVersion, null);
+	 	
+	 	versionCursor.moveToFirst();
+	 	
+	 	if(versionCursor.getCount() == 0)
+	 		return -1;
+	 	
+	 	return versionCursor.getInt(0);
+	}
+	
+	
+	
+	public int getPatientVersion(int patient_id){
+		
+		String selectVersion = "Select * from metadatapatient where patient_id=";  
+		
+	 	Cursor versionCursor = database.rawQuery(selectVersion, null);
+	 	
+	 	versionCursor.moveToFirst();
+	 	
+	 	if(versionCursor.getCount() == 0)
+	 		return -1;
+	 	
+	 	return versionCursor.getInt(0);
+	}
 
 	
+	
+	//appointments (id INTEGER PRIMARY KEY, patient_id INTEGER, doctor_id INTEGER, scheduled_day TEXT, scheduled_time TEXT)";
+	//doctors (name TEXT, birthdate TEXT, id INTEGER PRIMARY KEY, sex TEXT, photo TEXT, specialty_id INTEGER)";
+	public Map<String, User> getPatientAppointments(int patient_id){
+		
+		System.out.println("Vai buscar os appointments do user" + patient_id);
+		
+		Map<String, User> map = new TreeMap<String, User>();
+		
+		open();
+		
+		String selectAppointments = "Select app.id, app.scheduled_day, app.scheduled_time, doc.name, doc.photo, app.doctor_id " +
+				"from appointments app, doctors doc " +
+				"where app.patient_id = doc.id and app.patient_id =" + patient_id;  
+		
+	 	Cursor appointmentCursor = database.rawQuery(selectAppointments, null);
+		
+	 	System.out.println(appointmentCursor.toString());
+	 	
+	 	//TODO: ta a merdar....
+	 	/*
+	 	appointmentCursor.moveToFirst();
+	 	do {
+	 		
+	 		int appointment_id = appointmentCursor.getInt(0);
+	 		String scheduled_day = appointmentCursor.getString(1);
+	 		String scheduled_time = appointmentCursor.getString(2);
+	 		String doctor_name = appointmentCursor.getString(3);
+	 		String doctor_photo = appointmentCursor.getString(4);
+	 		int doctor_id = appointmentCursor.getInt(5);
+	 		
+	 		User u = new User();
+	 		
+	 		u.setAssociatedAppointmentId(appointment_id);
+	 		u.setName(doctor_name);
+	 		u.setId(doctor_id);
+	 		u.setPhoto(doctor_photo);
+	 		
+	 		String key = scheduled_day + " " + scheduled_time;
+	 		
+	 		System.out.println(key + " " + u.toString());
+	 		
+	 		map.put(key, u);
+	 		
+		
+	 	}while (appointmentCursor.moveToNext());
+	 	appointmentCursor.close();
+	 	
+	 	close();
+	 	*/
+		return map;
+	}
 	
 }

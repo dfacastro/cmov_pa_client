@@ -128,49 +128,28 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 	
     	@Override
 		public void notifyDataSetChanged() {
-			// TODO Auto-generated method stub
 			super.notifyDataSetChanged();
 		}
 
-		private String[] groups = {"grupo1", "grupo2"};
-    	private ArrayList<User> children = new ArrayList<User>();
+		private String[] groups;
+    	private ArrayList<User> children;
 
         public MyExpandableListAdapter(Context c){
         	
         	context = c;
         	
-        	User u = new User();
-        	u.setName("ola");
-        	u.setPhoto("lalal");
-        	
-        	children.add(u);
-        	children.add(u);
-        	/*
-        	try {
-        		//TODO: alterar para a date
-				
-        		Map<String, Map <String, User>> map = api.getDoctorAppointmentsForDate("2011-10-11");
+        	//map de data e con
+    		Map<String, User> map = api.getPatientAppointments();
 
-				
-				if(map.size() == 0){
-					Toast toast = Toast.makeText(getApplicationContext(), "Nao tem appointments para hoje", Toast.LENGTH_LONG);
-	        		toast.show();
-	        		return;
-				}
-				
-				populateAdapter(map);
-				
-				
-				
-
-        	} catch (ClientProtocolException e) {
-				Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
+			
+			if(map.size() == 0){
+				Toast toast = Toast.makeText(getApplicationContext(), "Nao tem appointments", Toast.LENGTH_LONG);
         		toast.show();
-			} catch (IOException e) {
-				Toast toast = Toast.makeText(getApplicationContext(), "Erro a obter appointments", Toast.LENGTH_SHORT);
-        		toast.show();
+        		return;
 			}
-			*/
+			
+			populateAdapter(map);
+
         
         }
         
@@ -253,25 +232,19 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         	children = new ArrayList<User>();
         }
         
-        public void populateAdapter(Map<String, Map <String, User>> map){
+        public void populateAdapter(Map <String, User> map){
+        	
+        	groups = new String[map.size()];
+			children = new ArrayList<User>();
         	
         	int i = 0;	
 			for(String key: map.keySet()){//este ciclo so vai correr 1 vez...
-				
-				Map<String,User> submap = (Map<String, User>) map.get(key);
-				
-				groups = new String[submap.size()];
-				children = new ArrayList<User>();
 
-				
-				for(String keys: submap.keySet()){
-					groups[i] = keys;		
-					User u = submap.get(keys);		
-					children.add(u);
-					i++;
-				}
-				
-				
+				groups[i] = key;		
+				User u = map.get(key);		
+				children.add(u);
+				i++;
+
 			}	
         }
 

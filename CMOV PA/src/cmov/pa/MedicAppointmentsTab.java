@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.http.client.ClientProtocolException;
 
