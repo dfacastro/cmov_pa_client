@@ -203,7 +203,7 @@ public class DatabaseAdapter {
 		open();
 		
 		String selectAppointments = "Select app.id, app.scheduled_day, app.scheduled_time, doc.name, doc.photo, app.doctor_id " +
-				"from appointments app, doctors doc " +
+				"from appointments app join doctors doc " +
 				"where app.patient_id = doc.id and app.patient_id =" + patient_id;  
 		
 	 	Cursor appointmentCursor = database.rawQuery(selectAppointments, null);
@@ -211,7 +211,12 @@ public class DatabaseAdapter {
 	 	System.out.println(appointmentCursor.toString());
 	 	
 	 	//TODO: ta a merdar....
-	 	/*
+	 	
+	 	if(appointmentCursor.getCount() == 0){
+	 		appointmentCursor.close();
+	 		return map;
+	 	}
+	 	
 	 	appointmentCursor.moveToFirst();
 	 	do {
 	 		
@@ -240,7 +245,7 @@ public class DatabaseAdapter {
 	 	appointmentCursor.close();
 	 	
 	 	close();
-	 	*/
+	 	
 		return map;
 	}
 	

@@ -131,8 +131,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 			super.notifyDataSetChanged();
 		}
 
-		private String[] groups;
-    	private ArrayList<User> children;
+    	private String[] groups = new String[0];
+    	private ArrayList<User> children = new ArrayList<User>();
 
         public MyExpandableListAdapter(Context c){
         	
@@ -143,10 +143,11 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
 			
 			if(map.size() == 0){
-				Toast toast = Toast.makeText(getApplicationContext(), "Nao tem appointments", Toast.LENGTH_LONG);
+				Toast toast = Toast.makeText(getApplicationContext(), "You don't have any appointments", Toast.LENGTH_LONG);
         		toast.show();
         		return;
 			}
+			
 			
 			populateAdapter(map);
 
