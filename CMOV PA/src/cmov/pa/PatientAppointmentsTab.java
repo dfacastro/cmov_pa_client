@@ -3,15 +3,8 @@ package cmov.pa;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Map;
-import java.util.concurrent.ThreadFactory;
 
-import org.apache.http.client.ClientProtocolException;
-
-import cmov.pa.MedicAppointmentsTab.MyExpandableListAdapter;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
 import android.app.ProgressDialog;
@@ -34,7 +27,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 

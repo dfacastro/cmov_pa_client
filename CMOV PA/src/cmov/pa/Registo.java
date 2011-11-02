@@ -69,12 +69,7 @@ public class Registo extends Activity {
 
         
     }
-    
-    
-    public void datePicker(){
-    	
-    }
-    
+   
     
     public void registAction(){
     	String user, pass, passconf, nome, sexo, datanasc, morada;

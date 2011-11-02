@@ -51,7 +51,8 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 	
 	String date = "";
 	String hour = "";
-	ArrayList<String> hours = new ArrayList<String>();
+	ArrayList<String> spinner_hours = new ArrayList<String>();
+	ArrayAdapter<String> spinner_adapter;
 	
 	User selectedUser = new User();
 
@@ -77,42 +78,15 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 		date_time_layout = (LinearLayout) findViewById(R.id.layout_date_and_time);
 		date_time_layout.setVisibility(View.INVISIBLE);
 		
-		ImageButton forward = (ImageButton) findViewById(R.id.new_appointment_forward);
-		forward.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				date = api.next_available_day(hours, selectedUser.getId(), date );
-				
-				updateDateAndTime();
-				
-			}
-		});
 		
-		ImageButton back = (ImageButton) findViewById(R.id.new_appointment_back);
-		back.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				String result = api.previous_available_day(hours, selectedUser.getId(), date );
-				if (result== null) {
-					Toast.makeText(getApplicationContext(), "This is the nearest available day.", Toast.LENGTH_LONG).show();
-					return;
-				}
-				
-				date = result;
-				updateDateAndTime();
-				
-			}
-		});
 		
 		
         Spinner hour_spinner = (Spinner) findViewById(R.id.new_appointment_hour);
         //String arr[] = new String[0];
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, hours);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        hour_spinner.setAdapter(adapter); 
+        spinner_adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, spinner_hours);
+        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hour_spinner.setAdapter(spinner_adapter); 
         
         hour_spinner.setOnItemSelectedListener(
         		new AdapterView.OnItemSelectedListener() {
@@ -120,8 +94,10 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 					@Override
 					public void onItemSelected(AdapterView<?> arg0, View arg1,
 							int arg2, long arg3) {
+						
 						hour = (String) arg0.getItemAtPosition(arg2);
-						//Toast.makeText(getApplicationContext(), hour, Toast.LENGTH_LONG).show();
+						
+						Toast.makeText(getApplicationContext(), hour, Toast.LENGTH_LONG).show();
 						
 						//workday.wday = WeekDay.valueOf((String) arg0.getItemAtPosition(arg2));
 						
@@ -134,8 +110,28 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 		
         		}
         );
+        
+        ImageButton forward = (ImageButton) findViewById(R.id.new_appointment_forward);
+		forward.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				
+				forwardAction();	
+			}
+		});
 		
-		
+		ImageButton back = (ImageButton) findViewById(R.id.new_appointment_back);
+		back.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+	
+				backAction();
+	
+			}
+		});
+        
 		
 		mAdapter = new MyExpandableListAdapter(this);
 	    setListAdapter(mAdapter);
@@ -157,6 +153,34 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 		relativeLayout.setVisibility(RelativeLayout.VISIBLE);	
 	}
 	
+	
+	
+	void forwardAction(){
+		
+		date = api.next_available_day(spinner_hours, selectedUser.getId(), date );
+		
+		updateDateAndTime();
+
+		spinner_adapter.notifyDataSetChanged();
+		
+		
+
+	}
+	
+	
+	void backAction(){
+		
+		String result = api.previous_available_day(spinner_hours, selectedUser.getId(), date );
+		if (result== null) {
+			Toast.makeText(getApplicationContext(), "This is the nearest available day.", Toast.LENGTH_LONG).show();
+			return;
+		}
+		
+		date = result;
+		updateDateAndTime();
+		
+		spinner_adapter.notifyDataSetChanged();
+	}
 	
 	
 	@Override
@@ -185,11 +209,11 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 		
 		date_time_layout.setVisibility(View.VISIBLE);
 		
-		date = api.next_available_day(hours, selectedUser.getId(), "" );
+		date = api.next_available_day(spinner_hours, selectedUser.getId(), "" );
 		
 		updateDateAndTime();
 		
-		
+		spinner_adapter.notifyDataSetChanged();
 		
 		//TODO: preencher o resto dos Dados
 		slidingDrawer.close();
