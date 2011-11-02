@@ -161,6 +161,8 @@ public class PatientAppointmentsTab  extends ExpandableListActivity implements R
 		Thread thread = new Thread(this);
         thread.start();
         
+        //TODO: o cancelar nao da, deixa cancelar mesmo antes das 24h antes
+        
         Map<String, User> map = api.getPatientAppointments();
 		
 		((MyExpandableListAdapter) mAdapter).reset();
