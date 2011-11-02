@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 
+import utils.WorkDay;
+
 import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
 import android.app.ProgressDialog;
@@ -195,7 +197,7 @@ public class PatientAppointmentsTab  extends ExpandableListActivity implements R
 		    
 		    case R.id.patient_new_appointment:
 		    	Intent intent = new Intent(getApplicationContext(),CreateAppointment.class);
-		        startActivity(intent);
+		        startActivityForResult(intent, 0);
 		        return true;
 		        
 		    default:
@@ -203,6 +205,11 @@ public class PatientAppointmentsTab  extends ExpandableListActivity implements R
 	    }
 	}
 	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if(resultCode == RESULT_OK) {
+    		updateAction();
+    	}
+    };	
 	
 	
 	

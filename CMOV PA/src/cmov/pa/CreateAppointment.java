@@ -136,9 +136,8 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 				String errors = api.createAppointment(selectedUser.getId(), date + " " + hour);
 				
 				if(errors.equals("")) {
-					/**
-					 * TODO: crlhoooo
-					 */
+					setResult(RESULT_OK);
+					finish();
 				} else {
 					Toast.makeText(getApplicationContext(), errors, Toast.LENGTH_LONG).show();
 					return;

@@ -1121,7 +1121,7 @@ public class Api extends Application{
 		return "An error occurred";
 	}
 	
-	public String createAppointment(int id, String string) {
+	public String createAppointment(int id, String date) {
 		
 		final HttpClient httpClient =  new DefaultHttpClient();
 		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
@@ -1132,6 +1132,9 @@ public class Api extends Application{
             String url = IP + "/appointment/create";  
             
             JSONObject ob = new JSONObject();
+            
+            ob.put("doctor_id", id);
+            ob.put("date", date);
             
              
             HttpPost httppost = new HttpPost(url);
