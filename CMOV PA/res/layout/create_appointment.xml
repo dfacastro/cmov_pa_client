@@ -48,12 +48,11 @@
         android:layout_below="@+id/textView1" >
 
         <TextView
-            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="Medic&apos;s Name"
-            android:textSize="20dp" android:layout_marginTop="25dp"/>
+            android:text="Pick a Medic"
+            android:textSize="20dp" android:layout_marginTop="25dp" android:id="@+id/new_appointment_medics_name"/>
 
         <ImageView
             android:id="@+id/createAppointmentImage"
@@ -63,6 +62,14 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="16dp"
             android:src="@drawable/health_icon" android:layout_marginTop="30dp"/>
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:layout_below="@+id/createAppointmentImage" android:layout_centerHorizontal="true" android:layout_marginTop="25dp" android:id="@+id/layout_date_and_time">
+            <LinearLayout android:id="@+id/linearLayout1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageButton android:layout_width="wrap_content" android:src="@drawable/ic_menu_back" android:layout_height="wrap_content" android:id="@+id/new_appointment_back"></ImageButton>
+                <TextView android:id="@+id/new_appointment_date" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:layout_marginTop="24dp"></TextView>
+                <ImageButton android:layout_width="wrap_content" android:src="@drawable/ic_menu_forward" android:layout_height="wrap_content" android:id="@+id/new_appointment_forward"></ImageButton>
+            </LinearLayout>
+            <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginTop="15dp" android:id="@+id/new_appointment_hour"></Spinner>
+        </LinearLayout>
     </RelativeLayout>
 
     <TextView

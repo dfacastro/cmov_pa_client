@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Vector;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -861,10 +862,13 @@ public class Api extends Application{
             	day.put("weekday", sch.workdays.get(i).wday.ordinal());
             	day.put("start", sch.workdays.get(i).start);
             	day.put("end", sch.workdays.get(i).end);
+            	
+            	days.put(day);
             }
             
-            ob.put("doctor_id", user.getId());
+            //ob.put("doctor_id", user.getId());
             ob.put("days", days);
+            ob.put("start_date", sch.start_date);
              
             HttpPost httppost = new HttpPost(url);
             
@@ -927,6 +931,8 @@ public class Api extends Application{
 
 
 				JSONArray json = new JSONArray(tmp.toString());
+				
+				user.schs = new Vector<SchedulePlan>();
 
 				for(int i = 0; i < json.length(); i++) {
 					JSONObject json_sch = json.getJSONObject(i);
@@ -971,8 +977,110 @@ public class Api extends Application{
 		return false;
 	}
 	
+	public String next_available_day(ArrayList<String> hours, int doctor_id, String current_date) {
+		final HttpClient httpClient =  new DefaultHttpClient();
+		HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		HttpResponse response=null;
+		try {
+
+			String url = IP + "/schedule_plan/next?doctor_id=" + doctor_id;
+			
+			if(! current_date.equals(""))
+				url += "&date=" + current_date;
+
+			HttpGet httpget = new HttpGet(url);
+
+			httpget.setHeader("Accept", "application/json");
+			httpget.setHeader("Cookie", cookie);
+
+			response = httpClient.execute(httpget);
+			
+			if(response.getStatusLine().getStatusCode() == 200){
+
+				InputStream instream = response.getEntity().getContent();
+				String tmp = read(instream);
+
+
+				JSONObject json = new JSONObject(tmp.toString());
+				
+				JSONArray jHours = json.getJSONArray("hours");
+				
+				//hours.removeAllElements();
+				hours.clear();
+				for(int i = 0; i < jHours.length(); i++)
+					hours.add(jHours.getString(i));
+				
+				return json.getString("date");
+			}
+			
+		} catch (IOException ex) {
+			ex.printStackTrace();   
+			return "IO Exception";
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+			return "Illegal State Exception";
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return "JSON Exception";
+		}
+			
+		return "An error occurred";
+	}
 	
-	 private String read(InputStream in) throws IOException {
+	public String previous_available_day(ArrayList<String> hours, int doctor_id, String current_date) {
+		final HttpClient httpClient =  new DefaultHttpClient();
+		HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		HttpResponse response=null;
+		try {
+
+			String url = IP + "/schedule_plan/previous?doctor_id=" + doctor_id + "&date=" + current_date;
+
+			HttpGet httpget = new HttpGet(url);
+
+			httpget.setHeader("Accept", "application/json");
+			httpget.setHeader("Cookie", cookie);
+
+			response = httpClient.execute(httpget);
+			
+			if(response.getStatusLine().getStatusCode() == 200){
+
+				InputStream instream = response.getEntity().getContent();
+				String tmp = read(instream);
+
+
+				JSONObject json = new JSONObject(tmp.toString());
+				
+				JSONArray jHours = json.getJSONArray("hours");
+				
+				//hours.removeAllElements();
+				hours.clear();
+				for(int i = 0; i < jHours.length(); i++)
+					hours.add(jHours.getString(i));
+				
+				return json.getString("date");
+			}
+			else if(response.getStatusLine().getStatusCode() == 404){
+				return null;
+				
+			}
+			
+		} catch (IOException ex) {
+			ex.printStackTrace();   
+			return "IO Exception";
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+			return "Illegal State Exception";
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return "JSON Exception";
+		}
+			
+		return "An error occurred";
+	}
+	
+	
+	
+	private String read(InputStream in) throws IOException {
 	        StringBuilder sb = new StringBuilder();
 	        BufferedReader r = new BufferedReader(new InputStreamReader(in), 1000);
 	        for (String line = r.readLine(); line != null; line = r.readLine()) {
@@ -980,6 +1088,10 @@ public class Api extends Application{
 	        }
 	        in.close();
 	        return sb.toString();
-	    }
+	}
+
+
+
+
 	
 }

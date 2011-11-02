@@ -57,6 +57,9 @@ public class NewSchedule extends Activity implements Runnable {
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH) + 1;
+        
+        sch.start_date = mYear + "-" + mMonth + "-" + mDay;
+        
         updateDisplay();
         
         //Set calendar date to tomorrow
@@ -149,6 +152,9 @@ public class NewSchedule extends Activity implements Runnable {
                 mYear = year;
                 mMonth = monthOfYear;
                 mDay = dayOfMonth;
+                
+                sch.start_date = year + "-" + monthOfYear + "-" + dayOfMonth;
+                
                 updateDisplay();
             }
     };

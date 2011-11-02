@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Vector;
+
+import utils.WeekDay;
 
 import cmov.pa.PatientAppointmentsTab.MyExpandableListAdapter;
 
@@ -19,13 +22,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SlidingDrawer;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
@@ -36,8 +45,13 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 	Api api;
 	
 	private RelativeLayout relativeLayout;
+	private LinearLayout date_time_layout;
 	private SlidingDrawer slidingDrawer;
 	ExpandableListAdapter mAdapter;
+	
+	String date = "";
+	String hour = "";
+	ArrayList<String> hours = new ArrayList<String>();
 	
 	User selectedUser = new User();
 
@@ -59,6 +73,68 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 		slidingDrawer.setOnDrawerCloseListener(this);
 		
 		relativeLayout = (RelativeLayout)this.findViewById(R.id.relativeLayout_newAppointmentContent);
+		
+		date_time_layout = (LinearLayout) findViewById(R.id.layout_date_and_time);
+		date_time_layout.setVisibility(View.INVISIBLE);
+		
+		ImageButton forward = (ImageButton) findViewById(R.id.new_appointment_forward);
+		forward.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				date = api.next_available_day(hours, selectedUser.getId(), date );
+				
+				updateDateAndTime();
+				
+			}
+		});
+		
+		ImageButton back = (ImageButton) findViewById(R.id.new_appointment_back);
+		back.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				String result = api.previous_available_day(hours, selectedUser.getId(), date );
+				if (result== null) {
+					Toast.makeText(getApplicationContext(), "This is the nearest available day.", Toast.LENGTH_LONG).show();
+					return;
+				}
+				
+				date = result;
+				updateDateAndTime();
+				
+			}
+		});
+		
+		
+        Spinner hour_spinner = (Spinner) findViewById(R.id.new_appointment_hour);
+        //String arr[] = new String[0];
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, hours);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hour_spinner.setAdapter(adapter); 
+        
+        hour_spinner.setOnItemSelectedListener(
+        		new AdapterView.OnItemSelectedListener() {
+
+					@Override
+					public void onItemSelected(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3) {
+						hour = (String) arg0.getItemAtPosition(arg2);
+						//Toast.makeText(getApplicationContext(), hour, Toast.LENGTH_LONG).show();
+						
+						//workday.wday = WeekDay.valueOf((String) arg0.getItemAtPosition(arg2));
+						
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0) {
+						
+					}
+		
+        		}
+        );
+		
 		
 		
 		mAdapter = new MyExpandableListAdapter(this);
@@ -104,12 +180,28 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
      		toast.show();
 		}
 		
+		TextView name = (TextView) findViewById(R.id.new_appointment_medics_name);
+		name.setText(selectedUser.getName());
+		
+		date_time_layout.setVisibility(View.VISIBLE);
+		
+		date = api.next_available_day(hours, selectedUser.getId(), "" );
+		
+		updateDateAndTime();
+		
+		
 		
 		//TODO: preencher o resto dos Dados
 		slidingDrawer.close();
 		
 		
 		return true;
+	}
+	
+	public void updateDateAndTime() {
+		TextView date_view = (TextView) findViewById(R.id.new_appointment_date);
+		date_view.setText(date);
+		
 	}
 	
 	
