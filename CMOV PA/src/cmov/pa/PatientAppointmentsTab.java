@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
+import java.util.concurrent.ThreadFactory;
 
 import org.apache.http.client.ClientProtocolException;
 
@@ -13,12 +14,14 @@ import cmov.pa.MedicAppointmentsTab.MyExpandableListAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,11 +38,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PatientAppointmentsTab  extends ExpandableListActivity {
+public class PatientAppointmentsTab  extends ExpandableListActivity implements Runnable {
 	
 	
 	Api api;
 	ExpandableListAdapter mAdapter;
+	ProgressDialog dialog;
+	int diolog_type; //1 se for para actualizar, 2 para cancelar consulta
+	User selectedDoctor;
     
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,22 +59,75 @@ public class PatientAppointmentsTab  extends ExpandableListActivity {
  
     }
 	
+	@Override
+	public void run() {
+		
+		if(diolog_type == 1){
+			
+			boolean ret = api.updateDBIFNecessary();
+			
+			if(!ret){
+				dialog.dismiss();
+				
+				Looper.prepare();
+	    		Toast toast = Toast.makeText(getApplicationContext(), "Error Updating", Toast.LENGTH_SHORT);
+	    		toast.show();
+	    		Looper.loop();
+			}else{
+				
+				dialog.dismiss();
+			}
+		}else{
+			
+			int ret = api.cancelAppointment(selectedDoctor.getAssociatedAppointmentId());
+
+			if(ret == 0){
+				
+				api.updateDBIFNecessary();
+	
+				dialog.dismiss();
+		
+				Looper.prepare();
+	    		Toast toast = Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT);
+	    		toast.show();
+	    		Looper.loop();
+				
+			}else if(ret == -1){
+				
+				dialog.dismiss();
+				
+				Looper.prepare();
+	    		Toast toast = Toast.makeText(getApplicationContext(), "You can only cancel appointments till 24h before", Toast.LENGTH_SHORT);
+	    		toast.show();
+	    		Looper.loop();	
+			}else{
+				dialog.dismiss();
+				
+				Looper.prepare();
+	    		Toast toast = Toast.makeText(getApplicationContext(), "Error canceling appointment", Toast.LENGTH_SHORT);
+	    		toast.show();
+	    		Looper.loop();	
+			}
+			
+		}
+	}
+	
 	
 	
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
 			int groupPosition, int childPosition, long id) {
 		
-		User o = (User)mAdapter.getChild(groupPosition, childPosition);
+		selectedDoctor = (User)mAdapter.getChild(groupPosition, childPosition);
 		
-		System.out.println(o.getName());
+		System.out.println(selectedDoctor.getName());
 	
 		
 		// prepare the alert box
         AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
 
         // set the message to display
-        alertbox.setMessage("Do you want to cancel the appointment with Dr. " + o.getName()+"?");
+        alertbox.setMessage("Do you want to cancel the appointment with Dr. " + selectedDoctor.getName()+"?");
 
         // set a positive/yes button and create a listener
         alertbox.setPositiveButton("No", new DialogInterface.OnClickListener() {
@@ -84,14 +143,8 @@ public class PatientAppointmentsTab  extends ExpandableListActivity {
 
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
-            	
-            	//TODO: fazer....
-        		Toast toast = Toast.makeText(getApplicationContext(), "Do to done in a near future", Toast.LENGTH_SHORT);
-        		toast.show();
-            	
-            	
-            	
-                
+       	
+            	cancelAppointmentAction();            
             }
         });
 
@@ -100,6 +153,35 @@ public class PatientAppointmentsTab  extends ExpandableListActivity {
 		
 		return true;
 	}
+	
+	
+	public void cancelAppointmentAction(){
+    	diolog_type = 2;        	
+		dialog = ProgressDialog.show(PatientAppointmentsTab.this, "", "Processing. Please wait...", true);
+		Thread thread = new Thread(this);
+        thread.start();
+        
+        Map<String, User> map = api.getPatientAppointments();
+		
+		((MyExpandableListAdapter) mAdapter).reset();
+		((MyExpandableListAdapter) mAdapter).notifyDataSetChanged();
+		((MyExpandableListAdapter) mAdapter).populateAdapter(map);
+	}
+	
+	
+	public void updateAction(){
+    	diolog_type = 1;        	
+		dialog = ProgressDialog.show(PatientAppointmentsTab.this, "", "Updating. Please wait...", true);
+		Thread thread = new Thread(this);
+        thread.start();
+        
+        Map<String, User> map = api.getPatientAppointments();
+		
+		((MyExpandableListAdapter) mAdapter).reset();
+		((MyExpandableListAdapter) mAdapter).notifyDataSetChanged();
+		((MyExpandableListAdapter) mAdapter).populateAdapter(map);
+	}
+	
 	
 	// Options Menu
 	@Override
@@ -114,7 +196,7 @@ public class PatientAppointmentsTab  extends ExpandableListActivity {
 	    // Handle item selection
 	    switch (item.getItemId()) {
 		    case R.id.patient_appointments_refresh:
-		    	//TODO: fazer...
+		    	updateAction();
 		        return true;
 		    
 		    case R.id.patient_new_appointment:
@@ -172,7 +254,7 @@ public class PatientAppointmentsTab  extends ExpandableListActivity {
 	}
 	
 	
-public class MyExpandableListAdapter extends BaseExpandableListAdapter {
+	public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     	
 		private Context context;
 	

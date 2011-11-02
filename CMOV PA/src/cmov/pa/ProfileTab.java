@@ -33,7 +33,6 @@ public class ProfileTab extends Activity {
 		{
 			String value = extras.getString("id");
 			selfprofile = false;
-			//TODO: faz set das coisas na interface do user que fez parse
 			User user = api.getPatientProfile(value);
 			if(user != null){
 				setProfileOnInterface(user);

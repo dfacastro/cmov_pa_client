@@ -14,6 +14,7 @@ import java.util.TreeMap;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -840,6 +841,48 @@ public class Api extends Application{
     	
         }
 		return false;	
+	}
+	
+	
+	
+	public int cancelAppointment(int appointment_id){
+		
+		final HttpClient httpClient =  new DefaultHttpClient();
+		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		
+		HttpResponse response=null;
+        try {
+        	
+            String url = IP + "/appointment/destroy?id=" + appointment_id;  
+            
+    		System.out.println(url);
+
+ 
+            HttpDelete httpdel = new HttpDelete(url);
+            
+            
+            httpdel.setHeader("Cookie", cookie);
+            httpdel.setHeader("Accept", "application/json");
+            
+            response = httpClient.execute(httpdel);
+            
+            System.out.println(response.getStatusLine().getStatusCode());
+            if(response.getStatusLine().getStatusCode() == 200){
+            	
+        		System.out.println("sucesso");
+        		return 0;
+            	 
+            }else if(response.getStatusLine().getStatusCode() == 401){
+            	System.out.println("falha: faltam menos de 24h");
+            	return -1;
+            }else
+            	System.out.println("falha: erro a apagar appointment");
+            	return -2;
+        } catch (IOException ex) {
+        	ex.printStackTrace();
+    	
+        }
+		return -2;	
 	}
 	
 	
