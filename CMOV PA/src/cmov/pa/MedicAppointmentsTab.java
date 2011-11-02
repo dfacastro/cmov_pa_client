@@ -73,7 +73,7 @@ public class MedicAppointmentsTab  extends ExpandableListActivity {
 		System.out.println(o.getId());
 		
 		Intent intent = new Intent(getApplicationContext(),ProfileTab.class);
-		intent.putExtra("id", o.getId());
+		intent.putExtra("id", String.valueOf(o.getId()));
         startActivity(intent);
 		
 		return true;
