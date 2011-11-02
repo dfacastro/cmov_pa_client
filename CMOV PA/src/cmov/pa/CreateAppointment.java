@@ -95,12 +95,7 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 					public void onItemSelected(AdapterView<?> arg0, View arg1,
 							int arg2, long arg3) {
 						
-						hour = (String) arg0.getItemAtPosition(arg2);
-						
-						Toast.makeText(getApplicationContext(), hour, Toast.LENGTH_LONG).show();
-						
-						//workday.wday = WeekDay.valueOf((String) arg0.getItemAtPosition(arg2));
-						
+						hour = (String) arg0.getItemAtPosition(arg2);						
 					}
 
 					@Override
@@ -129,6 +124,26 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 	
 				backAction();
 	
+			}
+		});
+		
+		Button create = (Button) findViewById(R.id.new_appointment_create_button);
+		create.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				
+				String errors = api.createAppointment(selectedUser.getId(), date + " " + hour);
+				
+				if(errors.equals("")) {
+					/**
+					 * TODO: crlhoooo
+					 */
+				} else {
+					Toast.makeText(getApplicationContext(), errors, Toast.LENGTH_LONG).show();
+					return;
+				}
+				
 			}
 		});
         

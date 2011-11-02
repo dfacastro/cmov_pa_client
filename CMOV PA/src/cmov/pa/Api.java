@@ -1121,6 +1121,70 @@ public class Api extends Application{
 		return "An error occurred";
 	}
 	
+	public String createAppointment(int id, String string) {
+		
+		final HttpClient httpClient =  new DefaultHttpClient();
+		 HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000);
+		
+		HttpResponse response=null;
+        try {
+        	
+            String url = IP + "/appointment/create";  
+            
+            JSONObject ob = new JSONObject();
+            
+             
+            HttpPost httppost = new HttpPost(url);
+            
+            
+            httppost.setHeader("Cookie", cookie);
+            httppost.setHeader("Accept", "application/json");
+            
+            String POSTText = ob.toString();
+            System.out.println("post:" + POSTText);
+            System.out.println("id: " + user.getId());
+            StringEntity entity; 
+        	 
+			entity = new StringEntity(POSTText, "UTF-8");
+			BasicHeader basicHeader = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");
+			httppost.getParams().setBooleanParameter("http.protocol.expect-continue", false);
+	        entity.setContentType(basicHeader);
+	        httppost.setEntity(entity);
+
+            
+            response = httpClient.execute(httppost);
+            
+            switch(response.getStatusLine().getStatusCode()) {
+            
+            	case 200:
+            		return "";
+            		
+            	case 500:
+		            
+		            JSONArray json_errors = new JSONArray(read(response.getEntity().getContent()));
+		            String errors = "";
+		            
+		            for(int i = 0; i < json_errors.length(); i++)
+		            	errors += json_errors.getString(i) + "\n"; 
+		            
+		            return errors;
+		            
+            	case 401:
+            		return "Appointment doesn't exist.";
+            }
+            
+        } catch (IOException ex) {
+        	ex.printStackTrace();
+        	return "IO Exception occurred.";
+    	
+        } catch (JSONException e) {
+			e.printStackTrace();
+			return "JSON Exception occurred.";
+		}
+        
+        return "An error occurred.";
+	}
+	
 	
 	
 	private String read(InputStream in) throws IOException {
@@ -1134,7 +1198,4 @@ public class Api extends Application{
 	}
 
 
-
-
-	
 }

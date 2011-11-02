@@ -69,6 +69,7 @@
                 <ImageButton android:layout_width="wrap_content" android:src="@drawable/ic_menu_forward" android:layout_height="wrap_content" android:id="@+id/new_appointment_forward"></ImageButton>
             </LinearLayout>
             <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginTop="15dp" android:id="@+id/new_appointment_hour"></Spinner>
+            <Button android:layout_gravity="center" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/new_appointment_create_button" android:text="@string/create" android:layout_marginTop="20dp"></Button>
         </LinearLayout>
     </RelativeLayout>
 
