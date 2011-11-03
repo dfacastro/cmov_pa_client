@@ -175,7 +175,7 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 		
 		updateDateAndTime();
 
-		spinner_adapter.notifyDataSetChanged();
+		//spinner_adapter.notifyDataSetChanged();
 		
 		
 
@@ -193,7 +193,7 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 		date = result;
 		updateDateAndTime();
 		
-		spinner_adapter.notifyDataSetChanged();
+		//spinner_adapter.notifyDataSetChanged();
 	}
 	
 	
@@ -239,6 +239,33 @@ public class CreateAppointment extends ExpandableListActivity implements OnDrawe
 	public void updateDateAndTime() {
 		TextView date_view = (TextView) findViewById(R.id.new_appointment_date);
 		date_view.setText(date);
+		
+        Spinner hour_spinner = (Spinner) findViewById(R.id.new_appointment_hour);
+        //String arr[] = new String[0];
+        spinner_adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, spinner_hours);
+        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hour_spinner.setAdapter(spinner_adapter); 
+		
+		spinner_adapter.notifyDataSetChanged();
+		
+        hour_spinner.setOnItemSelectedListener(
+        		new AdapterView.OnItemSelectedListener() {
+
+					@Override
+					public void onItemSelected(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3) {
+						
+						hour = (String) arg0.getItemAtPosition(arg2);						
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0) {
+						
+					}
+		
+        		}
+        );
 		
 	}
 	
