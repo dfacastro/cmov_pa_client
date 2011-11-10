@@ -38,7 +38,8 @@ import android.app.Application;
 public class Api extends Application{
 	
 	public static String cookie;
-	public static final String IP = "http://95.92.200.69:3000";
+	//public static final String IP = "http://95.92.200.69:3000";
+	public static final String IP = "http://172.30.94.186:3000";
 	public static User user = new User();	
 	public static DatabaseAdapter dbAdapter;
 	

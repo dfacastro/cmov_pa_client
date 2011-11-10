@@ -153,7 +153,7 @@ public class NewSchedule extends Activity implements Runnable {
                 mMonth = monthOfYear;
                 mDay = dayOfMonth;
                 
-                sch.start_date = year + "-" + monthOfYear + "-" + dayOfMonth;
+                sch.start_date = year + "-" + (monthOfYear +1) + "-" + dayOfMonth;
                 
                 updateDisplay();
             }
